@@ -73,12 +73,15 @@ const Upload: React.FC = () => {
                 </option>
               ))}
             </Select>
-            <input
-              type="file"
-              onChange={handleFileSelection}
-              multiple
-              ref={fileInputRef}
-            />
+            <label>
+              <input
+                className="hidden"
+                type="file"
+                onChange={handleFileSelection}
+                multiple
+                ref={fileInputRef}
+              />
+            </label>
             <Button isLoading={fileLoading} colorScheme="blue" type="submit">
               Upload File
             </Button>

@@ -17,6 +17,7 @@ import { FormHandles } from "@unform/core";
 import TextInput from "@components/LogIn/TextInput";
 import { useAuth } from "hooks/auth";
 import getValidationErrors from "utils/getValidationErrors";
+import parseAuthErrors from "utils/parseAuthErrors";
 
 interface FormData {
   email: string;
@@ -60,12 +61,12 @@ const Home: React.FC = () => {
           formRef.current?.setErrors(validationErrors);
           return;
         }
-
+        const { title, description } = parseAuthErrors(err.message);
+        console.log(err.message);
         toast({
           position: "top",
-          title: "Erro ao efetuar o login",
-          description:
-            "Ocorreu um erro ao efetuar o login, favor verificar os dados informados e tentar novamente",
+          title,
+          description,
           status: "error",
           duration: 5000,
           isClosable: true,
@@ -82,7 +83,10 @@ const Home: React.FC = () => {
       <Box bg="white" minW={350} p={8} boxShadow="md" borderRadius="md">
         <Stack spacing={4}>
           <Heading mb={8}>Log in</Heading>
-          <Form ref={formRef} onSubmit={handleFormSubmit}>
+          <Form
+            ref={formRef}
+            onSubmit={handleFormSubmit}
+            className="flex flex-col items-end">
             <TextInput
               name="email"
               leftIcon={<FiMail />}

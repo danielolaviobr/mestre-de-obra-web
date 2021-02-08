@@ -77,6 +77,8 @@ export const AuthProvider: React.FC = ({
         localStorage.removeItem("@MestreDeObra:user");
         setUser(undefined);
       }
+      // Catch erros and treat them
+      throw new Error(err.code);
     }
   }, []);
 
