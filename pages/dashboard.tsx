@@ -10,6 +10,7 @@ import Menu from "@components/shared/Menu";
 interface File {
   name: string;
   project: string;
+  url: string;
 }
 
 const Dashboard: React.FC = () => {
@@ -67,8 +68,11 @@ const Dashboard: React.FC = () => {
                 <Heading className="mb-4" as="h2" size="md" isTruncated>
                   {project}
                 </Heading>
+                {projectFiles.length === 0 && (
+                  <span>Nenhum arquivo encontrado</span>
+                )}
                 {projectFiles.map((file) => (
-                  <FileCard key={uuid()} project={project} name={file.name}>
+                  <FileCard key={uuid()} url={file.url}>
                     {file.name}
                   </FileCard>
                 ))}

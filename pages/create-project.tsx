@@ -34,13 +34,12 @@ const Upload: React.FC = () => {
       e.preventDefault();
       setFileLoading(true);
       const storageRef = app.storage().ref();
-      // storageRef.child('Novo projetos');
-      // const filesPromises = files.map(async (file) => {
-      //   const fileRef = storageRef.child(`${selectedProject}/${file.name}`);
-      //   await fileRef.put(file);
-      // });
-      // fileInputRef.current.value = "";
-      // await Promise.all(filesPromises);
+      const filesPromises = files.map(async (file) => {
+        const fileRef = storageRef.child(`${selectedProject}/${file.name}`);
+        await fileRef.put(file);
+      });
+      fileInputRef.current.value = "";
+      await Promise.all(filesPromises);
       setFileLoading(false);
     },
     [files, selectedProject]
