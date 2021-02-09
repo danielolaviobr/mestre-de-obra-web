@@ -62,7 +62,7 @@ const Home: React.FC = () => {
           return;
         }
         const { title, description } = parseAuthErrors(err.message);
-        console.log(err.message);
+
         toast({
           position: "top",
           title,
@@ -79,7 +79,7 @@ const Home: React.FC = () => {
   );
 
   return (
-    <main className="flex flex-col items-center justify-center flex-1 min-h-screen bg-blue-100">
+    <main className="flex flex-col items-center justify-center flex-1 ">
       <Box bg="white" minW={350} p={8} boxShadow="md" borderRadius="md">
         <Stack spacing={4}>
           <Heading mb={8}>Log in</Heading>

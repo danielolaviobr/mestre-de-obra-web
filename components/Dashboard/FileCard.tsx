@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FiDownload } from "react-icons/fi";
-import { Box } from "@chakra-ui/react";
-import api from "services/api";
+import { Box, Text } from "@chakra-ui/react";
 
 interface FileCardProps {
   project: string;
@@ -17,15 +16,13 @@ const FileCard: React.FC<FileCardProps> = ({
 }) => (
   <a href={url || "file-not-found"} target="_blank" rel="noreferrer">
     <Box
-      className="flex items-center flex-1 px-6 py-4 mb-4"
+      className="flex items-center px-6 py-4 mb-4 min-w-250px"
       cursor="pointer"
       bg="white"
-      maxW="2xl"
       borderRadius="base"
-      boxShadow="base"
-      isTruncated>
-      <FiDownload size={20} className="mr-4" />
-      {children}
+      boxShadow="base">
+      <FiDownload size={16} className="mr-2" />
+      <Text isTruncated>{children}</Text>
     </Box>
   </a>
 );

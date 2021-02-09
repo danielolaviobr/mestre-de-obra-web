@@ -18,10 +18,14 @@ import Link from "next/link";
 import { FiChevronDown } from "react-icons/fi";
 import { useAuth } from "hooks/auth";
 
-const Menu: React.FC = () => {
+interface MenuProps {
+  className?: string;
+}
+
+const Menu: React.FC<MenuProps> = ({ className = "" }) => {
   const { signOut } = useAuth();
   return (
-    <Box m={4}>
+    <Box className={`absolute left-4 top-4 ${className}`}>
       <MenuUI>
         <MenuButton as={Button} rightIcon={<FiChevronDown />}>
           Menu

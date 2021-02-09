@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Stack, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Stack, useToast } from "@chakra-ui/react";
 import FileCard from "@components/Dashboard/FileCard";
 import { v4 as uuid } from "uuid";
 import { useAuth } from "hooks/auth";
@@ -51,29 +51,33 @@ const Dashboard: React.FC = () => {
   }, [user, push, getFilesInProject]);
 
   return (
-    <div className="flex flex-1 min-h-screen bg-blue-100 min-w-screen">
-      <Menu />
-      <Stack p={4}>
+    <>
+      <div className="relative flex-grow min-w-250px">
+        <Menu />
         <Heading as="h1" size="xl">
           Projeto
         </Heading>
-        {projects.map((project) => {
-          const projectFiles = files.filter((file) => file.project === project);
-          return (
-            <div key={uuid()}>
-              <Heading className="mb-4" as="h2" size="md" isTruncated>
-                {project}
-              </Heading>
-              {projectFiles.map((file) => (
-                <FileCard key={uuid()} project={project} name={file.name}>
-                  {file.name}
-                </FileCard>
-              ))}
-            </div>
-          );
-        })}
-      </Stack>
-    </div>
+        <div className="flex flex-col flex-grow p-4 min-w-250px">
+          {projects.map((project) => {
+            const projectFiles = files.filter(
+              (file) => file.project === project
+            );
+            return (
+              <div key={uuid()}>
+                <Heading className="mb-4" as="h2" size="md" isTruncated>
+                  {project}
+                </Heading>
+                {projectFiles.map((file) => (
+                  <FileCard key={uuid()} project={project} name={file.name}>
+                    {file.name}
+                  </FileCard>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
   );
 };
 

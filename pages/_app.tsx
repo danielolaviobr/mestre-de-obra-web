@@ -7,7 +7,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider>
       <HookspProvider>
-        <Component {...pageProps} />
+        <main className="flex flex-1 h-full min-h-screen overflow-hidden bg-blue-200">
+          <Component {...pageProps} />
+        </main>
       </HookspProvider>
     </ChakraProvider>
   );
