@@ -1,4 +1,12 @@
-import { Box, Button, Input, Select } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  ListItem,
+  Select,
+  UnorderedList,
+  useToast,
+} from "@chakra-ui/react";
 import Menu from "@components/shared/Menu";
 import app from "@firebase";
 import { useAuth } from "hooks/auth";
@@ -8,6 +16,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 const Upload: React.FC = () => {
   const { user } = useAuth();
   const { push } = useRouter();
+  const toast = useToast();
   const [fileLoading, setFileLoading] = useState(false);
   const [files, setFiles] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -21,10 +30,8 @@ const Upload: React.FC = () => {
   const handleFileSelection = useCallback(async (e) => {
     const selectedFiles = e.target.files;
     const filesArray = [];
-    const filesNames = [];
     Object.keys(selectedFiles).forEach(async (key) => {
       filesArray.push(selectedFiles[key]);
-      filesNames.push(selectedFiles[key].name);
     });
     setFiles(filesArray);
   }, []);
@@ -33,17 +40,48 @@ const Upload: React.FC = () => {
     async (e) => {
       e.preventDefault();
       setFileLoading(true);
-      const storageRef = app.storage().ref();
-      // storageRef.child('Novo projetos');
-      // const filesPromises = files.map(async (file) => {
-      //   const fileRef = storageRef.child(`${selectedProject}/${file.name}`);
-      //   await fileRef.put(file);
-      // });
-      // fileInputRef.current.value = "";
-      // await Promise.all(filesPromises);
-      setFileLoading(false);
+
+      try {
+        if (!selectedProject) {
+          throw new Error(
+            "É necessário selecionar um projeto para envair os arquivos"
+          );
+        }
+
+        const storageRef = app.storage().ref();
+
+        const filesPromises = files.map(async (file) => {
+          const fileRef = storageRef.child(`${selectedProject}/${file.name}`);
+          await fileRef.put(file);
+        });
+
+        fileInputRef.current.value = "";
+        await Promise.all(filesPromises);
+
+        toast({
+          title: "Arquivos enviados",
+          status: "success",
+          isClosable: true,
+          duration: 3000,
+        });
+
+        setFiles([]);
+      } catch (err) {
+        const description = err.message
+          ? err.message
+          : "Ocorreu um erro ao enviar os arquivos, favor tentar novamente.";
+        toast({
+          title: "Erro ao enviar arquivos",
+          description,
+          status: "error",
+          isClosable: true,
+          duration: 3000,
+        });
+      } finally {
+        setFileLoading(false);
+      }
     },
-    [files, selectedProject]
+    [files, selectedProject, toast]
   );
 
   useEffect(() => {
@@ -56,15 +94,17 @@ const Upload: React.FC = () => {
   }, [user, push]);
 
   return (
-    <main className="flex flex-1 min-h-screen bg-blue-100 min-w-screen">
+    <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
       <Menu />
       <main className="flex items-center justify-center m">
         <Box
-          className="flex flex-col px-4 py-6 rounded"
+          className="flex flex-col px-4 py-6 mx-2 rounded"
           bg="white"
           boxShadow="base">
           <form onSubmit={submitFileForm}>
+            <Heading mb={4}>Adicionar arquivos</Heading>
             <Select
+              mb={4}
               placeholder="Selecion o projeto"
               variant="filled"
               onChange={handleProjectChange}>
@@ -74,20 +114,28 @@ const Upload: React.FC = () => {
                 </option>
               ))}
             </Select>
-            <label>
-              <input
-                className="hidden"
-                type="file"
-                onChange={handleFileSelection}
-                multiple
-                ref={fileInputRef}
-              />
-              test
+            <label
+              htmlFor="file-selection"
+              className="px-4 py-3 mr-4 font-semibold text-black transition duration-300 ease-in-out bg-yellow-400 rounded-md cursor-pointer hover:bg-yellow-500">
+              Selecionar arquivos
             </label>
+            <input
+              id="file-selection"
+              className="hidden"
+              type="file"
+              onChange={handleFileSelection}
+              multiple
+              ref={fileInputRef}
+            />
             <Button isLoading={fileLoading} colorScheme="blue" type="submit">
               Upload File
             </Button>
           </form>
+          <UnorderedList mt={4}>
+            {files.map((file) => (
+              <ListItem key={file.name}>{file.name}</ListItem>
+            ))}
+          </UnorderedList>
         </Box>
       </main>
     </main>

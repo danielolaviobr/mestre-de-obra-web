@@ -21,19 +21,25 @@ import api from "services/api";
 const CreateProject: React.FC = () => {
   const { user } = useAuth();
   const { push } = useRouter();
+  const [projects, setProjects] = useState([]);
   const toast = useToast();
   const [fileLoading, setFileLoading] = useState(false);
-  const projectNameInputRef = useRef<HTMLInputElement>();
+  const [selectedProject, setSelectedProject] = useState("");
+  const userEmailInputRef = useRef<HTMLInputElement>();
+
+  const handleProjectChange = useCallback((event) => {
+    setSelectedProject(event.target.value);
+  }, []);
 
   const submitFileForm = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
       setFileLoading(true);
-      const projectName = projectNameInputRef.current.value;
+      const email = userEmailInputRef.current.value;
       try {
-        const response = await api.post("firestore/createProject", {
-          project: projectName,
-          uid: user.uid,
+        const response = await api.post("firestore/addUserToProject", {
+          project: selectedProject,
+          email,
         });
         console.log(response.data);
       } catch (err) {
@@ -42,34 +48,48 @@ const CreateProject: React.FC = () => {
         setFileLoading(false);
       }
     },
-    [user]
+    [selectedProject]
   );
 
   useEffect(() => {
     if (user === undefined) {
       push("/");
+      return;
     }
+
+    setProjects(user.projects);
   }, [user, push]);
 
   return (
     <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
       <Menu />
-      <main className="flex items-center justify-center m-4">
+      <main className="flex items-center justify-center m">
         <Box
           className="flex flex-col px-4 py-6 rounded"
           bg="white"
           boxShadow="base">
           <form onSubmit={submitFileForm}>
             <Heading as="h1" size="lg" mb={4}>
-              Criar um novo projeto
+              Adicionar um membro
             </Heading>
-            <Input
-              ref={projectNameInputRef}
+            <Select
               mb={4}
-              placeholder="Nome do projeto"
+              placeholder="Selecion o projeto"
+              variant="filled"
+              onChange={handleProjectChange}>
+              {projects.map((project) => (
+                <option key={project} value={project}>
+                  {project}
+                </option>
+              ))}
+            </Select>
+            <Input
+              ref={userEmailInputRef}
+              mb={4}
+              placeholder="E-mail do usuário"
             />
             <Button isLoading={fileLoading} colorScheme="blue" type="submit">
-              Criar projeto
+              Adicionar
             </Button>
           </form>
         </Box>

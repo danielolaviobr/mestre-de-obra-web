@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Stack, useToast } from "@chakra-ui/react";
+import { Heading, useToast } from "@chakra-ui/react";
 import FileCard from "@components/Dashboard/FileCard";
 import { v4 as uuid } from "uuid";
 import { useAuth } from "hooks/auth";
@@ -21,6 +21,9 @@ const Dashboard: React.FC = () => {
   const toast = useToast();
 
   const getFilesInProject = useCallback(async () => {
+    if (user.projects.length === 0) {
+      return;
+    }
     try {
       const response = await api.get("/firestore/filesInProjects", {
         params: { projects: user.projects },
@@ -33,7 +36,7 @@ const Dashboard: React.FC = () => {
         position: "top",
         title: "Erro ao buscar projetos",
         description:
-          "Ocorreu um erro ao buscar pelos seus projetos, tente atualizar a pajina",
+          "Ocorreu um erro ao buscar pelos seus projetos, tente atualizar a página.",
         status: "error",
         isClosable: true,
         duration: 5000,
@@ -52,11 +55,11 @@ const Dashboard: React.FC = () => {
   }, [user, push, getFilesInProject]);
 
   return (
-    <>
-      <div className="relative flex-grow min-w-250px">
-        <Menu />
-        <Heading as="h1" size="xl">
-          Projeto
+    <div className="relative flex-grow min-w-250px">
+      <Menu />
+      <main className="mt-16">
+        <Heading as="h1" size="xl" className="ml-4">
+          Projetos
         </Heading>
         <div className="flex flex-col flex-grow p-4 min-w-250px">
           {projects.map((project) => {
@@ -80,8 +83,8 @@ const Dashboard: React.FC = () => {
             );
           })}
         </div>
-      </div>
-    </>
+      </main>
+    </div>
   );
 };
 

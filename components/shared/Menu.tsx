@@ -4,11 +4,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuIcon,
-  MenuCommand,
   MenuDivider,
   Button,
   Box,
@@ -27,7 +22,10 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
   return (
     <Box className={`absolute left-4 top-4 ${className}`}>
       <MenuUI>
-        <MenuButton as={Button} rightIcon={<FiChevronDown />}>
+        <MenuButton
+          colorScheme="blue"
+          as={Button}
+          rightIcon={<FiChevronDown />}>
           Menu
         </MenuButton>
         <MenuList>
@@ -36,6 +34,12 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
           </Link>
           <Link href="/upload">
             <MenuItem>Fazer upload</MenuItem>
+          </Link>
+          <Link href="/create-project">
+            <MenuItem>Criar projeto</MenuItem>
+          </Link>
+          <Link href="/add-user-to-project">
+            <MenuItem>Adicionar membros</MenuItem>
           </Link>
           <MenuDivider />
           <MenuItem onClick={signOut}>Sair</MenuItem>

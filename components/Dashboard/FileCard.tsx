@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { FiDownload } from "react-icons/fi";
 import { Box, Text, useMediaQuery } from "@chakra-ui/react";
 
@@ -11,7 +11,7 @@ const FileCard: React.FC<FileCardProps> = ({ children, url = "" }) => {
   return (
     <a href={url || "file-not-found"} target="_blank" rel="noreferrer">
       <Box
-        className="flex items-center px-6 py-4 mb-4 min-w-250px"
+        className="flex items-center max-w-4xl px-6 py-4 mb-4 min-w-250px"
         cursor="pointer"
         bg="white"
         borderRadius="base"

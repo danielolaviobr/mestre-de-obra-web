@@ -33,3 +33,6 @@ yarn-error.log*
 # vercel
 .vercel
 .env.local
+
+#firebase
+firebase_admin_key.json

@@ -18,9 +18,13 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
     return;
   }
 
-  const { "projects[]": projects } = request.query as {
+  const { "projects[]": projectsArray } = request.query as {
     "projects[]": string[];
   };
+
+  const projects = Array.isArray(projectsArray)
+    ? [...projectsArray]
+    : [projectsArray];
 
   const files: File[] = [];
 
@@ -35,7 +39,9 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
       .where("project", "==", project)
       .get();
 
-    filesCollection.forEach((file) => files.push(file.data() as File));
+    filesCollection.forEach((file) => {
+      files.push(file.data() as File);
+    });
   });
 
   await Promise.all(promises);
