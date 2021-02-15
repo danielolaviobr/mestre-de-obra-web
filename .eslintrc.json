@@ -93,6 +93,7 @@
     "prop-type": "off",
     "quotes": ["warn", "double"],
     "no-use-before-define": "off",
+    "operator-linebreak": "off",
     "comma-dangle": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",

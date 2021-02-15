@@ -59,6 +59,7 @@ const Upload: React.FC = () => {
         await Promise.all(filesPromises);
 
         toast({
+          position: "top",
           title: "Arquivos enviados",
           status: "success",
           isClosable: true,
@@ -71,6 +72,7 @@ const Upload: React.FC = () => {
           ? err.message
           : "Ocorreu um erro ao enviar os arquivos, favor tentar novamente.";
         toast({
+          position: "top",
           title: "Erro ao enviar arquivos",
           description,
           status: "error",
@@ -90,8 +92,20 @@ const Upload: React.FC = () => {
       return;
     }
 
+    if (!user.isSubscribed) {
+      toast({
+        position: "top",
+        title: "Pagina bloqueada",
+        description: "Você não têm permissão de criar um projeto.",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+      });
+      push("/dashboard");
+    }
+
     setProjects(user.projects);
-  }, [user, push]);
+  }, [user, push, toast]);
 
   return (
     <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">

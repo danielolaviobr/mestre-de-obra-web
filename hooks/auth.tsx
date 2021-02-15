@@ -1,7 +1,13 @@
 import { auth } from "@firebase";
-import React, { createContext, useCallback, useContext, useState } from "react";
+import getUser from "firestore/getUser";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import isEqual from "react-fast-compare";
-import api from "services/api";
 
 interface User {
   email: string;
@@ -10,10 +16,9 @@ interface User {
   projects: string[];
   phone: string;
   type: string;
-  stripe: {
-    client: string;
-    uid: string;
-  };
+  stripeId: string;
+  stripeLink: string;
+  isSubscribed: boolean;
 }
 
 interface SignInCredentials {
@@ -58,11 +63,11 @@ export const AuthProvider: React.FC = ({
         credentials.password
       );
 
-      const userResponse = await api.get("/firestore/user", {
-        params: { uid: authenticadedUser.user.uid },
-      });
+      const userData = await getUser(authenticadedUser.user.uid);
 
-      const userData = userResponse.data as User;
+      if (!userData) {
+        throw new Error("No user found on DB");
+      }
 
       if (typeof window !== "undefined") {
         const storedUser = localStorage.getItem("@MestreDeObra:user");
@@ -93,42 +98,48 @@ export const AuthProvider: React.FC = ({
 
   const validateUserToken = async () => {};
 
-  // const validateUserToken = useCallback(async () => {
-  auth.onIdTokenChanged(async (firebaseUser) => {
-    if (firebaseUser) {
-      const userAuthData = await firebaseUser.getIdTokenResult();
-      const userExpirationDate = Date.parse(userAuthData.expirationTime);
+  useEffect(() => {
+    auth.onIdTokenChanged(async (firebaseUser) => {
+      if (firebaseUser) {
+        const userAuthData = await firebaseUser.getIdTokenResult();
+        const userExpirationDate = Date.parse(userAuthData.expirationTime);
 
-      let storedUser: string;
+        let storedUser: string;
 
-      if (typeof window !== "undefined") {
-        storedUser = localStorage.getItem("@MestreDeObra:user");
-      }
-
-      if (!storedUser) {
-        setUser(undefined);
-      }
-
-      const userResponse = await api.get("/firestore/user", {
-        params: { uid: firebaseUser.uid },
-      });
-
-      const userData = userResponse.data as User;
-
-      if (!isEqual(JSON.parse(storedUser), userData)) {
-        localStorage.setItem("@MestreDeObra:user", JSON.stringify(userData));
-        setUser(userData);
-      }
-
-      if (userExpirationDate <= Date.now()) {
         if (typeof window !== "undefined") {
-          localStorage.removeItem("@MestreDeObra:user");
+          storedUser = localStorage.getItem("@MestreDeObra:user");
+        }
+
+        if (!storedUser) {
           setUser(undefined);
         }
+
+        try {
+          const userData = await getUser(firebaseUser.uid);
+
+          if (!isEqual(JSON.parse(storedUser), userData)) {
+            localStorage.setItem(
+              "@MestreDeObra:user",
+              JSON.stringify(userData)
+            );
+            setUser(userData);
+          }
+
+          if (userExpirationDate <= Date.now()) {
+            if (typeof window !== "undefined") {
+              localStorage.removeItem("@MestreDeObra:user");
+              setUser(undefined);
+            }
+          }
+        } catch (err) {
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("@MestreDeObra:user");
+            setUser(undefined);
+          }
+        }
       }
-    }
-  });
-  // }, []);
+    });
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, signIn, signOut, validateUserToken }}>

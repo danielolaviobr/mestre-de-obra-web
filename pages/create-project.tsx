@@ -31,25 +31,70 @@ const CreateProject: React.FC = () => {
       setFileLoading(true);
       const projectName = projectNameInputRef.current.value;
       try {
-        const response = await api.post("firestore/createProject", {
+        await api.post("firestore/createProject", {
           project: projectName,
           uid: user.uid,
         });
-        console.log(response.data);
+
+        toast({
+          position: "top",
+          title: "Projeto criado com sucesso",
+          status: "success",
+          isClosable: true,
+          duration: 3000,
+        });
       } catch (err) {
+        let description: string;
         console.log(err);
+
+        switch (err.message) {
+          case "no-project-name":
+            description = "É necessário dar um nome ao projeto.";
+            break;
+          case "multiple-projects":
+            description = "Só é possível ter um projeto por conta.";
+            break;
+          case "project-exists":
+            description =
+              "Este nome de projeto já está em uso, tente um outro.";
+            break;
+          default:
+            description = "Ocorreu um erro inesperado, favor tentar novamente";
+            break;
+        }
+
+        toast({
+          position: "top",
+          title: "Erro ao criar projeto",
+          description,
+          status: "error",
+          isClosable: true,
+          duration: 3000,
+        });
       } finally {
         setFileLoading(false);
       }
     },
-    [user]
+    [user, toast]
   );
 
   useEffect(() => {
     if (user === undefined) {
       push("/");
     }
-  }, [user, push]);
+
+    if (!user.isSubscribed) {
+      toast({
+        position: "top",
+        title: "Pagina bloqueada",
+        description: "Você não têm permissão de criar um projeto.",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+      });
+      push("/dashboard");
+    }
+  }, [user, push, toast]);
 
   return (
     <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">

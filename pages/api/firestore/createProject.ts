@@ -9,25 +9,29 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
 
   const { project, uid } = request.body;
 
+  console.log(1);
   if (!project) {
-    response.status(400).json({ message: "No project provided" });
+    response.status(400).json({ message: "no-project-name" });
     return;
   }
+  console.log(2);
 
   const userProjects = await firestore.collection("users").doc(uid).get();
 
-  if (userProjects.data().projects.length !== 0) {
-    response.status(406).json({ message: "Users can only have on project" });
+  if (userProjects.data().createdProject === true) {
+    response.status(406).json({ message: "multiple-projects" });
     return;
   }
-
+  console.log(3);
+  s;
   const existingProjects = await firestore
     .collection("projects")
     .where("name", "==", project)
     .get();
 
+  console.log(4);
   if (!existingProjects.empty) {
-    response.status(406).json({ message: "Project already exists" });
+    response.status(406).json({ message: "project-exists" });
     return;
   }
 
@@ -38,7 +42,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
   await firestore
     .collection("users")
     .doc(uid)
-    .update({ projects: [project] });
+    .update({ projects: [project], createdProject: true });
 
   response.status(200).json({ message: "Project created" });
 };

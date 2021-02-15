@@ -15,7 +15,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
   if (request.method !== "GET") {
     response
       .status(404)
-      .json({ error: "This route is only accessible via GET requests" });
+      .json({ message: "This route is only accessible via GET requests" });
   }
 
   const { uid } = request.query;
@@ -26,6 +26,10 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
     .get();
 
   const data = userData.data() as UserData;
+
+  if (!userData.data()) {
+    response.status(404).json({ message: "No user found" });
+  }
 
   response.json({ ...data });
 };

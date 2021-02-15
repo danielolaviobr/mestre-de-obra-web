@@ -1,4 +1,4 @@
-import { Heading, useToast } from "@chakra-ui/react";
+import { Heading, Skeleton, useToast } from "@chakra-ui/react";
 import FileCard from "@components/Dashboard/FileCard";
 import { v4 as uuid } from "uuid";
 import { useAuth } from "hooks/auth";
@@ -16,6 +16,7 @@ interface File {
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
   const [files, setFiles] = useState<File[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState<string[]>([]);
   const { push } = useRouter();
   const toast = useToast();
@@ -25,6 +26,8 @@ const Dashboard: React.FC = () => {
       return;
     }
     try {
+      setIsLoading(true);
+
       const response = await api.get("/firestore/filesInProjects", {
         params: { projects: user.projects },
       });
@@ -41,6 +44,8 @@ const Dashboard: React.FC = () => {
         isClosable: true,
         duration: 5000,
       });
+    } finally {
+      setIsLoading(false);
     }
   }, [user, toast]);
 
@@ -67,11 +72,11 @@ const Dashboard: React.FC = () => {
               (file) => file.project === project
             );
             return (
-              <div key={uuid()}>
+              <div key={uuid()} className="max-w-4xl min-w-250px">
                 <Heading className="mb-4" as="h2" size="md" isTruncated>
                   {project}
                 </Heading>
-                {projectFiles.length === 0 && (
+                {projectFiles.length === 0 && !isLoading && (
                   <span>Nenhum arquivo encontrado</span>
                 )}
                 {projectFiles.map((file) => (

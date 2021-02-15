@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Menu as MenuUI,
   MenuButton,
@@ -18,7 +18,13 @@ interface MenuProps {
 }
 
 const Menu: React.FC<MenuProps> = ({ className = "" }) => {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  useEffect(() => {
+    setIsSubscribed(user.isSubscribed);
+  }, [user]);
+
   return (
     <Box className={`absolute left-4 top-4 ${className}`}>
       <MenuUI>
@@ -32,15 +38,19 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
           <Link href="/dashboard">
             <MenuItem>Início</MenuItem>
           </Link>
-          <Link href="/upload">
-            <MenuItem>Fazer upload</MenuItem>
-          </Link>
-          <Link href="/create-project">
-            <MenuItem>Criar projeto</MenuItem>
-          </Link>
-          <Link href="/add-user-to-project">
-            <MenuItem>Adicionar membros</MenuItem>
-          </Link>
+          {isSubscribed && (
+            <>
+              <Link href="/upload">
+                <MenuItem>Fazer upload</MenuItem>
+              </Link>
+              <Link href="/create-project">
+                <MenuItem>Criar projeto</MenuItem>
+              </Link>
+              <Link href="/add-user-to-project">
+                <MenuItem>Adicionar membros</MenuItem>
+              </Link>
+            </>
+          )}
           <MenuDivider />
           <MenuItem onClick={signOut}>Sair</MenuItem>
         </MenuList>
