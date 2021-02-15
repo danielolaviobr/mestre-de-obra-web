@@ -22,7 +22,9 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
-    setIsSubscribed(user.isSubscribed);
+    if (user) {
+      setIsSubscribed(user.isSubscribed);
+    }
   }, [user]);
 
   return (
@@ -51,6 +53,9 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
               </Link>
             </>
           )}
+          <Link href="/subscription">
+            <MenuItem>Assinatura</MenuItem>
+          </Link>
           <MenuDivider />
           <MenuItem onClick={signOut}>Sair</MenuItem>
         </MenuList>

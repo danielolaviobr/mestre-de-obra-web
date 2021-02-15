@@ -1,9 +1,11 @@
 import {
   Box,
   Button,
+  Center,
   Heading,
   Input,
   Select,
+  Spinner,
   useToast,
 } from "@chakra-ui/react";
 import Menu from "@components/shared/Menu";
@@ -26,32 +28,7 @@ const Payment: React.FC = () => {
   const [projects, setProjects] = useState([]);
   const toast = useToast();
   const [fileLoading, setFileLoading] = useState(false);
-  const [selectedProject, setSelectedProject] = useState("");
-  const userEmailInputRef = useRef<HTMLInputElement>();
-
-  const handleProjectChange = useCallback((event) => {
-    setSelectedProject(event.target.value);
-  }, []);
-
-  const testSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setFileLoading(true);
-    async function getCustomClaimRole() {
-      await auth.currentUser.getIdToken(true);
-      const decodedToken = await auth.currentUser.getIdTokenResult();
-      return decodedToken.claims.stripeRole;
-    }
-
-    const functionRef = functions.httpsCallable(
-      "ext-firestore-stripe-subscriptions-createPortalLink"
-    );
-    const { data } = await functionRef({ returnUrl: window.location.origin });
-    window.location.assign(data.url);
-
-    // const val = await getCustomClaimRole();
-    console.log(val);
-    setFileLoading(false);
-  };
+  const [isPageLoading, setIsPageLoading] = useState(false);
 
   const submitFileForm = useCallback(
     async (e: FormEvent) => {
@@ -87,14 +64,6 @@ const Payment: React.FC = () => {
             await stripe.redirectToCheckout({ sessionId });
           }
         });
-        //   const functionRef = functions.httpsCallable(
-        //     "ext-firestore-stripe-subscriptions-createPortalLink"
-        //   );
-        //   const { data } = await functionRef({
-        //     returnUrl: window.location.origin,
-        //   });
-        //   console.log(data);
-        // window.location.assign(data.url);
       } catch (err) {
         console.log(err);
       } finally {
@@ -104,14 +73,41 @@ const Payment: React.FC = () => {
     [user]
   );
 
+  const pushSubscribersToPortal = useCallback(async () => {
+    const functionRef = functions.httpsCallable(
+      "ext-firestore-stripe-subscriptions-createPortalLink"
+    );
+    const { data } = await functionRef({ returnUrl: window.location.origin });
+    push(data.url);
+  }, [push]);
+
   useEffect(() => {
     if (user === undefined) {
       push("/");
       return;
     }
 
+    if (user.isSubscribed) {
+      setIsPageLoading(true);
+      pushSubscribersToPortal();
+    }
+
     setProjects(user.projects);
-  }, [user, push]);
+  }, [user, push, pushSubscribersToPortal]);
+
+  if (isPageLoading) {
+    return (
+      <Center className="w-screen">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Center>
+    );
+  }
 
   return (
     <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
@@ -121,26 +117,7 @@ const Payment: React.FC = () => {
           className="flex flex-col px-4 py-6 rounded"
           bg="white"
           boxShadow="base">
-          <form onSubmit={testSubmit}>
-            {/* <Heading as="h1" size="lg" mb={4}>
-              Adicionar um membro
-            </Heading>
-            <Select
-              mb={4}
-              placeholder="Selecion o projeto"
-              variant="filled"
-              onChange={handleProjectChange}>
-              {projects.map((project) => (
-                <option key={project} value={project}>
-                  {project}
-                </option>
-              ))}
-            </Select>
-            <Input
-              ref={userEmailInputRef}
-              mb={4}
-              placeholder="E-mail do usuário"
-            /> */}
+          <form onSubmit={submitFileForm}>
             <Button isLoading={fileLoading} colorScheme="blue" type="submit">
               Subscribe
             </Button>
