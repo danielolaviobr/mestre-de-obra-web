@@ -7,6 +7,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import Menu from "@components/shared/Menu";
+import createProject from "firestore/createProject";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import React, {
@@ -31,8 +32,8 @@ const CreateProject: React.FC = () => {
       setFileLoading(true);
       const projectName = projectNameInputRef.current.value;
       try {
-        await api.post("firestore/createProject", {
-          project: projectName,
+        await createProject({
+          projectName,
           uid: user.uid,
         });
 
@@ -51,8 +52,8 @@ const CreateProject: React.FC = () => {
           case "no-project-name":
             description = "É necessário dar um nome ao projeto.";
             break;
-          case "multiple-projects":
-            description = "Só é possível ter um projeto por conta.";
+          case "projects-creation-limit":
+            description = "O número máximo de projetos criados foi atingido.";
             break;
           case "project-exists":
             description =

@@ -112,7 +112,7 @@ const Payment: React.FC = () => {
   return (
     <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
       <Menu />
-      <main className="flex items-center justify-center m">
+      <main className="flex items-center justify-center">
         <Box
           className="flex flex-col px-4 py-6 rounded"
           bg="white"
