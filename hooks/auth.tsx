@@ -1,4 +1,5 @@
 import { auth } from "@firebase";
+import getAnonymousUser from "firestore/getAnonymousUser";
 import getUser from "firestore/getUser";
 import React, {
   createContext,
@@ -14,11 +15,11 @@ interface User {
   name: string;
   uid: string;
   projects: string[];
-  phone: string;
-  type: string;
   stripeId: string;
   stripeLink: string;
   isSubscribed: boolean;
+  phone: string;
+  isAnonymous: boolean;
 }
 
 interface SignInCredentials {
@@ -30,7 +31,7 @@ interface AuthContextData {
   user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): Promise<void>;
-  validateUserToken(): Promise<void>;
+  anonymousSignIn(phone: string): Promise<void>;
 }
 
 const initialAuthData: AuthContextData = undefined;
@@ -96,7 +97,15 @@ export const AuthProvider: React.FC = ({
     }
   }, []);
 
-  const validateUserToken = async () => {};
+  const anonymousSignIn = useCallback(async (phone: string) => {
+    await auth.signInAnonymously();
+    const anonymousUser = await getAnonymousUser(phone);
+
+    if (typeof window !== "undefined" && anonymousUser) {
+      localStorage.setItem("@MestreDeObra:user", JSON.stringify(anonymousUser));
+      setUser(anonymousUser);
+    }
+  }, []);
 
   useEffect(() => {
     auth.onIdTokenChanged(async (firebaseUser) => {
@@ -115,6 +124,9 @@ export const AuthProvider: React.FC = ({
         }
 
         try {
+          if (JSON.parse(storedUser).isAnonymous) {
+            return;
+          }
           const userData = await getUser(firebaseUser.uid);
 
           if (!isEqual(JSON.parse(storedUser), userData)) {
@@ -142,7 +154,7 @@ export const AuthProvider: React.FC = ({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signOut, validateUserToken }}>
+    <AuthContext.Provider value={{ user, signIn, signOut, anonymousSignIn }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,17 +1,15 @@
 import { firestore } from "@firebase";
 
-export const firestoreS = "";
-
 interface User {
   email: string;
   name: string;
   uid: string;
   projects: string[];
-  phone: string;
-  type: string;
   stripeId: string;
   stripeLink: string;
   isSubscribed: boolean;
+  phone: string;
+  isAnonymous: boolean;
 }
 
 export default async function getUser(uid: string) {
@@ -37,7 +35,6 @@ export default async function getUser(uid: string) {
     uid: userId,
     projects,
     phone,
-    type,
     stripeId,
     stripeLink,
   } = userData.data();
@@ -48,10 +45,10 @@ export default async function getUser(uid: string) {
     uid: userId,
     projects,
     phone,
-    type,
     stripeId,
     stripeLink,
     isSubscribed: !userSubscription.empty,
+    isAnonymous: false,
   };
 
   return user;

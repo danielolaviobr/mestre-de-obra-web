@@ -20,10 +20,12 @@ interface MenuProps {
 const Menu: React.FC<MenuProps> = ({ className = "" }) => {
   const { signOut, user } = useAuth();
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isAnonymous, setIsAnonymous] = useState(false);
 
   useEffect(() => {
     if (user) {
       setIsSubscribed(user.isSubscribed);
+      setIsAnonymous(user.isAnonymous);
     }
   }, [user]);
 
@@ -53,9 +55,11 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
               </Link>
             </>
           )}
-          <Link href="/subscription">
-            <MenuItem>Assinatura</MenuItem>
-          </Link>
+          {!isAnonymous && (
+            <Link href="/subscription">
+              <MenuItem>Assinatura</MenuItem>
+            </Link>
+          )}
           <MenuDivider />
           <MenuItem onClick={signOut}>Sair</MenuItem>
         </MenuList>
