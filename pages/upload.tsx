@@ -27,14 +27,30 @@ const Upload: React.FC = () => {
     setSelectedProject(event.target.value);
   }, []);
 
-  const handleFileSelection = useCallback(async (e) => {
-    const selectedFiles = e.target.files;
-    const filesArray = [];
-    Object.keys(selectedFiles).forEach(async (key) => {
-      filesArray.push(selectedFiles[key]);
-    });
-    setFiles(filesArray);
-  }, []);
+  const handleFileSelection = useCallback(
+    async (e) => {
+      const maxFileSize = 10000000;
+      const selectedFiles = e.target.files;
+      const filesArray = [];
+      Object.keys(selectedFiles).forEach(async (key) => {
+        if (selectedFiles[key].size > maxFileSize) {
+          toast({
+            position: "top",
+            title: `O arquivo ${selectedFiles[key].name} é grande de mais`,
+            description:
+              "Apenas arquivos com menos de 10mb podem ser enviados para o Mestre de Obras.",
+            status: "warning",
+            isClosable: true,
+            duration: 3000,
+          });
+          return;
+        }
+        filesArray.push(selectedFiles[key]);
+      });
+      setFiles(filesArray);
+    },
+    [toast]
+  );
 
   const submitFileForm = useCallback(
     async (e) => {
