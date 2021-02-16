@@ -19,7 +19,6 @@ export default async function addViewerToProject({
   }
 
   const project = projectsData.docs.map((p) => p)[0];
-  console.log(project.data());
 
   const { id } = project;
 
@@ -30,7 +29,7 @@ export default async function addViewerToProject({
   const viewers = [...new Set(projectViewers)];
   const numberOfViewers = project.data().numberOfViewers + 1;
 
-  const data = await firestore.collection("projects").doc(id).update({
+  await firestore.collection("projects").doc(id).update({
     viewers,
     numberOfViewers,
   });
