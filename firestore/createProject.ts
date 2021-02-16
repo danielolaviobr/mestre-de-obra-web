@@ -36,7 +36,7 @@ export default async function createProject({
 
   await firestore
     .collection("projects")
-    .add({ name: projectName, numberOfViewers: 1 });
+    .add({ name: projectName, numberOfViewers: 1, viewers: [] });
 
   await firestore
     .collection("users")

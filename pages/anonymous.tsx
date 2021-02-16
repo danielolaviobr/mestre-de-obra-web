@@ -10,7 +10,7 @@ const Anonymous: React.FC = () => {
   const handleFormSubmit = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
-      await anonymousSignIn("991138334");
+      await anonymousSignIn("(21) 99113-8334");
     },
     [anonymousSignIn]
   );

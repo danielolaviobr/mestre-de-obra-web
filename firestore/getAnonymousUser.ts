@@ -19,7 +19,7 @@ export default async function getAnonymousUser(phone: string) {
     .get();
 
   if (projectsData.empty) {
-    return undefined;
+    throw new Error();
   }
 
   const projectsObjects = projectsData.docs.map((project) => project.data());

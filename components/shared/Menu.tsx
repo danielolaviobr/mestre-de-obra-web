@@ -50,8 +50,8 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
               <Link href="/create-project">
                 <MenuItem>Criar projeto</MenuItem>
               </Link>
-              <Link href="/add-user-to-project">
-                <MenuItem>Adicionar membros</MenuItem>
+              <Link href="/add-viewer">
+                <MenuItem>Adicionar participantes</MenuItem>
               </Link>
             </>
           )}

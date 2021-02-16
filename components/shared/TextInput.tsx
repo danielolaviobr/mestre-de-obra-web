@@ -21,13 +21,13 @@ const TextInput: React.FC<TextInputProps> = ({
   showPasswordButton = false,
   ...rest
 }) => {
-  const [iconColor, setIconColor] = useState("");
+  const [iconColor, setIconColor] = useState("gray");
   const [show, setShow] = useState(false);
 
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
   const handleFocus = useCallback(() => setIconColor("#3684cc"), []);
-  const handleBlur = useCallback(() => setIconColor(""), []);
+  const handleBlur = useCallback(() => setIconColor("gray"), []);
   const handleClick = useCallback(() => setShow((state) => !state), []);
 
   const inputRef = useRef<HTMLInputElement>(null);

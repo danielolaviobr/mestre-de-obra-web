@@ -104,7 +104,8 @@
     "react/jsx-closing-bracket-location": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "import/no-mutable-exports": "off",
-    "jsx-a11y/label-has-associated-control": "off"
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/no-children-prop": "off"
   },
   "env": {
     "browser": true,

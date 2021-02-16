@@ -14,7 +14,7 @@ import * as Yup from "yup";
 import { useRouter } from "next/router";
 
 import { FormHandles } from "@unform/core";
-import TextInput from "@components/LogIn/TextInput";
+import TextInput from "@components/shared/TextInput";
 import { useAuth } from "hooks/auth";
 import getValidationErrors from "utils/getValidationErrors";
 import parseAuthErrors from "utils/parseAuthErrors";
