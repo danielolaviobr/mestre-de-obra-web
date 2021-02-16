@@ -1,16 +1,40 @@
-import React, { FormEvent, useCallback, useEffect } from "react";
-import { Box, Button } from "@chakra-ui/react";
-import { useAuth } from "hooks/auth";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { Box, Button, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { Form } from "@unform/web";
+import { FormHandles } from "@unform/core";
+import { FiPhone } from "react-icons/fi";
+import InputMask from "react-input-mask";
+
+import { useAuth } from "hooks/auth";
+import TextInput from "@components/shared/TextInput";
+
+interface FormData {
+  phone: string;
+}
 
 const Anonymous: React.FC = () => {
   const { anonymousSignIn, user } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const { push } = useRouter();
+  const formRef = useRef<FormHandles>();
 
-  const handleFormSubmit = useCallback(
-    async (e: FormEvent) => {
-      e.preventDefault();
-      await anonymousSignIn("(21) 99113-8334");
+  const handleSubmit = useCallback(
+    async (formData: FormData) => {
+      setIsLoading(true);
+      const { phone } = formData;
+      try {
+        await anonymousSignIn(phone);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
     },
     [anonymousSignIn]
   );
@@ -28,11 +52,24 @@ const Anonymous: React.FC = () => {
           className="flex flex-col px-4 py-6 rounded"
           bg="white"
           boxShadow="base">
-          <form onSubmit={handleFormSubmit}>
-            <Button colorScheme="blue" type="submit">
-              Anonimo
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <Heading as="h1" size="lg" mb={4}>
+              Acessar Mestre de Obra
+            </Heading>
+            <TextInput
+              name="phone"
+              leftIcon={<FiPhone />}
+              variant="outline"
+              pr="4.5rem"
+              type="text"
+              placeholder="Telefone"
+              as={InputMask}
+              mask="(99) 99999-9999"
+            />
+            <Button isLoading={isLoading} colorScheme="blue" type="submit">
+              Entrar
             </Button>
-          </form>
+          </Form>
         </Box>
       </main>
     </main>

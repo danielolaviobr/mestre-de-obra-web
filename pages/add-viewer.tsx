@@ -30,7 +30,7 @@ const AddViewerToProject: React.FC = () => {
     setSelectedProject(event.target.value);
   }, []);
 
-  const submitFileForm = useCallback(
+  const handleSubmit = useCallback(
     async (formData: FormData) => {
       // TODO Refactor to use Unform on select
       const form = { phone: formData.phone, projectName: selectedProject };
@@ -91,7 +91,7 @@ const AddViewerToProject: React.FC = () => {
           className="flex flex-col px-4 py-6 rounded"
           bg="white"
           boxShadow="base">
-          <Form ref={formRef} onSubmit={submitFileForm}>
+          <Form ref={formRef} onSubmit={handleSubmit}>
             <Heading as="h1" size="lg" mb={4}>
               Adicionar um membro
             </Heading>
