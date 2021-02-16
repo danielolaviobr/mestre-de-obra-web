@@ -9,6 +9,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FiPhone } from "react-icons/fi";
 import InputMask from "react-input-mask";
 import addViewerToProject from "firestore/addViewerToProject";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 interface FormData {
   phone: string;
@@ -115,9 +116,17 @@ const AddViewerToProject: React.FC = () => {
               as={InputMask}
               mask="(99) 99999-9999"
             />
-            <Button isLoading={isLoading} colorScheme="blue" type="submit">
-              Adicionar
-            </Button>
+            <div className="flex justify-between">
+              <Button isLoading={isLoading} colorScheme="blue" type="submit">
+                Adicionar
+              </Button>
+              <CopyToClipboard
+                text={`${process.env.NEXT_PUBLIC_API_URL}/anonymous`}>
+                <Button colorScheme="yellow" type="button" px="22px">
+                  Copiar link
+                </Button>
+              </CopyToClipboard>
+            </div>
           </Form>
         </Box>
       </main>
