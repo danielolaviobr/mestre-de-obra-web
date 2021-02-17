@@ -8,24 +8,41 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import deleteFile from "@functions/storage/deleteFile";
+import { motion } from "framer-motion";
+import { Variants } from "framer-motion/types";
 
 interface FileCardProps {
   url?: string;
   project: string;
+  variants?: Variants;
+  update(boolean): void;
 }
 
 const FileCard: React.FC<FileCardProps> = ({
   children,
   project,
+  variants = {},
   url = "file-not-found",
+  update,
 }) => {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
   const handleDeleteFile = useCallback(async () => {
     await deleteFile({ projectName: project, fileName: children as string });
-  }, [children, project]);
+    update(true);
+  }, [children, project, update]);
   return (
-    <div className="relative flex items-center justify-center max-w-4xl mb-4 min-w-250px">
-      <a href={url} target="_blank" rel="noreferrer" className="flex-1">
+    <motion.div
+      variants={variants}
+      className={
+        isLargerThan750
+          ? "relative flex items-center justify-center max-w-4xl mb-4 min-w-250px"
+          : "mb-4"
+      }>
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        className="max-w-4xl mb-4 min-w-250px">
         <Box
           cursor="pointer"
           bg="white"
@@ -57,7 +74,7 @@ const FileCard: React.FC<FileCardProps> = ({
           </Tooltip>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 export default FileCard;

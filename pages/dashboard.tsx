@@ -4,11 +4,11 @@ import { v4 as uuid } from "uuid";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
-import api from "services/api";
 import Menu from "@components/shared/Menu";
 import FilesSkeleton from "@components/Dashboard/FilesSkeleton";
 import Link from "next/link";
 import getFilesInProject from "@functions/firestore/getFilesInProjects";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface File {
   name: string;
@@ -16,16 +16,32 @@ interface File {
   url: string;
 }
 
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const listItem = {
+  hidden: { opacity: 0, y: -20 },
+  show: { opacity: 1, y: 0 },
+};
+
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
   const [files, setFiles] = useState<File[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [shouldUpdate, setShouldUpdate] = useState(true);
   const [projects, setProjects] = useState<string[]>([]);
   const { push } = useRouter();
   const toast = useToast();
 
   const fetchFiles = useCallback(async () => {
-    if (user.projects.length === 0) {
+    if (projects.length === 0) {
       return;
     }
     try {
@@ -46,7 +62,7 @@ const Dashboard: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [user, toast, projects]);
+  }, [toast, projects]);
 
   useEffect(() => {
     if (!user) {
@@ -55,8 +71,14 @@ const Dashboard: React.FC = () => {
     }
 
     setProjects(user.projects);
+  }, [user, push]);
+
+  useEffect(() => {
     fetchFiles();
-  }, [user, push, fetchFiles]);
+    if (shouldUpdate) {
+      setShouldUpdate(false);
+    }
+  }, [user, fetchFiles, shouldUpdate]);
 
   return (
     <div className="relative flex-grow min-w-250px">
@@ -76,17 +98,30 @@ const Dashboard: React.FC = () => {
                   {project}
                 </Heading>
                 {isLoading && <FilesSkeleton />}
-                {projectFiles.length === 0 && !isLoading && (
+                {!isLoading && projectFiles.length === 0 && (
                   <Link href="/upload">
                     <Button colorScheme="yellow">Fazer Upload</Button>
                   </Link>
                 )}
-                {!isLoading &&
-                  projectFiles.map((file) => (
-                    <FileCard key={uuid()} url={file.url} project={project}>
-                      {file.name}
-                    </FileCard>
-                  ))}
+                <AnimatePresence>
+                  {!isLoading && (
+                    <motion.div
+                      variants={container}
+                      initial="hidden"
+                      animate="show">
+                      {projectFiles.map((file) => (
+                        <FileCard
+                          key={uuid()}
+                          url={file.url}
+                          project={project}
+                          variants={listItem}
+                          update={setShouldUpdate}>
+                          {file.name}
+                        </FileCard>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}
