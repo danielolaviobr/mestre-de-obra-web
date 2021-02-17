@@ -12,20 +12,17 @@ import deleteFile from "@functions/storage/deleteFile";
 interface FileCardProps {
   url?: string;
   project: string;
-  update(boolean): void;
 }
 
 const FileCard: React.FC<FileCardProps> = ({
   children,
   project,
   url = "file-not-found",
-  update,
 }) => {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
   const handleDeleteFile = useCallback(async () => {
     await deleteFile({ projectName: project, fileName: children as string });
-    update(true);
-  }, [children, project, update]);
+  }, [children, project]);
   return (
     <div className="relative flex items-center justify-center max-w-4xl mb-4 min-w-250px">
       <a href={url} target="_blank" rel="noreferrer" className="flex-1">

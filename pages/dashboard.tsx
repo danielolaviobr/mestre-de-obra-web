@@ -20,7 +20,6 @@ const Dashboard: React.FC = () => {
   const { user } = useAuth();
   const [files, setFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [shouldRefresh, setShouldRefresh] = useState(false);
   const [projects, setProjects] = useState<string[]>([]);
   const { push } = useRouter();
   const toast = useToast();
@@ -57,10 +56,7 @@ const Dashboard: React.FC = () => {
 
     setProjects(user.projects);
     fetchFiles();
-    if (shouldRefresh) {
-      setShouldRefresh(false);
-    }
-  }, [user, push, fetchFiles, shouldRefresh]);
+  }, [user, push, fetchFiles]);
 
   return (
     <div className="relative flex-grow min-w-250px">
@@ -87,11 +83,7 @@ const Dashboard: React.FC = () => {
                 )}
                 {!isLoading &&
                   projectFiles.map((file) => (
-                    <FileCard
-                      key={uuid()}
-                      url={file.url}
-                      project={project}
-                      update={setShouldRefresh}>
+                    <FileCard key={uuid()} url={file.url} project={project}>
                       {file.name}
                     </FileCard>
                   ))}
