@@ -89,10 +89,11 @@ const Home: React.FC = () => {
             className="flex flex-col items-end">
             <TextInput
               name="email"
+              type="text"
+              autocapitalize="off"
               leftIcon={<FiMail />}
               variant="outline"
               pr="4.5rem"
-              type="text"
               placeholder="E-mail"
             />
             <TextInput
