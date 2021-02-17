@@ -1,4 +1,4 @@
-import { Heading, Skeleton, useToast } from "@chakra-ui/react";
+import { Heading, useToast, Button } from "@chakra-ui/react";
 import FileCard from "@components/Dashboard/FileCard";
 import { v4 as uuid } from "uuid";
 import { useAuth } from "hooks/auth";
@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import api from "services/api";
 import Menu from "@components/shared/Menu";
+import FilesSkeleton from "@components/Dashboard/FilesSkeleton";
+import Link from "next/link";
 
 interface File {
   name: string;
@@ -76,8 +78,11 @@ const Dashboard: React.FC = () => {
                 <Heading className="mb-4" as="h2" size="md" isTruncated>
                   {project}
                 </Heading>
+                {isLoading && <FilesSkeleton />}
                 {projectFiles.length === 0 && !isLoading && (
-                  <span>Nenhum arquivo encontrado</span>
+                  <Link href="/upload">
+                    <Button colorScheme="yellow">Fazer Upload</Button>
+                  </Link>
                 )}
                 {projectFiles.map((file) => (
                   <FileCard key={uuid()} url={file.url}>
