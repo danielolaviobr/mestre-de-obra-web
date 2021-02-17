@@ -144,19 +144,20 @@ const Upload: React.FC = () => {
                 </option>
               ))}
             </Select>
-            <label
-              htmlFor="file-selection"
-              className="px-4 py-3 mr-4 font-semibold text-black transition duration-300 ease-in-out bg-yellow-400 rounded-md cursor-pointer hover:bg-yellow-500">
+            <Button
+              colorScheme="yellow"
+              as="label"
+              className="mr-4 cursor-pointer">
               Selecionar arquivos
-            </label>
-            <input
-              id="file-selection"
-              className="hidden"
-              type="file"
-              onChange={handleFileSelection}
-              multiple
-              ref={fileInputRef}
-            />
+              <input
+                id="file-selection"
+                className="hidden"
+                type="file"
+                onChange={handleFileSelection}
+                multiple
+                ref={fileInputRef}
+              />
+            </Button>
             <Button isLoading={fileLoading} colorScheme="blue" type="submit">
               Upload File
             </Button>
