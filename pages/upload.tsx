@@ -8,7 +8,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import Menu from "@components/shared/Menu";
-import app from "@firebase";
+import { storage } from "@firebase";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -64,7 +64,7 @@ const Upload: React.FC = () => {
           );
         }
 
-        const storageRef = app.storage().ref();
+        const storageRef = storage.ref();
 
         const filesPromises = files.map(async (file) => {
           const fileRef = storageRef.child(`${selectedProject}/${file.name}`);

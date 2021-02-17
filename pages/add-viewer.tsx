@@ -8,7 +8,7 @@ import { Form } from "@unform/web";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FiPhone } from "react-icons/fi";
 import InputMask from "react-input-mask";
-import addViewerToProject from "firestore/addViewerToProject";
+import addViewerToProject from "@functions/firestore/addViewerToProject";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 interface FormData {

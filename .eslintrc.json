@@ -105,7 +105,9 @@
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "import/no-mutable-exports": "off",
     "jsx-a11y/label-has-associated-control": "off",
-    "react/no-children-prop": "off"
+    "react/no-children-prop": "off",
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off"
   },
   "env": {
     "browser": true,

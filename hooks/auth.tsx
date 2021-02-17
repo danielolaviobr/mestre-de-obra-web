@@ -1,6 +1,6 @@
 import { auth } from "@firebase";
-import getAnonymousUser from "firestore/getAnonymousUser";
-import getUser from "firestore/getUser";
+import getAnonymousUser from "@functions/firestore/getAnonymousUser";
+import getUser from "@functions/firestore/getUser";
 import React, {
   createContext,
   useCallback,

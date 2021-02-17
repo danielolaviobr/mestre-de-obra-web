@@ -8,6 +8,7 @@ import api from "services/api";
 import Menu from "@components/shared/Menu";
 import FilesSkeleton from "@components/Dashboard/FilesSkeleton";
 import Link from "next/link";
+import getFilesInProject from "@functions/firestore/getFilesInProjects";
 
 interface File {
   name: string;
@@ -19,22 +20,19 @@ const Dashboard: React.FC = () => {
   const { user } = useAuth();
   const [files, setFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [shouldRefresh, setShouldRefresh] = useState(false);
   const [projects, setProjects] = useState<string[]>([]);
   const { push } = useRouter();
   const toast = useToast();
 
-  const getFilesInProject = useCallback(async () => {
+  const fetchFiles = useCallback(async () => {
     if (user.projects.length === 0) {
       return;
     }
     try {
       setIsLoading(true);
+      const newFiles = await getFilesInProject(projects);
 
-      const response = await api.get("/firestore/filesInProjects", {
-        params: { projects: user.projects },
-      });
-
-      const newFiles = [...response.data.files];
       setFiles(newFiles);
     } catch (err) {
       toast({
@@ -49,7 +47,7 @@ const Dashboard: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [user, toast]);
+  }, [user, toast, projects]);
 
   useEffect(() => {
     if (!user) {
@@ -58,8 +56,11 @@ const Dashboard: React.FC = () => {
     }
 
     setProjects(user.projects);
-    getFilesInProject();
-  }, [user, push, getFilesInProject]);
+    fetchFiles();
+    if (shouldRefresh) {
+      setShouldRefresh(false);
+    }
+  }, [user, push, fetchFiles, shouldRefresh]);
 
   return (
     <div className="relative flex-grow min-w-250px">
@@ -84,11 +85,16 @@ const Dashboard: React.FC = () => {
                     <Button colorScheme="yellow">Fazer Upload</Button>
                   </Link>
                 )}
-                {projectFiles.map((file) => (
-                  <FileCard key={uuid()} url={file.url}>
-                    {file.name}
-                  </FileCard>
-                ))}
+                {!isLoading &&
+                  projectFiles.map((file) => (
+                    <FileCard
+                      key={uuid()}
+                      url={file.url}
+                      project={project}
+                      update={setShouldRefresh}>
+                      {file.name}
+                    </FileCard>
+                  ))}
               </div>
             );
           })}

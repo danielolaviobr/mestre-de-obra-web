@@ -7,7 +7,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import Menu from "@components/shared/Menu";
-import createProject from "firestore/createProject";
+import createProject from "@functions/firestore/createProject";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import React, {
