@@ -1,4 +1,11 @@
-import { Box, Button, Heading, Select, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  Select,
+  useClipboard,
+  useToast,
+} from "@chakra-ui/react";
 import Menu from "@components/shared/Menu";
 import TextInput from "@components/shared/TextInput";
 import { useAuth } from "hooks/auth";
@@ -9,7 +16,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FiPhone } from "react-icons/fi";
 import InputMask from "react-input-mask";
 import addViewerToProject from "@functions/firestore/addViewerToProject";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 
 interface FormData {
   phone: string;
@@ -18,6 +24,9 @@ interface FormData {
 const AddViewerToProject: React.FC = () => {
   const { user } = useAuth();
   const { push } = useRouter();
+  const { onCopy } = useClipboard(
+    `${process.env.NEXT_PUBLIC_API_URL}/anonymous`
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
@@ -120,12 +129,13 @@ const AddViewerToProject: React.FC = () => {
               <Button isLoading={isLoading} colorScheme="blue" type="submit">
                 Adicionar
               </Button>
-              <CopyToClipboard
-                text={`${process.env.NEXT_PUBLIC_API_URL}/anonymous`}>
-                <Button colorScheme="yellow" type="button" px="22px">
-                  Copiar link
-                </Button>
-              </CopyToClipboard>
+              <Button
+                colorScheme="yellow"
+                type="button"
+                px="22px"
+                onClick={onCopy}>
+                Copiar link
+              </Button>
             </div>
           </Form>
         </Box>
