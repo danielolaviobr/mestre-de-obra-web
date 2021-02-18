@@ -35,14 +35,14 @@ const FileCard: React.FC<FileCardProps> = ({
       variants={variants}
       className={
         isLargerThan750
-          ? "relative flex items-center justify-center max-w-4xl mb-4 min-w-250px"
-          : "mb-4"
+          ? "relative flex max-w-4xl mb-4 min-w-250px"
+          : "mb-4 min-w-250px"
       }>
       <a
         href={url}
         target="_blank"
         rel="noreferrer"
-        className="max-w-4xl mb-4 min-w-250px">
+        className="flex-1 max-w-4xl mb-4 min-w-250px">
         <Box
           cursor="pointer"
           bg="white"
@@ -50,11 +50,13 @@ const FileCard: React.FC<FileCardProps> = ({
           boxShadow="base"
           className="flex items-center max-w-4xl px-6 py-4 min-w-250px">
           {isLargerThan750 && <FiDownload size={16} className="mr-2" />}
-          <Text isTruncated>{children}</Text>
+          <Text isTruncated fontWeight="500">
+            {children}
+          </Text>
         </Box>
       </a>
       {isLargerThan750 && (
-        <div className="absolute right-6">
+        <div className="absolute right-6 top-3">
           <Tooltip
             hasArrow
             label="Deletar arquivo"
