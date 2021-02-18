@@ -2,8 +2,11 @@
   "display": "standalone",
   "name": "Mestre de Obra",
   "description": "O gerenciador de projetos mais simples para a sua obra",
+  "short_name": "Mestre de Obra",
   "shortname": "Mestre de Obra",
   "orientation": "portrait",
+  "background_color": "#E5E7EB",
+  "theme_color": "#4085f3",
   "icons": [
     {
       "src": "manifest-icon-192.png",

@@ -25,6 +25,7 @@ function MyApp({ Component, pageProps }) {
           name="keywords"
           content="Mestre de Obra, mestre de obra, obra, projeto, arquivos, organizar, files, projects, construiction, engenharia civil, projetos, obras"
         />
+        <meta name="theme-color" content="#4085f3" />
         <meta
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
