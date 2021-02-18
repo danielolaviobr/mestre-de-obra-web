@@ -13,7 +13,18 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>Mestre de Obra</title>
+        <meta charSet="utf-8" />
+        <meta name="screen-orientation" content="portrait" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <link rel="manifest" href="/site.webmanifest" />
+        <meta
+          name="description"
+          content="O melhor gerenciador de projetos de obra"
+        />
+        <meta
+          name="keywords"
+          content="Mestre de Obra, mestre de obra, obra, projeto, arquivos, organizar, files, projects, construiction, engenharia civil, projetos, obras"
+        />
         <meta
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"

@@ -3,6 +3,7 @@
   "name": "Mestre de Obra",
   "description": "O gerenciador de projetos mais simples para a sua obra",
   "shortname": "Mestre de Obra",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "manifest-icon-192.png",
