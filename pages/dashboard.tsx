@@ -82,7 +82,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="relative flex-grow min-w-250px">
-      <Menu />
+      {/* <Menu /> */}
       <main className="mt-16">
         <Heading as="h1" size="xl" className="ml-4">
           Projetos

@@ -125,7 +125,7 @@ const Upload: React.FC = () => {
 
   return (
     <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-      <Menu />
+      {/* <Menu /> */}
       <main className="flex items-center justify-center m">
         <Box
           className="flex flex-col px-4 py-6 mx-2 rounded"

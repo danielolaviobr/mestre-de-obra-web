@@ -5,6 +5,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import "tailwindcss/tailwind.css";
 
 import HookspProvider from "hooks";
+import Header from "@components/shared/Header";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -13,14 +14,13 @@ function MyApp({ Component, pageProps }) {
         <title>Mestre de Obra</title>
         <link rel="manifest" href="/site.webmanifest" />
         <meta
-          name="viewport"
-          content="initial-scale=1, viewport-fit=cover, user-scalable=no"
-        />
-        <meta
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
-
+        <meta
+          name="viewport"
+          content="initial-scale=1, viewport-fit=cover, user-scalable=no"
+        />
         <link
           rel="icon"
           type="image/png"
@@ -162,15 +162,8 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <ChakraProvider>
         <HookspProvider>
-          <main
-            style={{
-              WebkitTapHighlightColor: "transparent",
-              WebkitTouchCallout: "none",
-              WebkitUserSelect: "none",
-              MozUserSelect: "none",
-              userSelect: "none",
-            }}
-            className="flex flex-1 h-full min-h-screen overflow-hidden bg-gray-200">
+          <Header />
+          <main className="flex flex-col flex-1 h-full min-h-screen overflow-hidden bg-gray-200 mt-11 pt-safe-top">
             <Component {...pageProps} />
           </main>
         </HookspProvider>

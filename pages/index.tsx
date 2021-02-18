@@ -90,7 +90,7 @@ const Home: React.FC = () => {
             <TextInput
               name="email"
               type="text"
-              autocapitalize="off"
+              autoCapitalize="off"
               leftIcon={<FiMail />}
               variant="outline"
               pr="4.5rem"
