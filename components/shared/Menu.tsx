@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 
-import { FiChevronDown } from "react-icons/fi";
+import { ChevronDown } from "react-feather";
 import { useAuth } from "hooks/auth";
 
 interface MenuProps {
@@ -32,10 +32,7 @@ const Menu: React.FC<MenuProps> = ({ className = "" }) => {
   return (
     <Box className={`absolute left-4 top-4 ${className}`}>
       <MenuUI>
-        <MenuButton
-          colorScheme="blue"
-          as={Button}
-          rightIcon={<FiChevronDown />}>
+        <MenuButton colorScheme="blue" as={Button} rightIcon={<ChevronDown />}>
           Menu
         </MenuButton>
         <MenuList>

@@ -94,7 +94,7 @@ const Dashboard: React.FC = () => {
             );
             return (
               <div key={uuid()} className="max-w-4xl min-w-250px">
-                <Heading className="mb-4" as="h2" size="md" isTruncated>
+                <Heading className="mb-4" as="h2" size="lg" isTruncated>
                   {project}
                 </Heading>
                 {isLoading && <FilesSkeleton />}

@@ -1,14 +1,9 @@
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Box, Button, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Form } from "@unform/web";
 import { FormHandles } from "@unform/core";
-import { FiPhone } from "react-icons/fi";
+import { Phone } from "react-feather";
 import InputMask from "react-input-mask";
 
 import { useAuth } from "hooks/auth";
@@ -58,7 +53,7 @@ const Anonymous: React.FC = () => {
             </Heading>
             <TextInput
               name="phone"
-              leftIcon={<FiPhone />}
+              leftIcon={<Phone />}
               variant="outline"
               pr="4.5rem"
               type="text"

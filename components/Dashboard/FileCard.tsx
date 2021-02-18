@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { FiDownload, FiX } from "react-icons/fi";
+import { Download, X } from "react-feather";
 import {
   Box,
   IconButton,
@@ -49,7 +49,7 @@ const FileCard: React.FC<FileCardProps> = ({
           borderRadius="base"
           boxShadow="base"
           className="flex items-center max-w-4xl px-6 py-4 min-w-250px">
-          {isLargerThan750 && <FiDownload size={16} className="mr-2" />}
+          {isLargerThan750 && <Download size={16} className="mr-2" />}
           <Text isTruncated fontWeight="500">
             {children}
           </Text>
@@ -70,7 +70,7 @@ const FileCard: React.FC<FileCardProps> = ({
               colorScheme="red"
               ml="auto"
               aria-label="Deletar arquivo"
-              icon={<FiX />}
+              icon={<X />}
               onClick={handleDeleteFile}
             />
           </Tooltip>

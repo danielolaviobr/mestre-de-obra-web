@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FiPhone } from "react-icons/fi";
+import { Phone } from "react-feather";
 import InputMask from "react-input-mask";
 import addViewerToProject from "@functions/firestore/addViewerToProject";
 
@@ -117,7 +117,7 @@ const AddViewerToProject: React.FC = () => {
             </Select>
             <TextInput
               name="phone"
-              leftIcon={<FiPhone />}
+              leftIcon={<Phone />}
               variant="outline"
               pr="4.5rem"
               type="text"

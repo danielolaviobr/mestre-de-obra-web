@@ -8,7 +8,7 @@ import {
   Link as UiLink,
   useToast,
 } from "@chakra-ui/react";
-import { FiChevronRight, FiLock, FiMail } from "react-icons/fi";
+import { ChevronRight, Lock, Mail } from "react-feather";
 import { Form } from "@unform/web";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
@@ -91,14 +91,14 @@ const Home: React.FC = () => {
               name="email"
               type="text"
               autoCapitalize="off"
-              leftIcon={<FiMail />}
+              leftIcon={<Mail />}
               variant="outline"
               pr="4.5rem"
               placeholder="E-mail"
             />
             <TextInput
               name="password"
-              leftIcon={<FiLock />}
+              leftIcon={<Lock />}
               showPasswordButton
               variant="outline"
               pr="4.5rem"
@@ -109,7 +109,7 @@ const Home: React.FC = () => {
               type="submit"
               colorScheme="blue"
               isLoading={isLoading}
-              rightIcon={<FiChevronRight />}>
+              rightIcon={<ChevronRight />}>
               Entrar
             </Button>
           </Form>
@@ -121,7 +121,7 @@ const Home: React.FC = () => {
       <Text fontSize="sm" color="gray.500">
         ou
       </Text>
-      <Button mt="4" colorScheme="yellow" rightIcon={<FiChevronRight />}>
+      <Button mt="4" colorScheme="yellow" rightIcon={<ChevronRight />}>
         Criar uma conta
       </Button>
     </main>
