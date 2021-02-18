@@ -18,6 +18,7 @@ import TextInput from "@components/shared/TextInput";
 import { useAuth } from "hooks/auth";
 import getValidationErrors from "utils/getValidationErrors";
 import parseAuthErrors from "utils/parseAuthErrors";
+import Link from "next/link";
 
 interface FormData {
   email: string;
@@ -115,10 +116,10 @@ const Home: React.FC = () => {
           </Form>
         </Stack>
       </Box>
-      <UiLink mt={2} fontSize="sm" color="gray.500">
-        Esqueci minha senha
+      <UiLink mt={2} fontSize="sm" color="black">
+        <Link href="/">Esqueci minha senha</Link>
       </UiLink>
-      <Text fontSize="sm" color="gray.500">
+      <Text fontSize="sm" color="black">
         ou
       </Text>
       <Button mt="4" colorScheme="yellow" rightIcon={<ChevronRight />}>
