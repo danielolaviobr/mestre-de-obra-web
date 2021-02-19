@@ -1,9 +1,11 @@
 import { AnimateSharedLayout, motion } from "framer-motion";
+import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { DollarSign, Folder, Home, Plus, User } from "react-feather";
 
 const NavBar = () => {
+  const { user } = useAuth();
   const [activePage, setActivePage] = useState("home");
   const router = useRouter();
 
@@ -11,12 +13,21 @@ const NavBar = () => {
     console.log(router.pathname);
   }, [router]);
 
+  useEffect(() => {
+    if (!user) {
+      setActivePage("home");
+    }
+  }, [user]);
+
   return (
     <footer className="fixed bottom-0 z-10 flex items-center justify-between w-screen h-20 px-8 bg-black shadow-sm standalone:pt-6 standalone:h-24 pb-safe-top">
       <AnimateSharedLayout>
         <button
-          className="relative flex flex-col items-center justify-center focus:outline-none"
-          onClick={() => setActivePage("home")}>
+          className="flex flex-col items-center justify-center focus:outline-none"
+          onClick={() => {
+            router.push("/");
+            setActivePage("home");
+          }}>
           <Home size={30} color="#fff" />
           {activePage === "home" && (
             <motion.div
@@ -27,7 +38,10 @@ const NavBar = () => {
         </button>
         <button
           className="flex flex-col items-center justify-center focus:outline-none"
-          onClick={() => setActivePage("add-viewer")}>
+          onClick={() => {
+            router.push("/add-viewer");
+            setActivePage("add-viewer");
+          }}>
           <User size={30} color="#fff" />
 
           {activePage === "add-viewer" && (
@@ -39,7 +53,10 @@ const NavBar = () => {
         </button>
         <button
           className="flex flex-col items-center justify-center focus:outline-none"
-          onClick={() => setActivePage("upload")}>
+          onClick={() => {
+            router.push("/upload");
+            setActivePage("upload");
+          }}>
           <Plus size={30} color="#fff" />
 
           {activePage === "upload" && (
@@ -51,7 +68,10 @@ const NavBar = () => {
         </button>
         <button
           className="flex flex-col items-center justify-center focus:outline-none"
-          onClick={() => setActivePage("create-project")}>
+          onClick={() => {
+            router.push("/create-project");
+            setActivePage("create-project");
+          }}>
           <Folder size={30} color="#fff" />
 
           {activePage === "create-project" && (
@@ -63,7 +83,10 @@ const NavBar = () => {
         </button>
         <button
           className="flex flex-col items-center justify-center focus:outline-none"
-          onClick={() => setActivePage("subscription")}>
+          onClick={() => {
+            router.push("/subscription");
+            setActivePage("subscription");
+          }}>
           <DollarSign size={30} color="#fff" />
 
           {activePage === "subscription" && (
