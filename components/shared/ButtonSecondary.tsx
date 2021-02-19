@@ -1,19 +1,23 @@
 import React from "react";
 
-interface ButtonPrimaryProps {
+interface ButtonSecondaryProps {
   type?: "button" | "submit" | "reset";
   isLoading?: boolean;
   children: string;
   icon?: React.ReactNode;
 }
 
-const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
+const ButtonSecondary: React.FC<ButtonSecondaryProps> = ({
   type = "submit",
   isLoading = false,
   icon,
   children,
+  ...rest
 }) => (
-  <button type={type} className={`black-btn ${isLoading && "justify-center"}`}>
+  <button
+    type={type}
+    className={`border-btn ${isLoading && "justify-center"}`}
+    {...rest}>
     {isLoading ? (
       <object
         type="image/svg+xml"
@@ -30,4 +34,4 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
   </button>
 );
 
-export default ButtonPrimary;
+export default ButtonSecondary;

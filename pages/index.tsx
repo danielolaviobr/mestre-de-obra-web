@@ -1,11 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Box,
-  Button,
   Heading,
   Stack,
   Text,
-  Link as UiLink,
   useToast,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -20,8 +17,8 @@ import { useAuth } from "hooks/auth";
 import getValidationErrors from "utils/getValidationErrors";
 import parseAuthErrors from "utils/parseAuthErrors";
 import Link from "next/link";
-import Loading from "../public/assets/loading.svg";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
+import ButtonSecondary from "@components/shared/ButtonSecondary";
 
 interface FormData {
   email: string;
@@ -85,7 +82,6 @@ const Home: React.FC = () => {
 
   return (
     <main className="flex flex-col items-center justify-center flex-1 ">
-      {/* <Box bg="white" minW={350} p={8} boxShadow="md" borderRadius="md"> */}
       <Stack spacing={4} className="w-96">
         <Heading as="h1" size={isLargerThan750 ? "2xl" : "3xl"} mb={4}>
           Log in
@@ -112,36 +108,21 @@ const Home: React.FC = () => {
             type="text"
             placeholder="Senha"
           />
-          {/* <Button
-              type="submit"
-              colorScheme="blue"
-              isLoading={isLoading}
-              rightIcon={<ChevronRight />}>
-              Entrar
-            </Button> */}
           <ButtonPrimary icon={<ChevronRight />} isLoading={isLoading}>
             Entrar
           </ButtonPrimary>
         </Form>
       </Stack>
-      {/* </Box> */}
       <div className="flex flex-col items-center mt-4 w-96">
-        {/* <UiLink href="/upload" as={Link} mt={8} fontSize="sm" color="black">
-        Esqueci minha senha
-      </UiLink> */}
         <span className="font-medium hover:underline">
           <Link href="/">Esqueci minha senha</Link>
         </span>
         <Text fontSize="sm" color="black" className="mt-2 font-medium">
           ou
         </Text>
-        <button type="button" className="border-btn">
+        <ButtonSecondary type="button" icon={<ChevronRight />}>
           Criar uma conta
-          <ChevronRight />
-        </button>
-        {/* <Button mt="4" colorScheme="yellow" rightIcon={<ChevronRight />}>
-          Criar uma conta
-        </Button> */}
+        </ButtonSecondary>
       </div>
     </main>
   );

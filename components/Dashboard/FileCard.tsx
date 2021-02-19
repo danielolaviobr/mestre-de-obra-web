@@ -47,7 +47,7 @@ const FileCard: React.FC<FileCardProps> = ({
           cursor="pointer"
           bg="white"
           borderRadius="base"
-          className="flex items-center max-w-4xl px-6 py-4 border-2 border-black min-w-250px">
+          className="flex items-center max-w-4xl px-6 py-4 border-2 border-black min-w-250px hover:bg-gray-100">
           {isLargerThan750 && <ArrowDown size={16} className="mr-2" />}
           <Text isTruncated fontWeight="500">
             {children}
