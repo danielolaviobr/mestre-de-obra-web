@@ -12,7 +12,7 @@ class MyDocument extends Document {
         <Head />
         <body
           style={{
-            backgroundColor: "rgba(229, 231, 235)",
+            backgroundColor: "#ffffff",
             WebkitTapHighlightColor: "transparent",
             WebkitTouchCallout: "none",
             WebkitUserSelect: "none",

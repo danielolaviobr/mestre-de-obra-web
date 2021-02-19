@@ -7,6 +7,7 @@ import {
   Text,
   Link as UiLink,
   useToast,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { ChevronRight, Lock, Mail } from "react-feather";
 import { Form } from "@unform/web";
@@ -19,6 +20,8 @@ import { useAuth } from "hooks/auth";
 import getValidationErrors from "utils/getValidationErrors";
 import parseAuthErrors from "utils/parseAuthErrors";
 import Link from "next/link";
+import Loading from "../public/assets/loading.svg";
+import ButtonPrimary from "@components/shared/ButtonPrimary";
 
 interface FormData {
   email: string;
@@ -26,6 +29,7 @@ interface FormData {
 }
 
 const Home: React.FC = () => {
+  const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<FormHandles>();
   const { signIn, user } = useAuth();
@@ -81,50 +85,64 @@ const Home: React.FC = () => {
 
   return (
     <main className="flex flex-col items-center justify-center flex-1 ">
-      <Box bg="white" minW={350} p={8} boxShadow="md" borderRadius="md">
-        <Stack spacing={4}>
-          <Heading mb={8}>Log in</Heading>
-          <Form
-            ref={formRef}
-            onSubmit={handleFormSubmit}
-            className="flex flex-col items-end">
-            <TextInput
-              name="email"
-              type="text"
-              autoCapitalize="off"
-              leftIcon={<Mail />}
-              variant="outline"
-              pr="4.5rem"
-              placeholder="E-mail"
-            />
-            <TextInput
-              name="password"
-              leftIcon={<Lock />}
-              showPasswordButton
-              variant="outline"
-              pr="4.5rem"
-              type="text"
-              placeholder="Senha"
-            />
-            <Button
+      {/* <Box bg="white" minW={350} p={8} boxShadow="md" borderRadius="md"> */}
+      <Stack spacing={4} className="w-96">
+        <Heading as="h1" size={isLargerThan750 ? "2xl" : "3xl"} mb={4}>
+          Log in
+        </Heading>
+        <Form
+          ref={formRef}
+          onSubmit={handleFormSubmit}
+          className="flex flex-col items-end">
+          <TextInput
+            name="email"
+            type="text"
+            autoCapitalize="off"
+            leftIcon={<Mail size={20} strokeWidth="1.7" />}
+            variant="outline"
+            pr="4.5rem"
+            placeholder="E-mail"
+          />
+          <TextInput
+            name="password"
+            leftIcon={<Lock size={20} strokeWidth="1.7" />}
+            showPasswordButton
+            variant="outline"
+            pr="4.5rem"
+            type="text"
+            placeholder="Senha"
+          />
+          {/* <Button
               type="submit"
               colorScheme="blue"
               isLoading={isLoading}
               rightIcon={<ChevronRight />}>
               Entrar
-            </Button>
-          </Form>
-        </Stack>
-      </Box>
-      <UiLink mt={2} fontSize="sm" color="black">
-        <Link href="/">Esqueci minha senha</Link>
-      </UiLink>
-      <Text fontSize="sm" color="black">
-        ou
-      </Text>
-      <Button mt="4" colorScheme="yellow" rightIcon={<ChevronRight />}>
-        Criar uma conta
-      </Button>
+            </Button> */}
+          <ButtonPrimary icon={<ChevronRight />} isLoading={isLoading}>
+            Entrar
+          </ButtonPrimary>
+        </Form>
+      </Stack>
+      {/* </Box> */}
+      <div className="flex flex-col items-center mt-4 w-96">
+        {/* <UiLink href="/upload" as={Link} mt={8} fontSize="sm" color="black">
+        Esqueci minha senha
+      </UiLink> */}
+        <span className="font-medium hover:underline">
+          <Link href="/">Esqueci minha senha</Link>
+        </span>
+        <Text fontSize="sm" color="black" className="mt-2 font-medium">
+          ou
+        </Text>
+        <button type="button" className="border-btn">
+          Criar uma conta
+          <ChevronRight />
+        </button>
+        {/* <Button mt="4" colorScheme="yellow" rightIcon={<ChevronRight />}>
+          Criar uma conta
+        </Button> */}
+      </div>
     </main>
   );
 };

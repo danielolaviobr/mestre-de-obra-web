@@ -7,6 +7,7 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { useField } from "@unform/core";
+import Icon from "react-feather";
 
 interface TextInputProps {
   leftIcon?: React.ReactNode;
@@ -26,8 +27,8 @@ const TextInput: React.FC<TextInputProps> = ({
 
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
-  const handleFocus = useCallback(() => setIconColor("#3684cc"), []);
-  const handleBlur = useCallback(() => setIconColor("gray"), []);
+  const handleFocus = useCallback(() => setIconColor("#000"), []);
+  const handleBlur = useCallback(() => setIconColor("#131313"), []);
   const handleClick = useCallback(() => setShow((state) => !state), []);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,27 +43,37 @@ const TextInput: React.FC<TextInputProps> = ({
 
   return (
     <InputGroup size="md" className="mb-4">
-      <InputLeftElement color={error ? "crimson" : iconColor}>
+      <InputLeftElement color={error ? "crimson" : iconColor} py={6}>
         {leftIcon}
       </InputLeftElement>
       <Input
         {...rest}
+        py={6}
+        borderColor="black"
         isInvalid={!!error}
         ref={inputRef}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        focusBorderColor="black"
         type={showPasswordButton && !show ? "password" : "text"}
+        _hover={{ borderColor: "black" }}
       />
       {showPasswordButton && (
-        <InputRightElement width="6rem" ml="2" pl="5" pr="2">
-          <Button
+        <InputRightElement width="6rem" ml="2" pl="5" pr="2" py={6}>
+          {/* <Button
             h="1.75rem"
             size="sm"
             onClick={handleClick}
             colorScheme="gray"
             fontSize="smaller">
             {show ? "Esconder" : "Mostrar"}
-          </Button>
+          </Button> */}
+          <button
+            type="button"
+            className="ml-2 text-sm font-semibold "
+            onClick={handleClick}>
+            {show ? "Esconder" : "Mostrar"}
+          </button>
         </InputRightElement>
       )}
     </InputGroup>

@@ -2,7 +2,8 @@ import React from "react";
 import Head from "next/head";
 import { ChakraProvider, useMediaQuery } from "@chakra-ui/react";
 
-import "tailwindcss/tailwind.css";
+// import "tailwindcss/tailwind.css";
+import "styles/global.css";
 
 import HookspProvider from "hooks";
 import Header from "@components/shared/Header";
@@ -175,8 +176,8 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <ChakraProvider>
         <HookspProvider>
-          {!isLargerThan750 && <Header />}
-          <main className="flex flex-col flex-1 h-full min-h-screen overflow-hidden bg-gray-200 mt-11 pt-safe-top">
+          {/* {!isLargerThan750 && <Header />} */}
+          <main className="flex flex-col flex-1 h-full min-h-screen overflow-hidden mt-11 pt-safe-top">
             <Component {...pageProps} />
           </main>
         </HookspProvider>

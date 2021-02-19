@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Download, X } from "react-feather";
+import { ArrowDown, Download, X } from "react-feather";
 import {
   Box,
   IconButton,
@@ -47,9 +47,8 @@ const FileCard: React.FC<FileCardProps> = ({
           cursor="pointer"
           bg="white"
           borderRadius="base"
-          boxShadow="base"
-          className="flex items-center max-w-4xl px-6 py-4 min-w-250px">
-          {isLargerThan750 && <Download size={16} className="mr-2" />}
+          className="flex items-center max-w-4xl px-6 py-4 border-2 border-black min-w-250px">
+          {isLargerThan750 && <ArrowDown size={16} className="mr-2" />}
           <Text isTruncated fontWeight="500">
             {children}
           </Text>
