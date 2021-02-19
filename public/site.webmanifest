@@ -5,8 +5,9 @@
   "short_name": "Mestre de Obra",
   "shortname": "Mestre de Obra",
   "orientation": "portrait",
-  "background_color": "#E5E7EB",
-  "theme_color": "#4085f3",
+  "background_color": "#FFFFFF",
+  "theme_color": "#000000",
+  "start_url": "/",
   "icons": [
     {
       "src": "manifest-icon-192.png",
@@ -19,6 +20,16 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-128x128.png",
+      "sizes": "128x",
+      "type": "image/png"
     }
   ]
 }

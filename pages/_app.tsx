@@ -18,6 +18,9 @@ function MyApp({ Component, pageProps }) {
         <meta name="screen-orientation" content="portrait" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <link rel="manifest" href="/site.webmanifest" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <link href="icon-192x192.png" rel="icon" sizes="192x192" />
+        <link href="icon-128x128.png" rel="icon" sizes="128x128" />
         <meta
           name="description"
           content="O melhor gerenciador de projetos de obra"
@@ -26,7 +29,7 @@ function MyApp({ Component, pageProps }) {
           name="keywords"
           content="Mestre de Obra, mestre de obra, obra, projeto, arquivos, organizar, files, projects, construiction, engenharia civil, projetos, obras"
         />
-        <meta name="theme-color" content="#4085f3" />
+        <meta name="theme-color" content="#000000" />
         <meta
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"

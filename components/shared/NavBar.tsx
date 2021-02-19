@@ -15,10 +15,9 @@ const NavBar = () => {
     <footer className="fixed bottom-0 z-10 flex items-center justify-between w-screen h-20 px-8 bg-black shadow-sm standalone:pt-6 standalone:h-24 pb-safe-top">
       <AnimateSharedLayout>
         <button
-          className="flex flex-col items-center justify-center"
+          className="relative flex flex-col items-center justify-center focus:outline-none"
           onClick={() => setActivePage("home")}>
           <Home size={30} color="#fff" />
-
           {activePage === "home" && (
             <motion.div
               className="w-2 h-2 mt-2 bg-white rounded-full"
@@ -27,7 +26,7 @@ const NavBar = () => {
           )}
         </button>
         <button
-          className="flex flex-col items-center justify-center"
+          className="flex flex-col items-center justify-center focus:outline-none"
           onClick={() => setActivePage("add-viewer")}>
           <User size={30} color="#fff" />
 
@@ -39,7 +38,7 @@ const NavBar = () => {
           )}
         </button>
         <button
-          className="flex flex-col items-center justify-center"
+          className="flex flex-col items-center justify-center focus:outline-none"
           onClick={() => setActivePage("upload")}>
           <Plus size={30} color="#fff" />
 
@@ -51,7 +50,7 @@ const NavBar = () => {
           )}
         </button>
         <button
-          className="flex flex-col items-center justify-center"
+          className="flex flex-col items-center justify-center focus:outline-none"
           onClick={() => setActivePage("create-project")}>
           <Folder size={30} color="#fff" />
 
@@ -63,7 +62,7 @@ const NavBar = () => {
           )}
         </button>
         <button
-          className="flex flex-col items-center justify-center"
+          className="flex flex-col items-center justify-center focus:outline-none"
           onClick={() => setActivePage("subscription")}>
           <DollarSign size={30} color="#fff" />
 
