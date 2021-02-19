@@ -82,7 +82,7 @@ const Home: React.FC = () => {
 
   return (
     <main className="flex flex-col items-center justify-center flex-1 ">
-      <Stack spacing={4} className="w-96">
+      <Stack spacing={4} className="max-w-96">
         <Heading as="h1" size={isLargerThan750 ? "2xl" : "3xl"} mb={4}>
           Log in
         </Heading>
@@ -113,7 +113,7 @@ const Home: React.FC = () => {
           </ButtonPrimary>
         </Form>
       </Stack>
-      <div className="flex flex-col items-center mt-4 w-96">
+      <div className="flex flex-col items-center mt-4 max-w-96">
         <span className="font-medium hover:underline">
           <Link href="/">Esqueci minha senha</Link>
         </span>

@@ -1,13 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Button,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
 } from "@chakra-ui/react";
 import { useField } from "@unform/core";
-import Icon from "react-feather";
 
 interface TextInputProps {
   leftIcon?: React.ReactNode;
@@ -28,7 +26,7 @@ const TextInput: React.FC<TextInputProps> = ({
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
   const handleFocus = useCallback(() => setIconColor("#000"), []);
-  const handleBlur = useCallback(() => setIconColor("#131313"), []);
+  const handleBlur = useCallback(() => setIconColor("#gray"), []);
   const handleClick = useCallback(() => setShow((state) => !state), []);
 
   const inputRef = useRef<HTMLInputElement>(null);

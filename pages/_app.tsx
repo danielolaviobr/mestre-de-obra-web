@@ -2,11 +2,11 @@ import React from "react";
 import Head from "next/head";
 import { ChakraProvider, useMediaQuery } from "@chakra-ui/react";
 
-// import "tailwindcss/tailwind.css";
 import "styles/global.css";
 
 import HookspProvider from "hooks";
 import Header from "@components/shared/Header";
+import NavBar from "@components/shared/NavBar";
 
 function MyApp({ Component, pageProps }) {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
@@ -177,9 +177,10 @@ function MyApp({ Component, pageProps }) {
       <ChakraProvider>
         <HookspProvider>
           {!isLargerThan750 && <Header />}
-          <main className="flex flex-col flex-1 h-full min-h-screen overflow-hidden mt-11 pt-safe-top">
+          <main className="flex flex-col flex-1 h-full min-h-screen overflow-hidden mt-11 pt-safe-top mb-11 pb-safe-bottom">
             <Component {...pageProps} />
           </main>
+          {!isLargerThan750 && <NavBar />}
         </HookspProvider>
       </ChakraProvider>
     </>
