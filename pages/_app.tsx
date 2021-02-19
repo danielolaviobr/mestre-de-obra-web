@@ -10,6 +10,7 @@ import NavBar from "@components/shared/NavBar";
 
 function MyApp({ Component, pageProps }) {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
+
   return (
     <>
       <Head>

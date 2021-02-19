@@ -7,6 +7,7 @@ import { DollarSign, Folder, Home, Plus, User } from "react-feather";
 const NavBar = () => {
   const { user } = useAuth();
   const [activePage, setActivePage] = useState("home");
+  const [isAnonymous, setIsAnonymous] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -14,13 +15,19 @@ const NavBar = () => {
   }, [router]);
 
   useEffect(() => {
-    if (!user) {
-      setActivePage("home");
+    if (user) {
+      setIsAnonymous(user.isAnonymous);
     }
   }, [user]);
 
   return (
-    <footer className="fixed bottom-0 z-10 flex items-center justify-between w-screen h-20 px-8 bg-black shadow-sm standalone:pt-6 standalone:h-24 pb-safe-top">
+    <footer
+      className={`fixed bottom-0 z-10 flex items-center justify-between w-screen h-20 px-8 bg-black shadow-sm standalone:pt-6 standalone:h-24 pb-safe-top ${
+        (router.pathname === "/" ||
+          router.pathname === "/anonymous" ||
+          isAnonymous) &&
+        "hidden"
+      }`}>
       <AnimateSharedLayout>
         <button
           className="flex flex-col items-center justify-center focus:outline-none"

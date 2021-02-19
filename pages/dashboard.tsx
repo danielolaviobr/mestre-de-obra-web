@@ -81,53 +81,48 @@ const Dashboard: React.FC = () => {
   }, [user, fetchFiles, shouldUpdate]);
 
   return (
-    <div className="relative flex-grow min-w-250px">
-      {/* <Menu /> */}
-      <main className="">
-        <Heading as="h1" size="xl" className="ml-4">
-          Projetos
-        </Heading>
-        <div className="flex flex-col flex-grow p-4 min-w-250px">
-          {projects.map((project) => {
-            const projectFiles = files.filter(
-              (file) => file.project === project
-            );
-            return (
-              <div key={uuid()} className="max-w-4xl min-w-250px">
-                <Heading className="mb-4" as="h2" size="lg" isTruncated>
-                  {project}
-                </Heading>
-                {isLoading && <FilesSkeleton />}
-                {!isLoading && projectFiles.length === 0 && (
-                  <Link href="/upload">
-                    <Button colorScheme="yellow">Fazer Upload</Button>
-                  </Link>
+    <main className="relative flex-grow pt-6 min-w-250px standalone:pt-0">
+      <Heading as="h1" size="xl" className="ml-4">
+        Projetos
+      </Heading>
+      <div className="flex flex-col flex-grow p-4 min-w-250px">
+        {projects.map((project) => {
+          const projectFiles = files.filter((file) => file.project === project);
+          return (
+            <div key={uuid()} className="max-w-4xl min-w-250px">
+              <Heading className="mb-4" as="h2" size="lg" isTruncated>
+                {project}
+              </Heading>
+              {isLoading && <FilesSkeleton />}
+              {!isLoading && projectFiles.length === 0 && (
+                <Link href="/upload">
+                  <Button colorScheme="yellow">Fazer Upload</Button>
+                </Link>
+              )}
+              <AnimatePresence>
+                {!isLoading && (
+                  <motion.div
+                    variants={container}
+                    initial="hidden"
+                    animate="show">
+                    {projectFiles.map((file) => (
+                      <FileCard
+                        key={uuid()}
+                        url={file.url}
+                        project={project}
+                        variants={listItem}
+                        update={setShouldUpdate}>
+                        {file.name}
+                      </FileCard>
+                    ))}
+                  </motion.div>
                 )}
-                <AnimatePresence>
-                  {!isLoading && (
-                    <motion.div
-                      variants={container}
-                      initial="hidden"
-                      animate="show">
-                      {projectFiles.map((file) => (
-                        <FileCard
-                          key={uuid()}
-                          url={file.url}
-                          project={project}
-                          variants={listItem}
-                          update={setShouldUpdate}>
-                          {file.name}
-                        </FileCard>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-        </div>
-      </main>
-    </div>
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </div>
+    </main>
   );
 };
 
