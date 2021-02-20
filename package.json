@@ -28,6 +28,7 @@
     "react-fast-compare": "^3.2.0",
     "react-feather": "^2.0.9",
     "react-input-mask": "^2.0.4",
+    "react-pdf": "^5.2.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "uuid": "^8.3.2",
     "xhr2": "^0.2.0",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@types/react": "^17.0.1",
     "@types/react-input-mask": "^3.0.0",
+    "@types/react-pdf": "^5.0.1",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",

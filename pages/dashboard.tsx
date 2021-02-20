@@ -4,7 +4,6 @@ import { v4 as uuid } from "uuid";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
-import Menu from "@components/shared/Menu";
 import FilesSkeleton from "@components/Dashboard/FilesSkeleton";
 import Link from "next/link";
 import getFilesInProject from "@functions/firestore/getFilesInProjects";
