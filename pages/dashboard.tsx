@@ -105,16 +105,18 @@ const Dashboard: React.FC = () => {
                     variants={container}
                     initial="hidden"
                     animate="show">
-                    {projectFiles.map((file) => (
-                      <FileCard
-                        key={uuid()}
-                        url={file.url}
-                        project={project}
-                        variants={listItem}
-                        update={setShouldUpdate}>
-                        {file.name}
-                      </FileCard>
-                    ))}
+                    {projectFiles
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((file) => (
+                        <FileCard
+                          key={uuid()}
+                          url={file.url}
+                          project={project}
+                          variants={listItem}
+                          update={setShouldUpdate}>
+                          {file.name}
+                        </FileCard>
+                      ))}
                   </motion.div>
                 )}
               </AnimatePresence>
