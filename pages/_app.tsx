@@ -181,7 +181,7 @@ function MyApp({ Component, pageProps }) {
       <ChakraProvider>
         <HookspProvider>
           {!isLargerThan750 && <Header />}
-          <main className="flex flex-col flex-1 h-full min-h-screen overflow-hidden mt-11 pt-safe-top mb-11 pb-safe-bottom">
+          <main className="flex flex-col flex-1 h-full min-h-screen mt-11 pt-safe-top mb-11 pb-safe-bottom">
             <Component {...pageProps} />
           </main>
           {!isLargerThan750 && <NavBar />}

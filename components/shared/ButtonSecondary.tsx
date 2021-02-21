@@ -1,4 +1,5 @@
 import React from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface ButtonSecondaryProps {
   type?: "button" | "submit" | "reset";
@@ -25,12 +26,7 @@ const ButtonSecondary: React.FC<ButtonSecondaryProps> = ({
     ref={ref}
     {...rest}>
     {isLoading ? (
-      <object
-        type="image/svg+xml"
-        data="/assets/loading.svg"
-        className="self-center w-7 h-7 justify-self-center">
-        Carregando
-      </object>
+      <LoadingSpinner className="self-center w-7 h-7 justify-self-center" />
     ) : (
       <>
         {children}
