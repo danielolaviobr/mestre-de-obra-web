@@ -32,8 +32,8 @@ const NavBar = () => {
   return (
     <footer
       className={`fixed bottom-0 z-10 flex items-center justify-between w-screen h-20 px-8 bg-black shadow-sm ${
-        isIos() && "standalone:pt-6"
-      } standalone:h-24 pb-safe-top ${
+        isIos() && "standalone:pt-6 standalone:h-24"
+      }  pb-safe-top ${
         (router.pathname === "/" ||
           router.pathname === "/anonymous" ||
           isAnonymous) &&
