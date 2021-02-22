@@ -1,45 +1,15 @@
-import LoadingSpinner from "@components/shared/LoadingSpinner";
 import { motion } from "framer-motion";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useGesture } from "react-use-gesture";
-import { GetStaticPaths, GetStaticProps } from "next";
 import getFileUrl from "@functions/firestore/getFileUrl";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
 import ButtonSecondary from "@components/shared/ButtonSecondary";
 import { useRouter } from "next/router";
+import { ArrowDown, Maximize } from "react-feather";
+import Link from "next/link";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
-// export const getStaticPaths: GetStaticPaths = async () => ({
-//   paths: [
-//     {
-//       params: {
-//         id: "test",
-//       },
-//     },
-//   ],
-//   fallback: "blocking",
-// });
-
-// export const getStaticProps: GetStaticProps = async (context) => {
-//   const { id } = context.params;
-//   try {
-//     const url = await getFileUrl(id as string);
-
-//     return {
-//       props: {
-//         url,
-//       },
-//     };
-//   } catch (err) {
-//     return {
-//       props: {
-//         url: "https://mag.wcoomd.org/uploads/2018/05/blank.pdf",
-//       },
-//     };
-//   }
-// };
 
 const PDF = () => {
   const pdfRef = useRef(null);
@@ -68,12 +38,12 @@ const PDF = () => {
     {
       drag: {
         initial: () => [crop.x, crop.y],
-        bounds: {
-          top: -200 * numPages,
-          bottom: 200,
-          left: -100,
-          right: 100,
-        },
+        // bounds: {
+        //   top: -200 * numPages,
+        //   bottom: 200,
+        //   left: -100,
+        //   right: 100,
+        // },
       },
       pinch: { distanceBounds: { min: -150, max: 300 } },
       domTarget: pdfRef,
@@ -128,8 +98,19 @@ const PDF = () => {
           </Document>
         </motion.div>
       </div>
-      <ButtonPrimary>Download</ButtonPrimary>
-      <ButtonSecondary>Centralizar</ButtonSecondary>
+      <div className="mx-4">
+        <a href={url as string} target="_blank" rel="noreferrer">
+          <ButtonPrimary type="button" icon={<ArrowDown />}>
+            Download
+          </ButtonPrimary>
+        </a>
+        <ButtonSecondary
+          type="button"
+          icon={<Maximize />}
+          onClick={() => setCrop({ x: 0, y: 0, scale: 1 })}>
+          Centralizar
+        </ButtonSecondary>
+      </div>
     </div>
   );
 };

@@ -91,7 +91,7 @@ const NavBar = () => {
         <button
           className="flex flex-col items-center justify-center focus:outline-none"
           onClick={() => {
-            router.push("/pdf/1");
+            router.push("/subscription");
             setActivePage("subscription");
           }}>
           <DollarSign size={30} color="#fff" />
