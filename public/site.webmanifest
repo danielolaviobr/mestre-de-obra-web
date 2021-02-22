@@ -5,7 +5,7 @@
   "short_name": "Mestre de Obra",
   "shortname": "Mestre de Obra",
   "orientation": "portrait",
-  "background_color": "#FFFFFF",
+  "background_color": "#000000",
   "theme_color": "#000000",
   "start_url": "/dashboard",
   "icons": [

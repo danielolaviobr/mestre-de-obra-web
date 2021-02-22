@@ -4,9 +4,9 @@
 
 @layer components {
   .black-btn {
-    @apply flex justify-between w-full px-4 py-3 mt-4 text-lg font-medium text-white bg-black border-2 border-black rounded-md hover:bg-light-black;
+    @apply flex items-center justify-between w-full px-4 py-3 mt-4 text-lg font-medium text-center text-white bg-black border-2 border-black rounded-md hover:bg-light-black;
   }
   .border-btn {
-    @apply flex items-center justify-between w-full px-4 py-3 mt-2 font-medium text-center border-2 border-black rounded-md hover:bg-gray-100;
+    @apply flex items-center justify-between w-full px-4 py-3 mt-4 text-lg font-medium text-center border-2 border-black rounded-md hover:bg-gray-100;
   }
 }

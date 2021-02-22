@@ -8,6 +8,7 @@ interface ButtonSecondaryProps {
   icon?: React.ReactNode;
   ref?: React.RefObject<undefined>;
   onClick?(): void;
+  className?: string;
 }
 
 const ButtonSecondary: React.FC<ButtonSecondaryProps> = ({
@@ -15,13 +16,14 @@ const ButtonSecondary: React.FC<ButtonSecondaryProps> = ({
   isLoading = false,
   icon,
   children,
+  className = "",
   onClick = null,
   ref = null,
   ...rest
 }) => (
   <button
     type={type}
-    className={`border-btn ${isLoading && "justify-center"}`}
+    className={`border-btn ${isLoading && "justify-center"} ${className}`}
     onClick={onClick}
     ref={ref}
     {...rest}>

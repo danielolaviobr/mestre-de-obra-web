@@ -9,19 +9,23 @@ const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const alertRef = useRef();
   return (
-    <header className="fixed top-0 z-10 flex items-center justify-center w-screen bg-black shadow-sm standalone:pb-4 h-14 standalone:h-20 pt-safe-top">
+    <div className="fixed top-0 z-10 flex items-center justify-center w-screen bg-black shadow-sm standalone:pb-4 h-14 standalone:h-20 pt-safe-top">
       <Heading color="white" className="my-8 tracking-tighter">
         Mestre de Obra
       </Heading>
       {user && (
         <>
-          <button className="absolute right-0 mr-8" onClick={onOpen}>
+          <button
+            className="absolute right-0 mr-8 focus:outline-none"
+            onClick={onOpen}>
             <Power size={20} color="white" />
           </button>
-          <SignOutAlert ref={alertRef} isOpen={isOpen} onClose={onClose} />
+          {isOpen && (
+            <SignOutAlert ref={alertRef} isOpen={isOpen} onClose={onClose} />
+          )}
         </>
       )}
-    </header>
+    </div>
   );
 };
 

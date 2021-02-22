@@ -8,12 +8,14 @@ interface ButtonPrimaryProps {
   icon?: React.ReactNode;
   ref?: React.RefObject<undefined>;
   onClick?(): void;
+  className?: string;
 }
 
 const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
   type = "submit",
   isLoading = false,
   icon,
+  className = "",
   children,
   onClick = null,
   ref = null,
@@ -21,7 +23,7 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
 }) => (
   <button
     type={type}
-    className={`black-btn ${isLoading && "justify-center"}`}
+    className={`black-btn ${isLoading && "justify-center"} ${className}`}
     onClick={onClick}
     ref={ref}
     {...rest}>

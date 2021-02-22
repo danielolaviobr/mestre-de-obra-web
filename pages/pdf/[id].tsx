@@ -7,7 +7,7 @@ import ButtonPrimary from "@components/shared/ButtonPrimary";
 import ButtonSecondary from "@components/shared/ButtonSecondary";
 import { useRouter } from "next/router";
 import { ArrowDown, Maximize } from "react-feather";
-import Link from "next/link";
+import { useToast } from "@chakra-ui/react";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -19,6 +19,7 @@ const PDF = () => {
   const [numPages, setNumPages] = useState(1);
   const [crop, setCrop] = useState({ x: 0, y: 0, scale: 1 });
   const router = useRouter();
+  const toast = useToast();
 
   const getPdfUrl = useCallback(async (id: string) => {
     const urlData = await getFileUrl(id);
@@ -38,12 +39,6 @@ const PDF = () => {
     {
       drag: {
         initial: () => [crop.x, crop.y],
-        // bounds: {
-        //   top: -200 * numPages,
-        //   bottom: 200,
-        //   left: -100,
-        //   right: 100,
-        // },
       },
       pinch: { distanceBounds: { min: -150, max: 300 } },
       domTarget: pdfRef,
@@ -55,9 +50,17 @@ const PDF = () => {
     setNumPages(data.numPages);
   }, []);
 
-  const onDocumentLoadError = useCallback((data) => {
-    // console.log(data);
-  }, []);
+  const onDocumentLoadError = useCallback(() => {
+    toast({
+      position: "top",
+      title: "Erro ao carregar o PDF",
+      description:
+        "Ocorreu um erro ao carregar o PDF, favor tentar novamente ou entrar em contato com contato@mestredeobra.app",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
+  }, [toast]);
 
   useEffect(() => {
     const { id } = router.query;
@@ -66,7 +69,7 @@ const PDF = () => {
   }, [router.query, getPdfUrl]);
 
   return (
-    <div className="">
+    <>
       <div
         className={`relative overflow-hidden bg-black ring-4 ${
           isDragging ? "cursor-grabbing" : "cursor-grab"
@@ -88,6 +91,7 @@ const PDF = () => {
             onLoadSuccess={onDocumentLoadSuccess}
             onLoadError={onDocumentLoadError}
             error={<span>Ocorreu um erro ao carregar o arquivo</span>}
+            noData={<span>Carregando...</span>}
             loading={<span>Carregando...</span>}>
             {Array.from({ length: numPages }, (_, i) => i + 1).map((page) => (
               <div key={page} className="w-auto h-full mb-2">
@@ -111,7 +115,7 @@ const PDF = () => {
           Centralizar
         </ButtonSecondary>
       </div>
-    </div>
+    </>
   );
 };
 

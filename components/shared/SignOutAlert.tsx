@@ -21,6 +21,10 @@ interface SignOutAlertProps {
 
 const SignOutAlert = ({ ref, onClose, isOpen }: SignOutAlertProps) => {
   const { signOut } = useAuth();
+  const handleSignOut = () => {
+    onClose();
+    signOut();
+  };
   return (
     <AlertDialog
       motionPreset="slideInBottom"
@@ -32,24 +36,21 @@ const SignOutAlert = ({ ref, onClose, isOpen }: SignOutAlertProps) => {
 
       <AlertDialogContent className="m-4">
         <AlertDialogHeader>Você deseja sair?</AlertDialogHeader>
-        <AlertDialogCloseButton />
-        {/* <AlertDialogBody>
-        Are you sure you want to discard all of your notes? 44 words will be
-        deleted.
-      </AlertDialogBody> */}
+        <AlertDialogCloseButton className="focus:outline-none" />
         <AlertDialogFooter>
-          {/* <Button ref={ref} onClick={onClose}>
-          Não
-        </Button> */}
-          <ButtonPrimary type="button" ref={ref} onClick={onClose}>
+          <ButtonPrimary
+            type="button"
+            ref={ref}
+            onClick={onClose}
+            className="mx-2">
             Não
           </ButtonPrimary>
-          <ButtonSecondary type="button" onClick={signOut}>
+          <ButtonSecondary
+            type="button"
+            onClick={handleSignOut}
+            className="mx-2">
             Sim
           </ButtonSecondary>
-          {/* <Button colorScheme="red" ml={3}>
-          Sim
-        </Button> */}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

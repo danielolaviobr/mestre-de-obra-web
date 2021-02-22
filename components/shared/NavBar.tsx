@@ -11,7 +11,8 @@ const NavBar = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(router.pathname);
+    const currentPage = router.pathname.split("/")[1];
+    setActivePage(currentPage);
   }, [router]);
 
   useEffect(() => {
@@ -33,10 +34,10 @@ const NavBar = () => {
           className="flex flex-col items-center justify-center focus:outline-none"
           onClick={() => {
             router.push("/dashboard");
-            setActivePage("home");
+            setActivePage("dashboard");
           }}>
           <Home size={30} color="#fff" />
-          {activePage === "home" && (
+          {activePage === "dashboard" && (
             <motion.div
               className="w-2 h-2 mt-2 bg-white rounded-full"
               layoutId="selected"
