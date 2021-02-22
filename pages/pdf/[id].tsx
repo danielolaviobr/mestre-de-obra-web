@@ -11,7 +11,13 @@ import ButtonSecondary from "@components/shared/ButtonSecondary";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: [],
+  paths: [
+    {
+      params: {
+        id: "test",
+      },
+    },
+  ],
   fallback: "blocking",
 });
 
