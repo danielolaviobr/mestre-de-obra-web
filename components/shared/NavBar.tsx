@@ -32,7 +32,7 @@ const NavBar = () => {
         <button
           className="flex flex-col items-center justify-center focus:outline-none"
           onClick={() => {
-            router.push("/");
+            router.push("/dashboard");
             setActivePage("home");
           }}>
           <Home size={30} color="#fff" />

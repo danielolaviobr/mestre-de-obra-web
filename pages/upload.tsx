@@ -43,8 +43,22 @@ const Upload: React.FC = () => {
             isClosable: true,
             duration: 3000,
           });
+
           return;
         }
+
+        if (selectedFiles[key].type !== "application/pdf") {
+          toast({
+            position: "top",
+            title: `O arquivo ${selectedFiles[key].name} não é PDF`,
+            description:
+              "Apenas arquivos do tipo PDF podem ser enviados para o Mestre de Obras.",
+            status: "warning",
+            isClosable: true,
+            duration: 3000,
+          });
+        }
+
         filesArray.push(selectedFiles[key]);
       });
       setFiles(filesArray);

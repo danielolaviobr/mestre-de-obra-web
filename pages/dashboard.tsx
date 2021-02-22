@@ -10,6 +10,7 @@ import getFilesInProject from "@functions/firestore/getFilesInProjects";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface File {
+  id: string;
   name: string;
   project: string;
   url: string;
@@ -108,8 +109,8 @@ const Dashboard: React.FC = () => {
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((file) => (
                         <FileCard
-                          key={uuid()}
-                          url={file.url}
+                          key={file.id}
+                          id={file.id}
                           project={project}
                           variants={listItem}
                           update={setShouldUpdate}>

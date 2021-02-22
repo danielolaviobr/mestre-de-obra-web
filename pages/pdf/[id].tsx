@@ -3,46 +3,67 @@ import { motion } from "framer-motion";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useGesture } from "react-use-gesture";
+import { GetStaticPaths, GetStaticProps } from "next";
+import getFileData from "@functions/firestore/getFileData";
+import ButtonPrimary from "@components/shared/ButtonPrimary";
+import ButtonSecondary from "@components/shared/ButtonSecondary";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const PDF = () => {
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: [
+    {
+      params: {
+        id: "1",
+      },
+    },
+    {
+      params: {
+        id: "2",
+      },
+    },
+  ],
+  fallback: "blocking",
+});
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const { id } = context.params;
+  const url = await getFileData(id as string);
+
+  return {
+    props: {
+      url,
+    },
+  };
+};
+
+const PDF = ({ url }) => {
   const pdfRef = useRef(null);
   const pdfContainerRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [numPages, setNumPages] = useState(1);
   const [crop, setCrop] = useState({ x: 0, y: 0, scale: 1 });
+
   useGesture(
     {
       onPinch: ({ offset: [d] }) => {
-        setCrop((oldCrop) => ({ ...oldCrop, scale: 1 + d / 50 }));
+        setCrop((oldCrop) => ({ ...oldCrop, scale: 1 + d / 200 }));
       },
       onDrag: ({ movement: [dx, dy] }) => {
-        // const [dx, dy] = offset;
         setCrop((oldCrop) => ({ ...oldCrop, x: dx, y: dy }));
-      },
-      onDragEnd: () => {
-        const newCrop = crop;
-        const pdfBounds = pdfRef.current.getBoundingClientRect();
-        const pdfContainerBounds = pdfContainerRef.current.getBoundingClientRect();
-        // if (pdfBounds.left > pdfContainerBounds.left * numPages) {
-        //   newCrop.x = 0;
-        // } else if (pdfBounds.right * numPages < pdfContainerBounds.right) {
-        //   newCrop.x = -(pdfBounds.width - pdfContainerBounds.width);
-        // }
-
-        // if (pdfBounds.top > pdfContainerBounds.top * numPages) {
-        //   newCrop.y = 0;
-        // } else if (pdfBounds.bottom * numPages < pdfContainerBounds.bottom) {
-        //   newCrop.y = -(pdfBounds.height - pdfContainerBounds.height);
-        // }
-
-        setCrop(newCrop);
       },
     },
     {
-      drag: { initial: () => [crop.x, crop.y] },
-      pinch: { distanceBounds: { min: -30, max: 100 } },
+      drag: {
+        initial: () => [crop.x, crop.y],
+        bounds: {
+          top: -200 * numPages,
+          bottom: 200,
+          left: -100,
+          right: 100,
+        },
+      },
+      pinch: { distanceBounds: { min: -150, max: 300 } },
       domTarget: pdfRef,
       eventOptions: { passive: false },
     }
@@ -57,7 +78,7 @@ const PDF = () => {
   }, []);
 
   return (
-    <div className="h-full overflow-hidden">
+    <div className="">
       <div
         className={`relative overflow-hidden bg-black ring-4 ${
           isDragging ? "cursor-grabbing" : "cursor-grab"
@@ -75,29 +96,22 @@ const PDF = () => {
           ref={pdfRef}>
           <Document
             className="flex flex-col items-center w-auto h-full"
-            file="https://firebasestorage.googleapis.com/v0/b/mestredeobra-be796.appspot.com/o/Meu%20novo%20projeto%2FCasa%20Suiamara%20versao%2024%20R1.pdf?alt=media&token=dc344663-1a89-4379-aae2-b0dd52e772c7"
+            file={url}
             onLoadSuccess={onDocumentLoadSuccess}
             onLoadError={onDocumentLoadError}
             error={<span>Ocorreu um erro ao carregar o arquivo</span>}
-            loading={<LoadingSpinner />}>
+            loading={<span>Carregando...</span>}>
             {Array.from({ length: numPages }, (_, i) => i + 1).map((page) => (
               <div key={page} className="w-auto h-full mb-2">
                 <Page scale={0.5} pageNumber={page} className="mb-2" />
                 <span>{`${page}/${numPages}`}</span>
               </div>
             ))}
-            {/* <div key={1} className="w-auto h-full">
-              <Page
-                pageNumber={1}
-                className="w-auto h-full"
-                height={
-                  pdfContainerRef.current.getBoundingClientRect().height || 490
-                }
-              />
-            </div> */}
           </Document>
         </motion.div>
       </div>
+      <ButtonPrimary>Download</ButtonPrimary>
+      <ButtonSecondary>Centralizar</ButtonSecondary>
     </div>
   );
 };
