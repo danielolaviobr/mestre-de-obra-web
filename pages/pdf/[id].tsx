@@ -4,48 +4,56 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useGesture } from "react-use-gesture";
 import { GetStaticPaths, GetStaticProps } from "next";
-import getFileData from "@functions/firestore/getFileData";
+import getFileUrl from "@functions/firestore/getFileUrl";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
 import ButtonSecondary from "@components/shared/ButtonSecondary";
+import { useRouter } from "next/router";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-export const getStaticPaths: GetStaticPaths = async () => ({
-  paths: [
-    {
-      params: {
-        id: "test",
-      },
-    },
-  ],
-  fallback: "blocking",
-});
+// export const getStaticPaths: GetStaticPaths = async () => ({
+//   paths: [
+//     {
+//       params: {
+//         id: "test",
+//       },
+//     },
+//   ],
+//   fallback: "blocking",
+// });
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const { id } = context.params;
-  try {
-    const url = await getFileData(id as string);
+// export const getStaticProps: GetStaticProps = async (context) => {
+//   const { id } = context.params;
+//   try {
+//     const url = await getFileUrl(id as string);
 
-    return {
-      props: {
-        url,
-      },
-    };
-  } catch (err) {
-    return {
-      props: {
-        url: "https://mag.wcoomd.org/uploads/2018/05/blank.pdf",
-      },
-    };
-  }
-};
+//     return {
+//       props: {
+//         url,
+//       },
+//     };
+//   } catch (err) {
+//     return {
+//       props: {
+//         url: "https://mag.wcoomd.org/uploads/2018/05/blank.pdf",
+//       },
+//     };
+//   }
+// };
 
-const PDF = ({ url }) => {
+const PDF = () => {
   const pdfRef = useRef(null);
   const pdfContainerRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [url, setUrl] = useState("");
   const [numPages, setNumPages] = useState(1);
   const [crop, setCrop] = useState({ x: 0, y: 0, scale: 1 });
+  const router = useRouter();
+
+  const getPdfUrl = useCallback(async (id: string) => {
+    const urlData = await getFileUrl(id);
+    setUrl(urlData);
+  }, []);
 
   useGesture(
     {
@@ -80,6 +88,12 @@ const PDF = ({ url }) => {
   const onDocumentLoadError = useCallback((data) => {
     // console.log(data);
   }, []);
+
+  useEffect(() => {
+    const { id } = router.query;
+
+    getPdfUrl(id as string);
+  }, [router.query, getPdfUrl]);
 
   return (
     <div className="">

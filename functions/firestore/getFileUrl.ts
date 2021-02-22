@@ -7,10 +7,12 @@ interface File {
   project: string;
 }
 
-export default async function getFilesInProject(projectId: string) {
+export default async function getFileUrl(projectId: string) {
   const file = await firestore.collection("files").doc(projectId).get();
 
-  const { url } = file.data() as File;
+  const fileObject = file.data() as File;
+
+  const url = fileObject?.url;
 
   return url;
 }
