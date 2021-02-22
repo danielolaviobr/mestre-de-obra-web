@@ -35,10 +35,7 @@ const Header = () => {
         <>
           <button
             className="absolute right-0 mr-8 focus:outline-none"
-            // onClick={onOpen}
-            onClick={() => {
-              alert(`${isIos} is ios`);
-            }}>
+            onClick={onOpen}>
             <Power size={20} color="white" />
           </button>
           {isOpen && (
