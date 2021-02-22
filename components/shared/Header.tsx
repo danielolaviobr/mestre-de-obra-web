@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { Heading, useDisclosure } from "@chakra-ui/react";
 import { Power } from "react-feather";
 import { useAuth } from "hooks/auth";
@@ -8,8 +8,19 @@ const Header = () => {
   const { user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const alertRef = useRef();
+
+  const isIos = useCallback(() => {
+    if (typeof window !== "undefined") {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(userAgent);
+    }
+    return false;
+  }, []);
   return (
-    <div className="fixed top-0 z-10 flex items-center justify-center w-screen bg-black shadow-sm standalone:pb-4 h-14 standalone:h-20 pt-safe-top">
+    <div
+      className={`fixed top-0 z-10 flex items-center justify-center w-screen bg-black shadow-sm ${
+        isIos() && "standalone:pb-4"
+      } h-14 standalone:h-20 pt-safe-top`}>
       <Heading color="white" className="my-8 tracking-tighter">
         Mestre de Obra
       </Heading>
