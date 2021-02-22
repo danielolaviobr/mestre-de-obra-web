@@ -6,6 +6,7 @@ import { DollarSign, Folder, Home, Plus, User } from "react-feather";
 
 const NavBar = () => {
   const { user } = useAuth();
+  const [isIos, setIsIos] = useState(true);
   const [activePage, setActivePage] = useState("home");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const router = useRouter();
@@ -15,13 +16,17 @@ const NavBar = () => {
     setActivePage(currentPage);
   }, [router]);
 
-  const isIos = useCallback(() => {
+  const checkIos = useCallback(() => {
     if (typeof window !== "undefined") {
       const userAgent = window.navigator.userAgent.toLowerCase();
       return /iphone|ipad|ipod/.test(userAgent);
     }
     return false;
   }, []);
+
+  useEffect(() => {
+    setIsIos(checkIos());
+  }, [checkIos]);
 
   useEffect(() => {
     if (user) {
@@ -32,7 +37,7 @@ const NavBar = () => {
   return (
     <footer
       className={`fixed bottom-0 z-10 flex items-center justify-between w-screen h-20 px-8 bg-black shadow-sm ${
-        isIos() && "standalone:pt-6 standalone:h-24"
+        isIos && "standalone:pt-6 standalone:h-24"
       }  pb-safe-top ${
         (router.pathname === "/" ||
           router.pathname === "/anonymous" ||
