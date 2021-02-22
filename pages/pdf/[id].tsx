@@ -8,6 +8,7 @@ import ButtonSecondary from "@components/shared/ButtonSecondary";
 import { useRouter } from "next/router";
 import { ArrowDown, Maximize } from "react-feather";
 import { useToast } from "@chakra-ui/react";
+import { useAuth } from "hooks/auth";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -20,6 +21,7 @@ const PDF = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0, scale: 1 });
   const router = useRouter();
   const toast = useToast();
+  const { user } = useAuth();
 
   const getPdfUrl = useCallback(async (id: string) => {
     const urlData = await getFileUrl(id);
@@ -68,6 +70,12 @@ const PDF = () => {
     getPdfUrl(id as string);
   }, [router.query, getPdfUrl]);
 
+  useEffect(() => {
+    if (!user) {
+      router.push("/");
+    }
+  }, [user, router]);
+
   return (
     <>
       <div
@@ -114,6 +122,9 @@ const PDF = () => {
           onClick={() => setCrop({ x: 0, y: 0, scale: 1 })}>
           Centralizar
         </ButtonSecondary>
+        {
+          // TODO Add button to delete file
+        }
       </div>
     </>
   );

@@ -8,6 +8,8 @@ import FilesSkeleton from "@components/Dashboard/FilesSkeleton";
 import Link from "next/link";
 import getFilesInProject from "@functions/firestore/getFilesInProjects";
 import { AnimatePresence, motion } from "framer-motion";
+import ButtonSecondary from "@components/shared/ButtonSecondary";
+import { ArrowUp } from "react-feather";
 
 interface File {
   id: string;
@@ -96,7 +98,9 @@ const Dashboard: React.FC = () => {
               {isLoading && <FilesSkeleton />}
               {!isLoading && projectFiles.length === 0 && (
                 <Link href="/upload">
-                  <Button colorScheme="yellow">Fazer Upload</Button>
+                  <ButtonSecondary icon={<ArrowUp />} type="button">
+                    Fazer Upload
+                  </ButtonSecondary>
                 </Link>
               )}
               <AnimatePresence>

@@ -1,7 +1,7 @@
 import { AnimateSharedLayout, motion } from "framer-motion";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { DollarSign, Folder, Home, Plus, User } from "react-feather";
 
 const NavBar = () => {
@@ -15,6 +15,14 @@ const NavBar = () => {
     setActivePage(currentPage);
   }, [router]);
 
+  const isIos = useCallback(() => {
+    if (typeof window !== "undefined") {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(userAgent);
+    }
+    return false;
+  }, []);
+
   useEffect(() => {
     if (user) {
       setIsAnonymous(user.isAnonymous);
@@ -23,7 +31,9 @@ const NavBar = () => {
 
   return (
     <footer
-      className={`fixed bottom-0 z-10 flex items-center justify-between w-screen h-20 px-8 bg-black shadow-sm standalone:pt-6 standalone:h-24 pb-safe-top ${
+      className={`fixed bottom-0 z-10 flex items-center justify-between w-screen h-20 px-8 bg-black shadow-sm ${
+        isIos() && "standalone:pt-6"
+      } standalone:h-24 pb-safe-top ${
         (router.pathname === "/" ||
           router.pathname === "/anonymous" ||
           isAnonymous) &&
