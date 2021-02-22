@@ -49,7 +49,8 @@ const PDF = ({ url }) => {
       onPinch: ({ offset: [d] }) => {
         setCrop((oldCrop) => ({ ...oldCrop, scale: 1 + d / 200 }));
       },
-      onDrag: ({ movement: [dx, dy] }) => {
+      onDrag: ({ dragging, movement: [dx, dy] }) => {
+        setIsDragging(dragging);
         setCrop((oldCrop) => ({ ...oldCrop, x: dx, y: dy }));
       },
     },
