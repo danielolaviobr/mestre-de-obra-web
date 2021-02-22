@@ -26,7 +26,7 @@ const TextInput: React.FC<TextInputProps> = ({
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
   const handleFocus = useCallback(() => setIconColor("#000"), []);
-  const handleBlur = useCallback(() => setIconColor("#gray"), []);
+  const handleBlur = useCallback(() => setIconColor("gray"), []);
   const handleClick = useCallback(() => setShow((state) => !state), []);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -58,14 +58,6 @@ const TextInput: React.FC<TextInputProps> = ({
       />
       {showPasswordButton && (
         <InputRightElement width="6rem" ml="2" pl="5" pr="2" py={6}>
-          {/* <Button
-            h="1.75rem"
-            size="sm"
-            onClick={handleClick}
-            colorScheme="gray"
-            fontSize="smaller">
-            {show ? "Esconder" : "Mostrar"}
-          </Button> */}
           <button
             type="button"
             className="ml-2 text-sm font-semibold "
