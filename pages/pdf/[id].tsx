@@ -23,13 +23,21 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params;
-  const url = await getFileData(id as string);
+  try {
+    const url = await getFileData(id as string);
 
-  return {
-    props: {
-      url,
-    },
-  };
+    return {
+      props: {
+        url,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        url: "https://mag.wcoomd.org/uploads/2018/05/blank.pdf",
+      },
+    };
+  }
 };
 
 const PDF = ({ url }) => {
