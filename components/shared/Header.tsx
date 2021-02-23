@@ -3,7 +3,7 @@ import { Heading, useDisclosure, useMediaQuery } from "@chakra-ui/react";
 import { ArrowLeft, Power } from "react-feather";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
-import resetPassword from "@functions/auth/ResetPassword";
+import resetPassword from "@functions/auth/resetPassword";
 import SignOutAlert from "./SignOutAlert";
 
 const Header = () => {
