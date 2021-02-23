@@ -113,6 +113,7 @@ const Dashboard: React.FC = () => {
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((file) => (
                         <FileCard
+                          url={file.url}
                           key={file.id}
                           id={file.id}
                           project={project}

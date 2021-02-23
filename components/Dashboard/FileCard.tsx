@@ -13,6 +13,7 @@ import { Variants } from "framer-motion/types";
 
 interface FileCardProps {
   id?: string;
+  url?: string;
   project: string;
   variants?: Variants;
   update(boolean): void;
@@ -21,11 +22,15 @@ interface FileCardProps {
 const FileCard: React.FC<FileCardProps> = ({
   children,
   project,
+  url = "file-not-found",
   variants = {},
   id = "file-not-found",
   update,
 }) => {
-  const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
+  const [isLargerThan750, isLargerThan1024] = useMediaQuery([
+    "(min-width: 750px)",
+    "(min-width: 1024px)",
+  ]);
   const handleDeleteFile = useCallback(async () => {
     await deleteFile({ projectName: project, fileName: children as string });
     update(true);
@@ -38,7 +43,9 @@ const FileCard: React.FC<FileCardProps> = ({
           ? "relative flex max-w-4xl mb-4 min-w-250px"
           : "mb-4 min-w-250px"
       }>
-      <a href={`/pdf/${id}`} className="flex-1 max-w-4xl mb-4 min-w-250px">
+      <a
+        href={isLargerThan1024 ? url : `/pdf/${id}`}
+        className="flex-1 max-w-4xl mb-4 min-w-250px">
         <Box
           cursor="pointer"
           bg="white"
