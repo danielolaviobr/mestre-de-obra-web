@@ -33,7 +33,7 @@ const DesktopHeader = () => {
 
   return (
     <div className="fixed top-0 z-10 flex items-center justify-start w-screen pl-8 bg-black h-14 pt-safe-top">
-      {isAnonymous ? (
+      {isAnonymous || !user ? (
         <Heading
           color="white"
           className="my-8 tracking-tighter justify-self-center">
