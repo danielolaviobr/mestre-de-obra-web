@@ -56,6 +56,19 @@ const DesktopHeader = () => {
               </Link>
             </div>
             <div className="mr-3 text-lg font-medium text-white">
+              <Link href="/add-viewer">
+                <span className="cursor-pointer">
+                  Adicionar membro
+                  {activePage === "add-viewer" && (
+                    <motion.div
+                      className="w-full h-1 bg-white rounded-lg"
+                      layoutId="selected"
+                    />
+                  )}
+                </span>
+              </Link>
+            </div>
+            <div className="mr-3 text-lg font-medium text-white">
               <Link href="/upload">
                 <span className="cursor-pointer">
                   Enviar arquivos
@@ -81,19 +94,7 @@ const DesktopHeader = () => {
                 </span>
               </Link>
             </div>
-            <div className="mr-3 text-lg font-medium text-white">
-              <Link href="/add-viewer">
-                <span className="cursor-pointer">
-                  Adicionar membro
-                  {activePage === "add-viewer" && (
-                    <motion.div
-                      className="w-full h-1 bg-white rounded-lg"
-                      layoutId="selected"
-                    />
-                  )}
-                </span>
-              </Link>
-            </div>
+
             <div className="mr-3 text-lg font-medium text-white">
               <Link href="/subscription">
                 <span className="cursor-pointer">
