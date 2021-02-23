@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useGesture } from "react-use-gesture";
-import getFileUrl from "@functions/firestore/getFileUrl";
+import getFile from "@functions/firestore/getFile";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
 import ButtonSecondary from "@components/shared/ButtonSecondary";
 import { useRouter } from "next/router";
@@ -23,10 +23,25 @@ const PDF = () => {
   const toast = useToast();
   const { user } = useAuth();
 
-  const getPdfUrl = useCallback(async (id: string) => {
-    const urlData = await getFileUrl(id);
-    setUrl(urlData);
-  }, []);
+  const getPdfUrl = useCallback(
+    async (id: string) => {
+      try {
+        const file = await getFile(id);
+        setUrl(file.url);
+      } catch (err) {
+        toast({
+          position: "top",
+          title: "Erro ao buscar arquivo",
+          description:
+            "Ocorreu um erro ao buscar pelo arquivo selecionado, favor tentar novamente",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    },
+    [toast]
+  );
 
   useGesture(
     {

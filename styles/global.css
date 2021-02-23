@@ -10,3 +10,11 @@
     @apply flex items-center justify-between w-full px-4 py-3 mt-4 text-lg font-medium text-center border-2 border-black rounded-md hover:bg-gray-100;
   }
 }
+
+button:active {
+  outline: none;
+}
+
+button:focus {
+  outline: none;
+}

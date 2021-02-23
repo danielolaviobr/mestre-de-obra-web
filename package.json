@@ -30,6 +30,7 @@
     "react-feather": "^2.0.9",
     "react-input-mask": "^2.0.4",
     "react-pdf": "^5.2.0",
+    "react-share": "^4.3.1",
     "react-use-gesture": "^9.0.4",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "uuid": "^8.3.2",

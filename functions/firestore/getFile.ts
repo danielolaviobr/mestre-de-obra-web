@@ -1,18 +1,16 @@
 import { firestore } from "@firebase";
 
 interface File {
-  id: string;
   name: string;
+  updated: Date;
   url: string;
   project: string;
 }
 
-export default async function getFileUrl(projectId: string) {
+export default async function getFile(projectId: string) {
   const file = await firestore.collection("files").doc(projectId).get();
 
-  const fileObject = file.data() as File;
+  const fileData = file.data() as File;
 
-  const url = fileObject?.url;
-
-  return url;
+  return fileData;
 }

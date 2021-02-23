@@ -1,9 +1,4 @@
-import {
-  Box,
-  Heading,
-  useClipboard,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Heading, useDisclosure, useToast } from "@chakra-ui/react";
 import TextInput from "@components/shared/TextInput";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
@@ -11,11 +6,13 @@ import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Phone } from "react-feather";
+
 import InputMask from "react-input-mask";
 import addViewerToProject from "@functions/firestore/addViewerToProject";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
 import ButtonSecondary from "@components/shared/ButtonSecondary";
 import SelectInput from "@components/shared/SelectInput";
+import ShareModal from "@components/shared/ShareModal";
 
 interface FormData {
   phone: string;
@@ -24,13 +21,11 @@ interface FormData {
 const AddViewerToProject: React.FC = () => {
   const { user } = useAuth();
   const { push } = useRouter();
-  const { onCopy } = useClipboard(
-    `${process.env.NEXT_PUBLIC_API_URL}/anonymous`
-  );
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
-
   const toast = useToast();
 
   const formRef = useRef<FormHandles>();
@@ -93,47 +88,50 @@ const AddViewerToProject: React.FC = () => {
   }, [user, push, toast]);
 
   return (
-    <div className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-      <Box className="flex flex-col flex-1 mx-4" bg="white">
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <Heading as="h1" size="xl" mb={4}>
-            Adicionar um membro
-          </Heading>
-          <SelectInput
-            placeholder="Selecione o projeto"
-            onChange={handleProjectChange}>
-            {projects.map((project) => (
-              <option key={project} value={project}>
-                {project}
-              </option>
-            ))}
-          </SelectInput>
-          <TextInput
-            name="phone"
-            leftIcon={<Phone size={20} strokeWidth="1.7" />}
-            variant="outline"
-            pr="4.5rem"
-            type="text"
-            placeholder="Telefone"
-            as={InputMask}
-            mask="(99) 99999-9999"
-          />
-          <div className="flex justify-between">
-            <ButtonSecondary
-              type="button"
-              onClick={onCopy}
-              className="justify-center mr-4">
-              Copiar link
-            </ButtonSecondary>
-            <ButtonPrimary
-              className="justify-center ml-4"
-              isLoading={isLoading}>
-              Adicionar
-            </ButtonPrimary>
-          </div>
-        </Form>
-      </Box>
-    </div>
+    <>
+      <div className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
+        <Box className="flex flex-col flex-1 mx-4" bg="white">
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <Heading as="h1" size="xl" mb={4}>
+              Adicionar um membro
+            </Heading>
+            <SelectInput
+              placeholder="Selecione o projeto"
+              onChange={handleProjectChange}>
+              {projects.map((project) => (
+                <option key={project} value={project}>
+                  {project}
+                </option>
+              ))}
+            </SelectInput>
+            <TextInput
+              name="phone"
+              leftIcon={<Phone size={20} strokeWidth="1.7" />}
+              variant="outline"
+              pr="4.5rem"
+              type="text"
+              placeholder="Telefone"
+              as={InputMask}
+              mask="(99) 99999-9999"
+            />
+            <div className="flex justify-between">
+              <ButtonSecondary
+                type="button"
+                onClick={onOpen}
+                className="justify-center mr-4">
+                Convidar
+              </ButtonSecondary>
+              <ButtonPrimary
+                className="justify-center ml-4"
+                isLoading={isLoading}>
+                Adicionar
+              </ButtonPrimary>
+            </div>
+          </Form>
+        </Box>
+      </div>
+      <ShareModal onClose={onClose} isOpen={isOpen} />
+    </>
   );
 };
 
