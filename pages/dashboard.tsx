@@ -83,7 +83,7 @@ const Dashboard: React.FC = () => {
   }, [user, fetchFiles, shouldUpdate]);
 
   return (
-    <main className="relative flex-grow pt-8 min-w-250px standalone:pt-0">
+    <main className="relative flex-grow pt-8 min-w-250px standalone:pt-4">
       <Heading as="h1" size="xl" className="ml-4">
         Projetos
       </Heading>
