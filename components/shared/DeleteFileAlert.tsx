@@ -7,7 +7,6 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
 } from "@chakra-ui/react";
-import { useAuth } from "hooks/auth";
 import React from "react";
 import ButtonPrimary from "../shared/ButtonPrimary";
 import ButtonSecondary from "../shared/ButtonSecondary";
@@ -31,6 +30,7 @@ const DeleteFileAlert = ({
     onClose();
     action();
   };
+
   return (
     <AlertDialog
       motionPreset="slideInBottom"
