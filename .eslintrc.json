@@ -107,7 +107,10 @@
     "jsx-a11y/label-has-associated-control": "off",
     "react/no-children-prop": "off",
     "implicit-arrow-linebreak": "off",
-    "function-paren-newline": "off"
+    "function-paren-newline": "off",
+    "react/button-has-type": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/require-default-props": "off"
   },
   "env": {
     "browser": true,

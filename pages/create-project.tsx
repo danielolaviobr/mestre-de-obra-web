@@ -1,13 +1,8 @@
-import {
-  Box,
-  Button,
-  Heading,
-  Input,
-  Select,
-  useToast,
-} from "@chakra-ui/react";
-import Menu from "@components/shared/Menu";
+import { Box, Heading, useToast } from "@chakra-ui/react";
+import ButtonPrimary from "@components/shared/ButtonPrimary";
+import TextInput from "@components/shared/TextInput";
 import createProject from "@functions/firestore/createProject";
+import { Form } from "@unform/web";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import React, {
@@ -17,7 +12,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import api from "services/api";
+import { Folder } from "react-feather";
 
 const CreateProject: React.FC = () => {
   const { user } = useAuth();
@@ -46,7 +41,6 @@ const CreateProject: React.FC = () => {
         });
       } catch (err) {
         let description: string;
-        console.log(err);
 
         switch (err.message) {
           case "no-project-name":
@@ -98,29 +92,24 @@ const CreateProject: React.FC = () => {
   }, [user, push, toast]);
 
   return (
-    <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-      <Menu />
-      <main className="flex items-center justify-center m-4">
-        <Box
-          className="flex flex-col px-4 py-6 rounded"
-          bg="white"
-          boxShadow="base">
-          <form onSubmit={submitFileForm}>
-            <Heading as="h1" size="lg" mb={4}>
-              Criar um novo projeto
-            </Heading>
-            <Input
-              ref={projectNameInputRef}
-              mb={4}
-              placeholder="Nome do projeto"
-            />
-            <Button isLoading={fileLoading} colorScheme="blue" type="submit">
-              Criar projeto
-            </Button>
-          </form>
-        </Box>
-      </main>
-    </main>
+    <div className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
+      <Box className="flex flex-col flex-1 mx-4">
+        <Form onSubmit={submitFileForm}>
+          <Heading as="h1" size="xl" mb={4}>
+            Criar um novo projeto
+          </Heading>
+          <TextInput
+            leftIcon={<Folder size={20} strokeWidth="1.7" />}
+            name="project"
+            ref={projectNameInputRef}
+            placeholder="Nome do projeto"
+          />
+          <ButtonPrimary className="justify-center" isLoading={fileLoading}>
+            Criar projeto
+          </ButtonPrimary>
+        </Form>
+      </Box>
+    </div>
   );
 };
 

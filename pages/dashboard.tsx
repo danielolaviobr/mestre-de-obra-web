@@ -4,13 +4,15 @@ import { v4 as uuid } from "uuid";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
-import Menu from "@components/shared/Menu";
 import FilesSkeleton from "@components/Dashboard/FilesSkeleton";
 import Link from "next/link";
 import getFilesInProject from "@functions/firestore/getFilesInProjects";
 import { AnimatePresence, motion } from "framer-motion";
+import ButtonSecondary from "@components/shared/ButtonSecondary";
+import { ArrowUp } from "react-feather";
 
 interface File {
+  id: string;
   name: string;
   project: string;
   url: string;
@@ -81,53 +83,53 @@ const Dashboard: React.FC = () => {
   }, [user, fetchFiles, shouldUpdate]);
 
   return (
-    <div className="relative flex-grow min-w-250px">
-      <Menu />
-      <main className="mt-16">
-        <Heading as="h1" size="xl" className="ml-4">
-          Projetos
-        </Heading>
-        <div className="flex flex-col flex-grow p-4 min-w-250px">
-          {projects.map((project) => {
-            const projectFiles = files.filter(
-              (file) => file.project === project
-            );
-            return (
-              <div key={uuid()} className="max-w-4xl min-w-250px">
-                <Heading className="mb-4" as="h2" size="md" isTruncated>
-                  {project}
-                </Heading>
-                {isLoading && <FilesSkeleton />}
-                {!isLoading && projectFiles.length === 0 && (
-                  <Link href="/upload">
-                    <Button colorScheme="yellow">Fazer Upload</Button>
-                  </Link>
-                )}
-                <AnimatePresence>
-                  {!isLoading && (
-                    <motion.div
-                      variants={container}
-                      initial="hidden"
-                      animate="show">
-                      {projectFiles.map((file) => (
+    <main className="relative flex-grow pt-8 min-w-250px standalone:pt-4">
+      <Heading as="h1" size="xl" className="ml-4">
+        Projetos
+      </Heading>
+      <div className="flex flex-col flex-grow p-4 min-w-250px">
+        {projects.map((project) => {
+          const projectFiles = files.filter((file) => file.project === project);
+          return (
+            <div key={uuid()} className="max-w-4xl min-w-250px">
+              <Heading className="mb-4" as="h2" size="lg" isTruncated>
+                {project}
+              </Heading>
+              {isLoading && <FilesSkeleton />}
+              {!isLoading && projectFiles.length === 0 && (
+                <Link href="/upload">
+                  <ButtonSecondary icon={<ArrowUp />} type="button">
+                    Fazer Upload
+                  </ButtonSecondary>
+                </Link>
+              )}
+              <AnimatePresence>
+                {!isLoading && (
+                  <motion.div
+                    variants={container}
+                    initial="hidden"
+                    animate="show">
+                    {projectFiles
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((file) => (
                         <FileCard
-                          key={uuid()}
                           url={file.url}
+                          key={file.id}
+                          id={file.id}
                           project={project}
                           variants={listItem}
                           update={setShouldUpdate}>
                           {file.name}
                         </FileCard>
                       ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-        </div>
-      </main>
-    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </div>
+    </main>
   );
 };
 

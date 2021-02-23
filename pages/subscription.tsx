@@ -1,25 +1,10 @@
-import {
-  Box,
-  Button,
-  Center,
-  Heading,
-  Input,
-  Select,
-  Spinner,
-  useToast,
-} from "@chakra-ui/react";
-import Menu from "@components/shared/Menu";
-import { auth, firestore, functions } from "@firebase";
+import { Box, Button, useToast } from "@chakra-ui/react";
+import LoadingSpinner from "@components/shared/LoadingSpinner";
+import { firestore, functions } from "@firebase";
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
-import React, {
-  FormEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import api from "services/api";
 
 const Payment: React.FC = () => {
@@ -49,28 +34,40 @@ const Payment: React.FC = () => {
         docRef.onSnapshot(async (snap) => {
           const { error, sessionId } = snap.data();
           if (error) {
-            // Show an error to your customer and inspect
-            // your Cloud Function logs in the Firebase console.
-            alert(`An error occurred: ${error.message}`);
+            toast({
+              position: "top",
+              title: "Erro inesperado",
+              description: `Erro: ${error.message}`,
+              status: "error",
+              duration: 5000,
+              isClosable: true,
+            });
           }
 
           if (sessionId) {
             // We have a session, let's redirect to Checkout
             // Init Stripe
             const stripe = await loadStripe(
-              "pk_test_51HN9fvBmGrCAWM3tpFieM9kk5GcSwPnHiXRwgfjnH4xT2UxNSU27haffb8z93l1qkXF3zeyNuOi5L1JedKVA5kMS00Qm3gm17L"
+              process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
             );
-            console.log("redirecting");
             await stripe.redirectToCheckout({ sessionId });
           }
         });
       } catch (err) {
-        console.log(err);
+        toast({
+          position: "top",
+          title: "Erro na conexão",
+          description:
+            "Ocorreu um erro na conexão com nossos servidores, favor tentar novamente.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       } finally {
         setFileLoading(false);
       }
     },
-    [user]
+    [user, toast]
   );
 
   const pushSubscribersToPortal = useCallback(async () => {
@@ -97,21 +94,16 @@ const Payment: React.FC = () => {
 
   if (isPageLoading) {
     return (
-      <Center className="w-screen">
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
+      <div className="flex items-center justify-center w-screen h-screen">
+        <LoadingSpinner
+          style={{ filter: "invert(100%)", height: "30px", width: "30px" }}
         />
-      </Center>
+      </div>
     );
   }
 
   return (
     <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-      <Menu />
       <main className="flex items-center justify-center">
         <Box
           className="flex flex-col px-4 py-6 rounded"
