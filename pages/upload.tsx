@@ -139,8 +139,8 @@ const Upload: React.FC = () => {
   }, [user, push, toast]);
 
   return (
-    <div className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-      <Box className="flex flex-col flex-1 mx-4" bg="white">
+    <div className="flex items-center justify-center flex-1">
+      <Box className="flex flex-col flex-1 max-w-2xl mx-4" bg="white">
         <form onSubmit={submitFileForm}>
           <Heading mb={4} size="xl">
             Adicionar arquivos

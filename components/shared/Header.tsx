@@ -3,6 +3,7 @@ import { Heading, useDisclosure, useMediaQuery } from "@chakra-ui/react";
 import { ArrowLeft, Power } from "react-feather";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
+import resetPassword from "@functions/auth/ResetPassword";
 import SignOutAlert from "./SignOutAlert";
 
 const Header = () => {
@@ -50,7 +51,7 @@ const Header = () => {
         <>
           <button
             className="absolute right-0 mr-8 focus:outline-none"
-            onClick={onOpen}>
+            onClick={() => resetPassword("danielolaviobr@gmail.com")}>
             <Power size={22} color="white" />
           </button>
           {isOpen && (

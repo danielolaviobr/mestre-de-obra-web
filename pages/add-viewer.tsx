@@ -89,8 +89,8 @@ const AddViewerToProject: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-        <Box className="flex flex-col flex-1 mx-4" bg="white">
+      <div className="flex items-center justify-center flex-1 flex-grow min-h-screen">
+        <Box className="flex flex-col flex-1 max-w-2xl mx-4" bg="white">
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Heading as="h1" size="xl" mb={4}>
               Adicionar um membro

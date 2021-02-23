@@ -92,8 +92,8 @@ const CreateProject: React.FC = () => {
   }, [user, push, toast]);
 
   return (
-    <div className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-      <Box className="flex flex-col flex-1 mx-4">
+    <div className="flex items-center justify-center flex-1 min-h-screen">
+      <Box className="flex flex-col flex-1 max-w-2xl mx-4">
         <Form onSubmit={submitFileForm}>
           <Heading as="h1" size="xl" mb={4}>
             Criar um novo projeto
