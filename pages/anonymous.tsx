@@ -3,11 +3,12 @@ import { Box, Button, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Form } from "@unform/web";
 import { FormHandles } from "@unform/core";
-import { Phone } from "react-feather";
+import { ChevronRight, Phone } from "react-feather";
 import InputMask from "react-input-mask";
 
 import { useAuth } from "hooks/auth";
 import TextInput from "@components/shared/TextInput";
+import ButtonPrimary from "@components/shared/ButtonPrimary";
 
 interface FormData {
   phone: string;
@@ -61,9 +62,9 @@ const Anonymous: React.FC = () => {
               as={InputMask}
               mask="(99) 99999-9999"
             />
-            <Button isLoading={isLoading} colorScheme="blue" type="submit">
+            <ButtonPrimary isLoading={isLoading} icon={<ChevronRight />}>
               Entrar
-            </Button>
+            </ButtonPrimary>
           </Form>
         </Box>
       </main>

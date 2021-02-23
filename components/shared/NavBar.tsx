@@ -7,7 +7,7 @@ import { DollarSign, Folder, Home, Plus, User } from "react-feather";
 const NavBar = () => {
   const { user } = useAuth();
   const [isIos, setIsIos] = useState(true);
-  const [activePage, setActivePage] = useState("home");
+  const [activePage, setActivePage] = useState("dashboard");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const router = useRouter();
 

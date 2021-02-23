@@ -7,6 +7,7 @@ import "styles/global.css";
 import HookspProvider from "hooks";
 import Header from "@components/shared/Header";
 import NavBar from "@components/shared/NavBar";
+import DesktopHeader from "@components/shared/DesktopHeader";
 
 function MyApp({ Component, pageProps }) {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
@@ -180,7 +181,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <ChakraProvider>
         <HookspProvider>
-          {!isLargerThan750 && <Header />}
+          {isLargerThan750 ? <DesktopHeader /> : <Header />}
           <main className="flex flex-col flex-1 h-full min-h-screen mt-11 pt-safe-top mb-11 pb-safe-bottom">
             <Component {...pageProps} />
           </main>

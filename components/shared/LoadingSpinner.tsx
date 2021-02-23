@@ -12,7 +12,6 @@ const LoadingSpinner = ({
   ...rest
 }: LoadingSpinnerProps) => (
   <object
-    style={color === "black" && { filter: "invert(100%)" }}
     type="image/svg+xml"
     data="/assets/loading.svg"
     className={className}

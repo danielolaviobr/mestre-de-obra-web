@@ -51,23 +51,14 @@ const FileCard: React.FC<FileCardProps> = ({
         </Box>
       </a>
       {isLargerThan750 && (
-        <div className="absolute right-6 top-3">
+        <div className="absolute right-6 top-1/4">
           <Tooltip
             hasArrow
             label="Deletar arquivo"
-            bg="red.300"
-            color="black"
+            bg="black"
+            color="white"
             placement="top">
-            <IconButton
-              className="z-10"
-              size="28px"
-              variant="outline"
-              colorScheme="red"
-              ml="auto"
-              aria-label="Deletar arquivo"
-              icon={<X />}
-              onClick={handleDeleteFile}
-            />
+            <X className="cursor-pointer" onClick={handleDeleteFile} />
           </Tooltip>
         </div>
       )}

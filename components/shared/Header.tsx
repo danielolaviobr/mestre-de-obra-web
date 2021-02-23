@@ -26,8 +26,7 @@ const Header = () => {
     <div
       className={`fixed top-0 z-10 flex items-center justify-center w-screen bg-black shadow-sm ${
         isIos && " standalone:pb-4 standalone:h-20 "
-      } h-14 pt-safe-top`}
-      style={{}}>
+      } h-14 pt-safe-top`}>
       <Heading color="white" className="my-8 tracking-tighter">
         Mestre de Obra
       </Heading>
