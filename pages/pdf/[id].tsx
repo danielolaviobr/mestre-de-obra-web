@@ -26,6 +26,7 @@ const PDF = () => {
   const pdfContainerRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [url, setUrl] = useState("");
+  const [isAnonymous, setIsAnonymous] = useState(false);
   const [file, setFile] = useState<File>({
     name: "",
     url: "",
@@ -115,13 +116,17 @@ const PDF = () => {
   useEffect(() => {
     if (!user) {
       router.push("/");
+    } else {
+      setIsAnonymous(user.isAnonymous);
     }
   }, [user, router]);
 
   return (
     <>
       <div
-        className="min-h-screen pt-4 overflow-y-auto"
+        className={`min-h-screen pt-4 overflow-y-auto ${
+          isAnonymous ? " pb-1 " : " pb-14 "
+        }`}
         style={{ touchAction: "auto" }}>
         <div
           className={`relative overflow-hidden bg-black ring-4 ${

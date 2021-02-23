@@ -9,6 +9,7 @@ const Header = () => {
   const { user } = useAuth();
   const [isIos, setIsIos] = useState(true);
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [currentPath, setCurrentPath] = useState("dashboard");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const alertRef = useRef();
@@ -24,17 +25,18 @@ const Header = () => {
 
   useEffect(() => {
     setIsIos(checkIos());
+    setCurrentPath(router.pathname.split("/")[1]);
     if (user) {
       setIsAnonymous(user.isAnonymous);
     }
-  }, [checkIos, user]);
+  }, [checkIos, user, router]);
 
   return (
     <div
       className={`fixed top-0 z-10 flex items-center justify-center w-screen bg-black shadow-sm ${
         isIos && " standalone:pb-4 standalone:h-20 "
       } h-14 pt-safe-top`}>
-      {isAnonymous && !isLargerThan750 && (
+      {isAnonymous && !isLargerThan750 && currentPath === "pdf" && (
         <button
           className="absolute left-0 ml-8 focus:outline-none"
           onClick={() => router.push("/dashboard")}>
