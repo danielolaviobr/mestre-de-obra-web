@@ -2,15 +2,10 @@ import React from "react";
 
 interface LoadingSpinnerProps {
   className?: string;
-  color?: "black" | "white";
   [key: string]: any;
 }
 
-const LoadingSpinner = ({
-  className = "",
-  color = "white",
-  ...rest
-}: LoadingSpinnerProps) => (
+const LoadingSpinner = ({ className = "", ...rest }: LoadingSpinnerProps) => (
   <object
     type="image/svg+xml"
     data="/assets/loading.svg"

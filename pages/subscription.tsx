@@ -96,7 +96,6 @@ const Payment: React.FC = () => {
     return (
       <div className="flex items-center justify-center w-screen h-screen">
         <LoadingSpinner
-          color="black"
           style={{ filter: "invert(100%)", height: "30px", width: "30px" }}
         />
       </div>
