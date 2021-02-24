@@ -15,7 +15,7 @@ import React, {
 import { Folder } from "react-feather";
 
 interface FormData {
-  projectName: string;
+  project: string;
 }
 
 const CreateProject: React.FC = () => {
@@ -28,10 +28,10 @@ const CreateProject: React.FC = () => {
   const submitProjectForm = useCallback(
     async (formData: FormData) => {
       setFileLoading(true);
-      const { projectName } = formData;
+      const { project } = formData;
       try {
         await createProject({
-          projectName,
+          projectName: project,
           uid: user.uid,
         });
 
