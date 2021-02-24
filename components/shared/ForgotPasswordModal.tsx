@@ -63,7 +63,6 @@ const ForgotPasswordModal = ({ isOpen, onClose }: ForgotPasswordModalProps) => {
           return;
         }
 
-        console.log(err.code);
         const { title, description } = parseAuthErrors(err.code);
 
         toast({
