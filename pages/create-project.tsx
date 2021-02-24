@@ -14,6 +14,10 @@ import React, {
 } from "react";
 import { Folder } from "react-feather";
 
+interface FormData {
+  projectName: string;
+}
+
 const CreateProject: React.FC = () => {
   const { user } = useAuth();
   const { push } = useRouter();
@@ -21,11 +25,10 @@ const CreateProject: React.FC = () => {
   const [fileLoading, setFileLoading] = useState(false);
   const projectNameInputRef = useRef<HTMLInputElement>();
 
-  const submitFileForm = useCallback(
-    async (e: FormEvent) => {
-      e.preventDefault();
+  const submitProjectForm = useCallback(
+    async (formData: FormData) => {
       setFileLoading(true);
-      const projectName = projectNameInputRef.current.value;
+      const { projectName } = formData;
       try {
         await createProject({
           projectName,
@@ -94,7 +97,7 @@ const CreateProject: React.FC = () => {
   return (
     <div className="flex items-center justify-center flex-1 min-h-screen">
       <Box className="flex flex-col flex-1 max-w-2xl mx-4">
-        <Form onSubmit={submitFileForm}>
+        <Form onSubmit={submitProjectForm}>
           <Heading as="h1" size="xl" mb={4}>
             Criar um novo projeto
           </Heading>
