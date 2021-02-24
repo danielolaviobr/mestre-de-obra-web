@@ -4,6 +4,7 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useField } from "@unform/core";
 
@@ -42,7 +43,14 @@ const TextInput: React.FC<TextInputProps> = ({
   return (
     <InputGroup size="md" className="mb-4">
       <InputLeftElement color={error ? "crimson" : iconColor} py={6}>
-        {leftIcon}
+        <Tooltip
+          hasArrow
+          label={error}
+          bg="black"
+          color="white"
+          placement="top">
+          {leftIcon}
+        </Tooltip>
       </InputLeftElement>
       <Input
         {...rest}
