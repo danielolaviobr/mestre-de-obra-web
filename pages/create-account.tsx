@@ -1,13 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Heading,
-  Stack,
-  Text,
-  useToast,
-  useMediaQuery,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { ChevronRight, Lock, Mail } from "react-feather";
+import { Heading, Stack, useToast, useMediaQuery } from "@chakra-ui/react";
+import InputMask from "react-input-mask";
+import { ChevronRight, Lock, Mail, Phone } from "react-feather";
 import { Form } from "@unform/web";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
@@ -17,20 +11,20 @@ import { useAuth } from "hooks/auth";
 import getValidationErrors from "utils/getValidationErrors";
 import parseAuthErrors from "utils/parseAuthErrors";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
-import ButtonSecondary from "@components/shared/ButtonSecondary";
-import ForgotPasswordModal from "@components/shared/ForgotPasswordModal";
+import createUser from "@functions/auth/createUser";
 
 interface FormData {
   email: string;
   password: string;
+  passwordConfirm: string;
+  phone: string;
 }
 
-const Home: React.FC = () => {
+const CreateAccount = () => {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<FormHandles>();
-  const { signIn, user } = useAuth();
+  const { user } = useAuth();
   const { push } = useRouter();
   const toast = useToast();
 
@@ -49,13 +43,22 @@ const Home: React.FC = () => {
           email: Yup.string()
             .required("E-mail obrigatório")
             .email("Digite um e-mail válido"),
-          password: Yup.string().required("Senha é obrigatória"),
+          password: Yup.string()
+            .min(6, "A senha precisa ter pelo menos 6 caracteres.")
+            .required("Senha é obrigatória"),
+          confirmPassword: Yup.string().oneOf(
+            [Yup.ref("password"), null],
+            "As senhas devem ser iguais."
+          ),
+          phone: Yup.string()
+            .min(15, "O telefone deve ser um número válido")
+            .required("O número de telefone é obrigatório"),
         });
 
         await schema.validate(formData, { abortEarly: false });
-        const { email, password } = formData;
+        const { email, password, phone } = formData;
 
-        await signIn({ email, password });
+        await createUser({ email, password, phone });
 
         push("/dashboard");
       } catch (err) {
@@ -78,7 +81,7 @@ const Home: React.FC = () => {
         setIsLoading(false);
       }
     },
-    [signIn, push, toast]
+    [push, toast]
   );
 
   return (
@@ -86,7 +89,7 @@ const Home: React.FC = () => {
       <main className="flex flex-col items-center justify-center flex-1 ">
         <Stack spacing={4} className="max-w-96">
           <Heading as="h1" size={isLargerThan750 ? "2xl" : "3xl"} mb={4}>
-            Log in
+            Criar conta
           </Heading>
           <Form
             ref={formRef}
@@ -108,31 +111,32 @@ const Home: React.FC = () => {
               type="text"
               placeholder="Senha"
             />
+            <TextInput
+              name="passwordConfirm"
+              leftIcon={<Lock size={20} strokeWidth="1.7" />}
+              showPasswordButton
+              pr="4.5rem"
+              type="text"
+              placeholder="Confirme sua senha"
+            />
+            <TextInput
+              name="phone"
+              leftIcon={<Phone size={20} strokeWidth="1.7" />}
+              variant="outline"
+              pr="4.5rem"
+              type="text"
+              placeholder="Telefone"
+              as={InputMask}
+              mask="(99) 99999-9999"
+            />
             <ButtonPrimary icon={<ChevronRight />} isLoading={isLoading}>
-              Entrar
+              Criar conta
             </ButtonPrimary>
           </Form>
         </Stack>
-        <div className="flex flex-col items-center mt-4 max-w-96">
-          <span className="font-medium">
-            <button type="button" className="hover:underline" onClick={onOpen}>
-              Esqueci minha senha
-            </button>
-          </span>
-          <Text fontSize="sm" color="black" className="mt-2 font-medium">
-            ou
-          </Text>
-          <ButtonSecondary
-            type="button"
-            icon={<ChevronRight />}
-            onClick={() => push("/create-account")}>
-            Criar uma conta
-          </ButtonSecondary>
-        </div>
       </main>
-      <ForgotPasswordModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
 
-export default Home;
+export default CreateAccount;

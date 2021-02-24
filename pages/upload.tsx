@@ -166,7 +166,7 @@ const Upload: React.FC = () => {
             />
           </label>
           <ButtonPrimary isLoading={fileLoading} className="justify-center">
-            Upload File
+            Enviar arquivos
           </ButtonPrimary>
         </form>
         <UnorderedList mt={4}>

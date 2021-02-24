@@ -6,7 +6,6 @@ import { Form } from "@unform/web";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import React, {
-  FormEvent,
   useCallback,
   useEffect,
   useRef,
