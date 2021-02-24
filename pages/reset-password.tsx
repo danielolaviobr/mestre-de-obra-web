@@ -56,19 +56,17 @@ const ResetPassword = () => {
         if (err instanceof Yup.ValidationError) {
           const validationErrors = getValidationErrors(err);
           formRef.current?.setErrors(validationErrors);
-          Object.keys(validationErrors).forEach((error) => {
-            toast({
-              position: "top",
-              title: "Erro de validação",
-              description: validationErrors[error],
-              status: "error",
-              duration: 5000,
-              isClosable: true,
-            });
-          });
-
           return;
         }
+        toast({
+          position: "top",
+          title: "Erro ao alterar sua senha",
+          description:
+            "Ocorreu um erro inesperado ao alterar a sua senha, favor tente novamente.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       } finally {
         setIsLoading(false);
       }
