@@ -1,21 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Heading,
-  Stack,
-  Text,
-  useToast,
-  useMediaQuery,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { ChevronRight, Lock, Mail } from "react-feather";
+import React, { useCallback, useRef, useState } from "react";
+import { Heading, Stack, useToast, useMediaQuery } from "@chakra-ui/react";
+import { ChevronRight, Lock } from "react-feather";
 import { Form } from "@unform/web";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import { FormHandles } from "@unform/core";
 import TextInput from "@components/shared/TextInput";
-import { useAuth } from "hooks/auth";
 import getValidationErrors from "utils/getValidationErrors";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
+import changePassword from "@functions/auth/changePassword";
 
 interface FormData {
   password: string;
@@ -24,16 +17,15 @@ interface FormData {
 
 const ResetPassword = () => {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<FormHandles>();
-  const { signIn, user } = useAuth();
-  const { push } = useRouter();
+  const { push, query } = useRouter();
   const toast = useToast();
 
   const handleFormSubmit = useCallback(
     async (formData: FormData) => {
       setIsLoading(true);
+      const { oobCode } = query;
       try {
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
@@ -49,12 +41,21 @@ const ResetPassword = () => {
         await schema.validate(formData, { abortEarly: false });
         const { password } = formData;
 
-        push("/dashboard");
+        await changePassword({ code: oobCode as string, password });
+
+        toast({
+          position: "top",
+          title: "Senha alterada",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+
+        push("/");
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const validationErrors = getValidationErrors(err);
           formRef.current?.setErrors(validationErrors);
-          console.log(validationErrors);
           Object.keys(validationErrors).forEach((error) => {
             toast({
               position: "top",
@@ -72,7 +73,7 @@ const ResetPassword = () => {
         setIsLoading(false);
       }
     },
-    [signIn, push, toast]
+    [push, toast, query]
   );
 
   return (
