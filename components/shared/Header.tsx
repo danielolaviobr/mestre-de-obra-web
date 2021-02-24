@@ -4,6 +4,7 @@ import { ArrowLeft, Power } from "react-feather";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import resetPassword from "@functions/auth/resetPassword";
+import Link from "next/link";
 import SignOutAlert from "./SignOutAlert";
 
 const Header = () => {
@@ -45,7 +46,7 @@ const Header = () => {
         </button>
       )}
       <Heading color="white" className="my-8 tracking-tighter">
-        Mestre de Obra
+        <Link href="/">Mestre de Obra</Link>
       </Heading>
       {user && (
         <>
