@@ -33,15 +33,22 @@ const DesktopHeader = () => {
 
   return (
     <div
-      className={`fixed top-0 z-10 flex items-center justify-start w-screen pl-8 bg-black h-14 pt-safe-top ${
+      className={`fixed top-0 z-10 flex items-center justify-center w-screen pl-8 bg-black h-14 pt-safe-top ${
         activePage === "" && " hidden"
       }`}>
       {isAnonymous || !user ? (
-        <Heading
-          color="white"
-          className="my-8 tracking-tighter justify-self-center">
-          Mestre de Obra
-        </Heading>
+        <Link
+          href={
+            activePage === "login" || activePage === "create-account"
+              ? "/"
+              : "/dashboard"
+          }>
+          <Heading
+            color="white"
+            className="my-8 tracking-tighter cursor-pointer">
+            Mestre de Obra
+          </Heading>
+        </Link>
       ) : (
         <AnimateSharedLayout>
           <div className="flex justify-self-start">

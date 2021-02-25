@@ -13,7 +13,6 @@ import { useRouter } from "next/router";
 function MyApp({ Component, pageProps }) {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
   const { pathname } = useRouter();
-  console.log(pathname);
 
   return (
     <>

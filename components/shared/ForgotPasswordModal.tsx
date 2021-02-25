@@ -36,7 +36,6 @@ const ForgotPasswordModal = ({ isOpen, onClose }: ForgotPasswordModalProps) => {
   const handleFormSubmit = useCallback(
     async (formData: FormData) => {
       setIsLoading(true);
-      console.log("here");
       try {
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
