@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Heading, Stack, useToast, useMediaQuery } from "@chakra-ui/react";
+import {
+  Heading,
+  Stack,
+  useToast,
+  useMediaQuery,
+  Checkbox,
+} from "@chakra-ui/react";
 import InputMask from "react-input-mask";
 import { ChevronRight, Lock, Mail, Phone } from "react-feather";
 import { Form } from "@unform/web";
@@ -12,6 +18,7 @@ import getValidationErrors from "utils/getValidationErrors";
 import parseAuthErrors from "utils/parseAuthErrors";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
 import createUser from "@functions/auth/createUser";
+import Link from "next/link";
 
 interface FormData {
   email: string;
@@ -96,7 +103,7 @@ const CreateAccount = () => {
           <Form
             ref={formRef}
             onSubmit={handleFormSubmit}
-            className="flex flex-col items-end">
+            className="flex flex-col items-start">
             <TextInput
               name="email"
               type="text"
@@ -131,6 +138,12 @@ const CreateAccount = () => {
               as={InputMask}
               mask="(99) 99999-9999"
             />
+            <Checkbox colorScheme="black" className="justify-self-start">
+              Li e concordo com os{" "}
+              <Link href="/legal">
+                <span className="hover:underline">termos de uso</span>
+              </Link>
+            </Checkbox>
             <ButtonPrimary icon={<ChevronRight />} isLoading={isLoading}>
               Criar conta
             </ButtonPrimary>

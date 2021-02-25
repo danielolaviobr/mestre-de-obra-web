@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import { ChakraProvider, useMediaQuery } from "@chakra-ui/react";
+import { ChakraProvider, useMediaQuery, extendTheme } from "@chakra-ui/react";
 
 import "styles/global.css";
 
@@ -9,6 +9,15 @@ import Header from "@components/shared/Header";
 import NavBar from "@components/shared/NavBar";
 import DesktopHeader from "@components/shared/DesktopHeader";
 import { useRouter } from "next/router";
+
+// 2. Call `extendTheme` and pass your custom values
+const theme = extendTheme({
+  colors: {
+    black: {
+      500: "#000000",
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }) {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
@@ -181,7 +190,7 @@ function MyApp({ Component, pageProps }) {
           media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
         />
       </Head>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <HookspProvider>
           {isLargerThan750 ? <DesktopHeader /> : <Header />}
           <main

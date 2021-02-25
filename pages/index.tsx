@@ -13,7 +13,7 @@ const LadingPage = () => {
     <div className="relative flex flex-col overflow-hidden">
       <LandingHeader />
       <div className="flex items-center justify-center h-screen mx-4 overflow-hidden">
-        <div className="flex flex-col items-start mr-auto -mt-48 ml-72">
+        <div className="flex flex-col items-start ml-56 mr-auto -mt-48">
           <motion.div
             style={{ width: 500 }}
             initial={{ opacity: 0 }}
@@ -38,7 +38,7 @@ const LadingPage = () => {
             </ButtonPrimary>
           </motion.div>
         </div>
-        <div className="relative flex w-full h-screen mt-36">
+        <div className="relative flex w-full h-screen ml-12 mr-16 mt-44">
           <motion.div
             className="absolute"
             initial={{ top: 32 }}
