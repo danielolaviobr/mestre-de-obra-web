@@ -24,7 +24,7 @@ const CreateAccount = () => {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<FormHandles>();
-  const { user } = useAuth();
+  const { user, signIn } = useAuth();
   const { push } = useRouter();
   const toast = useToast();
 
@@ -60,6 +60,8 @@ const CreateAccount = () => {
 
         await createUser({ email, password, phone });
 
+        await signIn({ email, password });
+
         push("/dashboard");
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -67,7 +69,8 @@ const CreateAccount = () => {
           formRef.current?.setErrors(validationErrors);
           return;
         }
-        const { title, description } = parseAuthErrors(err.message);
+        console.log(err.code);
+        const { title, description } = parseAuthErrors(err.code);
 
         toast({
           position: "top",
@@ -81,7 +84,7 @@ const CreateAccount = () => {
         setIsLoading(false);
       }
     },
-    [push, toast]
+    [push, toast, signIn]
   );
 
   return (
@@ -112,7 +115,7 @@ const CreateAccount = () => {
               placeholder="Senha"
             />
             <TextInput
-              name="passwordConfirm"
+              name="confirmPassword"
               leftIcon={<Lock size={20} strokeWidth="1.7" />}
               showPasswordButton
               pr="4.5rem"
