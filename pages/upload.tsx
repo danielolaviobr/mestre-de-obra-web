@@ -119,7 +119,7 @@ const Upload: React.FC = () => {
 
   useEffect(() => {
     if (user === undefined) {
-      push("/");
+      push("/login");
       return;
     }
 

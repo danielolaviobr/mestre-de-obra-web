@@ -115,7 +115,7 @@ const PDF = () => {
 
   useEffect(() => {
     if (!user) {
-      router.push("/");
+      router.push("/login");
     } else {
       setIsAnonymous(user.isAnonymous);
     }

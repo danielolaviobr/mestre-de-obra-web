@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         "light-black": "#323232",
+        "light-gray": "#727272",
       },
       minWidth: {
         "250px": "250px",

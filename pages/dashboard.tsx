@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     if (!user) {
-      push("/");
+      push("/login");
       return;
     }
 

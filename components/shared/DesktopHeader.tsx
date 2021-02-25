@@ -32,7 +32,10 @@ const DesktopHeader = () => {
   }, [user]);
 
   return (
-    <div className="fixed top-0 z-10 flex items-center justify-start w-screen pl-8 bg-black h-14 pt-safe-top">
+    <div
+      className={`fixed top-0 z-10 flex items-center justify-start w-screen pl-8 bg-black h-14 pt-safe-top ${
+        activePage === "" && " hidden"
+      }`}>
       {isAnonymous || !user ? (
         <Heading
           color="white"

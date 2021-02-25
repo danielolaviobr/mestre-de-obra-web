@@ -8,9 +8,12 @@ import HookspProvider from "hooks";
 import Header from "@components/shared/Header";
 import NavBar from "@components/shared/NavBar";
 import DesktopHeader from "@components/shared/DesktopHeader";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
+  const { pathname } = useRouter();
+  console.log(pathname);
 
   return (
     <>
@@ -182,7 +185,12 @@ function MyApp({ Component, pageProps }) {
       <ChakraProvider>
         <HookspProvider>
           {isLargerThan750 ? <DesktopHeader /> : <Header />}
-          <main className="flex flex-col flex-1 h-full min-h-screen mt-11 pt-safe-top mb-11 pb-safe-bottom">
+          <main
+            className={`flex flex-col flex-1 h-full min-h-screen  ${
+              pathname !== "/" &&
+              pathname !== "/price" &&
+              " mt-11 pt-safe-top mb-11 pb-safe-bottom "
+            }`}>
             <Component {...pageProps} />
           </main>
           {!isLargerThan750 && <NavBar />}

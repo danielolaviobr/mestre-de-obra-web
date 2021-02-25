@@ -77,7 +77,7 @@ const CreateProject: React.FC = () => {
 
   useEffect(() => {
     if (user === undefined) {
-      push("/");
+      push("/login");
     }
 
     if (!user.isSubscribed) {

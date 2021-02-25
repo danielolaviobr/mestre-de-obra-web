@@ -51,7 +51,7 @@ const ResetPassword = () => {
           isClosable: true,
         });
 
-        push("/");
+        push("/login");
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const validationErrors = getValidationErrors(err);
