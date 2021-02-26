@@ -1,4 +1,4 @@
-import { Heading, useToast, Button } from "@chakra-ui/react";
+import { Heading, useToast } from "@chakra-ui/react";
 import FileCard from "@components/Dashboard/FileCard";
 import { v4 as uuid } from "uuid";
 import { useAuth } from "hooks/auth";

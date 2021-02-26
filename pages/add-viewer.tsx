@@ -6,6 +6,7 @@ import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Phone } from "react-feather";
+import * as Yup from "yup";
 
 import InputMask from "react-input-mask";
 import addViewerToProject from "@functions/firestore/addViewerToProject";
@@ -13,6 +14,7 @@ import ButtonPrimary from "@components/shared/ButtonPrimary";
 import ButtonSecondary from "@components/shared/ButtonSecondary";
 import SelectInput from "@components/shared/SelectInput";
 import ShareModal from "@components/shared/ShareModal";
+import getValidationErrors from "utils/getValidationErrors";
 
 interface FormData {
   phone: string;
@@ -44,6 +46,19 @@ const AddViewerToProject: React.FC = () => {
       // TODO Refactor to use Unform on select
       const form = { phone: formData.phone, projectName: selectedProject };
       try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          phone: Yup.string()
+            .required("O telefone é obrigatório")
+            .min(15, "O telefone deve ser um número válido")
+            .notOneOf(
+              [user?.phone || ""],
+              "Não é possível adicionar a si mesmo"
+            ),
+        });
+
+        await schema.validate(formData, { abortEarly: false });
+
         await addViewerToProject(form);
 
         formRef.current.setData({ phone: "" });
@@ -56,12 +71,18 @@ const AddViewerToProject: React.FC = () => {
           duration: 5000,
         });
       } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const validationErrors = getValidationErrors(err);
+          formRef.current?.setErrors(validationErrors);
+          return;
+        }
+
         toast({
           position: "top",
           title: "Erro ao adicionar usuário",
           description:
             "Ocorreu um erro ao adicionar o usuário, favor atualizar a página e tentar novamente.",
-          status: "success",
+          status: "error",
           isClosable: true,
           duration: 5000,
         });
@@ -69,7 +90,7 @@ const AddViewerToProject: React.FC = () => {
         setIsLoading(false);
       }
     },
-    [selectedProject, toast]
+    [selectedProject, toast, user]
   );
 
   useEffect(() => {

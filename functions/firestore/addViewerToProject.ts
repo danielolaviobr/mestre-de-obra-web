@@ -34,5 +34,20 @@ export default async function addViewerToProject({
     numberOfViewers,
   });
 
-  // TODO add project to user is user is not anonymous
+  const user = await firestore
+    .collection("users")
+    .where("phone", "==", phone)
+    .get();
+
+  if (!user.empty) {
+    user.forEach((doc) => {
+      const userData = doc.data();
+      doc.ref.update({
+        projects: [
+          ...userData.projects,
+          { project: projectName, isCreator: false },
+        ],
+      });
+    });
+  }
 }

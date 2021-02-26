@@ -12,6 +12,12 @@ export default function parseAuthErrors(error: string): ToastMessage {
         description: "Este e-mail já está cadastrado, favor inserir outro.",
       };
       break;
+    case "auth/phone-already-exists":
+      toastMessage = {
+        title: "Telefone já cadastrado",
+        description: "Este telefone já está cadastrado, favor inserir outro.",
+      };
+      break;
 
     case "auth/user-not-found":
       toastMessage = {

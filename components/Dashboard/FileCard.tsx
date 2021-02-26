@@ -1,8 +1,7 @@
 import React, { useCallback, useRef } from "react";
-import { ArrowDown, Download, X } from "react-feather";
+import { ArrowDown, X } from "react-feather";
 import {
   Box,
-  IconButton,
   Text,
   Tooltip,
   useDisclosure,
@@ -19,7 +18,7 @@ interface FileCardProps {
   project: string;
   isCreator: boolean;
   variants?: Variants;
-  update(boolean): void;
+  update(value: boolean): void;
 }
 
 const FileCard: React.FC<FileCardProps> = ({
