@@ -10,6 +10,7 @@ import getFilesInProject from "@functions/firestore/getFilesInProjects";
 import { AnimatePresence, motion } from "framer-motion";
 import ButtonSecondary from "@components/shared/ButtonSecondary";
 import { ArrowUp } from "react-feather";
+import CreatoProjectCTA from "@components/Dashboard/CreatoProjectCTA";
 
 interface File {
   id: string;
@@ -95,6 +96,7 @@ const Dashboard: React.FC = () => {
         Projetos
       </Heading>
       <div className="flex flex-col flex-grow p-4 min-w-250px">
+        {projects.length === 0 && <CreatoProjectCTA />}
         {projects.map((project) => {
           const projectFiles = files.filter(
             (file) => file.project === project.name

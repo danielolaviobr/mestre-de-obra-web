@@ -73,6 +73,7 @@ const CreateAccount = () => {
           formRef.current?.setErrors(validationErrors);
           return;
         }
+
         const { title, description } = parseAuthErrors(err.code);
 
         toast({

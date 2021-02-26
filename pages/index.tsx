@@ -67,8 +67,8 @@ const LadingPage = () => {
             }}>
             <Image
               src="/assets/iPhone.png"
-              width={696 / 2.3}
-              height={1713 / 2.3}
+              width={2190}
+              height={1940}
               alt="iPhone"
               priority
             />
