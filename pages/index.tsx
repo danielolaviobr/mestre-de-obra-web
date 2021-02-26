@@ -5,6 +5,11 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import LandingHeader from "@components/shared/LandingHeader";
+import { GetStaticProps } from "next";
+
+export const getStaticProps: GetStaticProps = async () => ({
+  props: {},
+});
 
 const LadingPage = () => {
   const router = useRouter();
