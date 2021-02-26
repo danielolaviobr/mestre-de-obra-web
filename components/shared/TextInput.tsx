@@ -55,6 +55,7 @@ const TextInput: React.FC<TextInputProps> = ({
       <Input
         {...rest}
         py={6}
+        // borderWidth={borderWidth}
         borderColor="black"
         isInvalid={!!error}
         ref={inputRef}
@@ -63,6 +64,7 @@ const TextInput: React.FC<TextInputProps> = ({
         focusBorderColor="black"
         type={showPasswordButton && !show ? "password" : "text"}
         _hover={{ borderColor: "black" }}
+        _focus={{ borderWidth: 2 }}
       />
       {showPasswordButton && (
         <InputRightElement width="6rem" ml="2" pl="5" pr="2" py={6}>

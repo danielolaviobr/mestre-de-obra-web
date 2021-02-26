@@ -17,6 +17,7 @@ interface FileCardProps {
   id?: string;
   url?: string;
   project: string;
+  isCreator: boolean;
   variants?: Variants;
   update(boolean): void;
 }
@@ -28,6 +29,7 @@ const FileCard: React.FC<FileCardProps> = ({
   variants = {},
   id = "file-not-found",
   update,
+  isCreator,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const alertRef = useRef();
@@ -64,7 +66,7 @@ const FileCard: React.FC<FileCardProps> = ({
             </Text>
           </Box>
         </a>
-        {isLargerThan750 && (
+        {isLargerThan750 && isCreator && (
           <div className="absolute right-6 top-1/4">
             <Tooltip
               hasArrow

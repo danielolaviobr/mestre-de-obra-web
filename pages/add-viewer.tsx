@@ -18,13 +18,18 @@ interface FormData {
   phone: string;
 }
 
+interface Project {
+  name: string;
+  isCreator: boolean;
+}
+
 const AddViewerToProject: React.FC = () => {
   const { user } = useAuth();
   const { push } = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState("");
   const toast = useToast();
 
@@ -99,8 +104,8 @@ const AddViewerToProject: React.FC = () => {
               placeholder="Selecione o projeto"
               onChange={handleProjectChange}>
               {projects.map((project) => (
-                <option key={project} value={project}>
-                  {project}
+                <option key={project.name} value={project.name}>
+                  {project.name}
                 </option>
               ))}
             </SelectInput>

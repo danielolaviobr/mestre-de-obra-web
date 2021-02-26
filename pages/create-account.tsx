@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Heading,
-  Stack,
-  useToast,
-  useMediaQuery,
-  Checkbox,
-} from "@chakra-ui/react";
+import { Heading, Stack, useToast, useMediaQuery } from "@chakra-ui/react";
 import InputMask from "react-input-mask";
 import { ChevronRight, Lock, Mail, Phone } from "react-feather";
 import { Form } from "@unform/web";
@@ -17,6 +11,7 @@ import { useAuth } from "hooks/auth";
 import getValidationErrors from "utils/getValidationErrors";
 import parseAuthErrors from "utils/parseAuthErrors";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
+import Checkbox from "@components/shared/Checkbox";
 import createUser from "@functions/auth/createUser";
 import Link from "next/link";
 
@@ -25,6 +20,7 @@ interface FormData {
   password: string;
   passwordConfirm: string;
   phone: string;
+  legal: boolean;
 }
 
 const CreateAccount = () => {
@@ -60,6 +56,7 @@ const CreateAccount = () => {
           phone: Yup.string()
             .min(15, "O telefone deve ser um número válido")
             .required("O número de telefone é obrigatório"),
+          legal: Yup.boolean().isTrue("É necessário aceitar os termos de uso"),
         });
 
         await schema.validate(formData, { abortEarly: false });
@@ -138,7 +135,7 @@ const CreateAccount = () => {
               as={InputMask}
               mask="(99) 99999-9999"
             />
-            <Checkbox colorScheme="black" className="justify-self-start">
+            <Checkbox name="legal">
               Li e concordo com os{" "}
               <Link href="/legal">
                 <span className="hover:underline">termos de uso</span>

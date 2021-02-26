@@ -33,4 +33,6 @@ export default async function addViewerToProject({
     viewers,
     numberOfViewers,
   });
+
+  // TODO add project to user is user is not anonymous
 }

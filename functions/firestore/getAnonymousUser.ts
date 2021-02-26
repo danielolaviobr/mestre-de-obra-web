@@ -4,7 +4,7 @@ interface User {
   email: string;
   name: string;
   uid: string;
-  projects: string[];
+  projects: Array<{ name: string; isCreator: boolean }>;
   stripeId: string;
   stripeLink: string;
   isSubscribed: boolean;
@@ -24,7 +24,10 @@ export default async function getAnonymousUser(phone: string) {
 
   const projectsObjects = projectsData.docs.map((project) => project.data());
 
-  const projects: string[] = projectsObjects.map((project) => project.name);
+  const projects = projectsObjects.map((project) => ({
+    name: project.name,
+    isCreator: false,
+  }));
 
   const user: User = {
     email: "anonymous@mail.com",

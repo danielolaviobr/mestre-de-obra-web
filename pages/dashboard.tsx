@@ -18,6 +18,11 @@ interface File {
   url: string;
 }
 
+interface Project {
+  name: string;
+  isCreator: boolean;
+}
+
 const container = {
   hidden: { opacity: 0 },
   show: {
@@ -38,7 +43,7 @@ const Dashboard: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [shouldUpdate, setShouldUpdate] = useState(true);
-  const [projects, setProjects] = useState<string[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const { push } = useRouter();
   const toast = useToast();
 
@@ -48,7 +53,9 @@ const Dashboard: React.FC = () => {
     }
     try {
       setIsLoading(true);
-      const newFiles = await getFilesInProject(projects);
+      const newFiles = await getFilesInProject(
+        projects.map((project) => project.name)
+      );
 
       setFiles(newFiles);
     } catch (err) {
@@ -89,11 +96,13 @@ const Dashboard: React.FC = () => {
       </Heading>
       <div className="flex flex-col flex-grow p-4 min-w-250px">
         {projects.map((project) => {
-          const projectFiles = files.filter((file) => file.project === project);
+          const projectFiles = files.filter(
+            (file) => file.project === project.name
+          );
           return (
             <div key={uuid()} className="max-w-4xl min-w-250px">
               <Heading className="mb-4" as="h2" size="lg" isTruncated>
-                {project}
+                {project.name}
               </Heading>
               {isLoading && <FilesSkeleton />}
               {!isLoading && projectFiles.length === 0 && (
@@ -116,7 +125,8 @@ const Dashboard: React.FC = () => {
                           url={file.url}
                           key={file.id}
                           id={file.id}
-                          project={project}
+                          project={project.name}
+                          isCreator={project.isCreator}
                           variants={listItem}
                           update={setShouldUpdate}>
                           {file.name}
