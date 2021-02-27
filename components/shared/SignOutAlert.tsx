@@ -9,26 +9,26 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useAuth } from "hooks/auth";
-import React from "react";
+import React, { useRef } from "react";
 import ButtonPrimary from "./ButtonPrimary";
 import ButtonSecondary from "./ButtonSecondary";
 
 interface SignOutAlertProps {
-  ref: React.RefObject<undefined>;
   onClose(): void;
   isOpen: boolean;
 }
 
-const SignOutAlert = ({ ref, onClose, isOpen }: SignOutAlertProps) => {
+const SignOutAlert = ({ onClose, isOpen }: SignOutAlertProps) => {
   const { signOut } = useAuth();
   const handleSignOut = () => {
     onClose();
     signOut();
   };
+  const cancelRef = useRef();
   return (
     <AlertDialog
       motionPreset="slideInBottom"
-      leastDestructiveRef={ref}
+      leastDestructiveRef={cancelRef}
       onClose={onClose}
       isOpen={isOpen}
       isCentered>
@@ -40,7 +40,7 @@ const SignOutAlert = ({ ref, onClose, isOpen }: SignOutAlertProps) => {
         <AlertDialogFooter>
           <ButtonPrimary
             type="button"
-            ref={ref}
+            ref={cancelRef}
             onClick={onClose}
             className="mx-2">
             Não

@@ -17,7 +17,6 @@ const DesktopHeader = () => {
   const [activePage, setActivePage] = useState("dashboard");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const alertRef = useRef();
   const router = useRouter();
 
   useEffect(() => {
@@ -128,9 +127,7 @@ const DesktopHeader = () => {
             onClick={onOpen}>
             <Power size={20} color="white" />
           </button>
-          {isOpen && (
-            <SignOutAlert ref={alertRef} isOpen={isOpen} onClose={onClose} />
-          )}
+          {isOpen && <SignOutAlert isOpen={isOpen} onClose={onClose} />}
         </>
       )}
     </div>

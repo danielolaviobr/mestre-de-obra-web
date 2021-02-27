@@ -3,7 +3,7 @@ interface InfluencersListProps {
 }
 
 const influencersList: InfluencersListProps = {
-  TestCode10: { name: "Test Code", discount: 10 },
+  TEST10: { name: "Test Code", discount: 10 },
 };
 
 export default influencersList;
