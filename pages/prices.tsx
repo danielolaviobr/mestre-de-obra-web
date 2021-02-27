@@ -4,7 +4,7 @@ import { Heading, useToast } from "@chakra-ui/react";
 import { Check } from "react-feather";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
 import { useRouter } from "next/router";
-import influencersList from "@JSON/unfluencersList";
+import influencersList from "@JSON/influencersList";
 
 interface CodeData {
   name: string;
