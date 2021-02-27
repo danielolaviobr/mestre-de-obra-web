@@ -76,7 +76,7 @@ const AddViewerToProject: React.FC = () => {
           formRef.current?.setErrors(validationErrors);
           return;
         }
-
+        // TODO Tratar errors
         toast({
           position: "top",
           title: "Erro ao adicionar usuário",

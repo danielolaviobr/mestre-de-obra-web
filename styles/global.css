@@ -18,3 +18,31 @@ button:active {
 button:focus {
   outline: none;
 }
+
+/* @font-face {
+  font-family: "Proxima Soft";
+  src: url("/fonts/ProximaSoft-Regular.ttf") format("truetype");
+  font-style: regular;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: "Proxima Soft";
+  src: url("/fonts/ProximaSoft-Medium.ttf") format("truetype");
+  font-style: medium;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: "Proxima Soft";
+  src: url("/fonts/ProximaSoft-SemiBold.ttf") format("truetype");
+  font-style: semibold;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: "Proxima Soft";
+  src: url("/fonts/ProximaSoft-Bold.ttf") format("truetype");
+  font-style: bold;
+  font-display: optional;
+} */

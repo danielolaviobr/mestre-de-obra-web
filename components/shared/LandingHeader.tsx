@@ -5,13 +5,15 @@ import Link from "next/link";
 const LandingHeader = () => (
   <div className="fixed flex items-center justify-between w-screen px-8 my-8">
     <Link href="/">
-      <Image
-        src="/assets/Logo.png"
-        height={135 / 3}
-        width={827 / 3}
-        priority
-        className="cursor-pointer"
-      />
+      <a>
+        <Image
+          src="/assets/Logo.png"
+          height={135 / 3}
+          width={827 / 3}
+          priority
+          className="cursor-pointer"
+        />
+      </a>
     </Link>
     <div className="flex ml-auto">
       <Link href="/prices">

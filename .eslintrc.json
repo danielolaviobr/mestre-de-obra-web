@@ -110,7 +110,8 @@
     "function-paren-newline": "off",
     "react/button-has-type": "off",
     "react/jsx-one-expression-per-line": "off",
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "jsx-a11y/anchor-is-valid": "off"
   },
   "env": {
     "browser": true,

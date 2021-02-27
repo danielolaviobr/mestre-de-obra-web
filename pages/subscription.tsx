@@ -1,16 +1,15 @@
 import { Box, Button, useToast } from "@chakra-ui/react";
 import LoadingSpinner from "@components/shared/LoadingSpinner";
-import { firestore, functions } from "@firebase";
+import { functions } from "@firebase";
+import createTransaction from "@functions/firestore/createTransaction";
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import React, { FormEvent, useCallback, useEffect, useState } from "react";
-import api from "services/api";
 
 const Payment: React.FC = () => {
   const { user } = useAuth();
   const { push } = useRouter();
-  const [projects, setProjects] = useState([]);
   const toast = useToast();
   const [fileLoading, setFileLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(false);
@@ -21,17 +20,12 @@ const Payment: React.FC = () => {
       setFileLoading(true);
 
       try {
-        const docRef = await firestore
-          .collection("users")
-          .doc(user.uid)
-          .collection("checkout_sessions")
-          .add({
-            price: "price_1HZhqOBmGrCAWM3tGagLpxQJ",
-            success_url: "http://localhost:3000/upload",
-            cancel_url: "http://localhost:3000/dashboard",
-          });
+        const transaction = await createTransaction({
+          uid: user.uid,
+          productName: "Assinatura Mestre de Obra",
+        });
 
-        docRef.onSnapshot(async (snap) => {
+        transaction.onSnapshot(async (snap) => {
           const { error, sessionId } = snap.data();
           if (error) {
             toast({
@@ -45,8 +39,6 @@ const Payment: React.FC = () => {
           }
 
           if (sessionId) {
-            // We have a session, let's redirect to Checkout
-            // Init Stripe
             const stripe = await loadStripe(
               process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
             );
@@ -88,8 +80,6 @@ const Payment: React.FC = () => {
       setIsPageLoading(true);
       pushSubscribersToPortal();
     }
-
-    setProjects(user.projects);
   }, [user, push, pushSubscribersToPortal]);
 
   if (isPageLoading) {

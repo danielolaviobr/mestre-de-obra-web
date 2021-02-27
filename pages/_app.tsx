@@ -10,7 +10,6 @@ import NavBar from "@components/shared/NavBar";
 import DesktopHeader from "@components/shared/DesktopHeader";
 import { useRouter } from "next/router";
 
-// 2. Call `extendTheme` and pass your custom values
 const theme = extendTheme({
   colors: {
     black: {
@@ -34,6 +33,31 @@ function MyApp({ Component, pageProps }) {
         <meta name="mobile-web-app-capable" content="yes" />
         <link href="icon-192x192.png" rel="icon" sizes="192x192" />
         <link href="icon-128x128.png" rel="icon" sizes="128x128" />
+
+        {/* <link
+          rel="preload"
+          href="/fonts/ProximaSoft-Regular.ttf"
+          as="font"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          href="/fonts/ProximaSoft-Medium.ttf"
+          as="font"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          href="/fonts/ProximaSoft-SemiBold.ttf"
+          as="font"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          href="/fonts/ProximaSoft-Bold.ttf"
+          as="font"
+          crossOrigin=""
+        /> */}
         <meta
           name="description"
           content="O melhor gerenciador de projetos de obra"
@@ -196,7 +220,7 @@ function MyApp({ Component, pageProps }) {
           <main
             className={`flex flex-col flex-1 h-full min-h-screen  ${
               pathname !== "/" &&
-              pathname !== "/price" &&
+              pathname !== "/prices" &&
               " mt-11 pt-safe-top mb-11 pb-safe-bottom "
             }`}>
             <Component {...pageProps} />

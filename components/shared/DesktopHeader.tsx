@@ -34,7 +34,7 @@ const DesktopHeader = () => {
   return (
     <div
       className={`fixed top-0 z-10 flex items-center justify-center w-screen pl-8 bg-black h-14 pt-safe-top ${
-        activePage === "" && " hidden"
+        (activePage === "" || activePage === "prices") && " hidden"
       }`}>
       {isAnonymous || !user ? (
         <Link
@@ -108,7 +108,7 @@ const DesktopHeader = () => {
             <div className="mr-3 text-lg font-medium text-white">
               <Link href="/subscription">
                 <span className="cursor-pointer">
-                  Pagamento
+                  Assinatura
                   {activePage === "subscription" && (
                     <motion.div
                       className="w-full h-1 bg-white rounded-lg"

@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         "light-black": "#323232",
         "light-gray": "#727272",
+        "lighter-gray": "#999999",
       },
       minWidth: {
         "250px": "250px",
@@ -22,7 +23,9 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      borderWidth: ["hover", "focus"],
+    },
   },
   plugins: [require("@tailwindcss/aspect-ratio")],
 };
