@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Heading, useDisclosure, useMediaQuery } from "@chakra-ui/react";
 import { ArrowLeft, Power } from "react-feather";
 import { useAuth } from "hooks/auth";
@@ -13,7 +13,6 @@ const Header = () => {
   const [currentPath, setCurrentPath] = useState("dashboard");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-  const alertRef = useRef();
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
 
   const checkIos = useCallback(() => {
@@ -54,9 +53,7 @@ const Header = () => {
             onClick={onOpen}>
             <Power size={22} color="white" />
           </button>
-          {isOpen && (
-            <SignOutAlert ref={alertRef} isOpen={isOpen} onClose={onClose} />
-          )}
+          {isOpen && <SignOutAlert isOpen={isOpen} onClose={onClose} />}
         </>
       )}
     </div>

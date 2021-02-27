@@ -4,9 +4,7 @@ import {
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogCloseButton,
-  AlertDialogBody,
   AlertDialogFooter,
-  Button,
 } from "@chakra-ui/react";
 import { useAuth } from "hooks/auth";
 import React, { useRef } from "react";
