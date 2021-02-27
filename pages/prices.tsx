@@ -1,16 +1,30 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import LandingHeader from "@components/shared/LandingHeader";
 import { Heading, useToast } from "@chakra-ui/react";
 import { Check } from "react-feather";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
 import { useRouter } from "next/router";
+import influencersList from "@JSON/unfluencersList";
+
+interface CodeData {
+  name: string;
+  discount: number;
+}
 
 const Prices = () => {
   const router = useRouter();
   const toast = useToast();
+  const [codeData, setCodeData] = useState<CodeData>({ name: "", discount: 0 });
 
   useEffect(() => {
-    console.log(router.query);
+    const { code } = router.query;
+
+    if (code) {
+      const data = influencersList[code as string];
+      if (data) {
+        setCodeData(data);
+      }
+    }
   }, [router]);
 
   const handleNavigate = useCallback(() => {
@@ -28,6 +42,11 @@ const Prices = () => {
       <LandingHeader />
       <div className="flex flex-col items-center justify-center h-screen mx-4 overflow-hidden">
         <div className="flex flex-col items-center justify-center">
+          {codeData.name && (
+            <Heading as="h2" size="xl" fontWeight="semibold" className="mb-8">
+              Promoção de lançamento com {codeData.name}!
+            </Heading>
+          )}
           <Heading as="h1" size="2xl">
             Um preço que cabe no seu bolso!
           </Heading>
@@ -35,9 +54,7 @@ const Prices = () => {
             Você tem 7 dias de graça para poder testar o Mestre de Obra
           </span>
         </div>
-        {/* <Heading as="h2" className="mt-8">
-          Promoção de lançamento!
-        </Heading> */}
+
         <div className="flex flex-col items-center justify-center px-8 py-4 mt-8 border border-black rounded-md">
           <Heading as="h2">Plano mensal</Heading>
           <div className="mt-4">
@@ -46,7 +63,9 @@ const Prices = () => {
               $29
             </span>
             <span className="mx-2 text-lg font-medium">por apenas</span> */}
-            <span className="text-6xl font-extrabold">$29</span>
+            <span className="text-6xl font-extrabold">
+              ${29 - codeData.discount}
+            </span>
             <span className="text-lg font-extrabold">/mês</span>
           </div>
           <ul className="mt-4">
