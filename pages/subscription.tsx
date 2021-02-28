@@ -42,7 +42,12 @@ const Payment: React.FC = () => {
             const stripe = await loadStripe(
               process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
             );
-            await stripe.redirectToCheckout({ sessionId });
+            await stripe.redirectToCheckout({
+              sessionId,
+              cancelUrl: `${process.env.NEXT_PUBLIC_API_URL}/dashboard`,
+              successUrl: `${process.env.NEXT_PUBLIC_API_URL}/dashboard`,
+              locale: "pt-BR",
+            });
           }
         });
       } catch (err) {

@@ -19,6 +19,7 @@ import parseAuthErrors from "utils/parseAuthErrors";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
 import ButtonSecondary from "@components/shared/ButtonSecondary";
 import ForgotPasswordModal from "@components/shared/ForgotPasswordModal";
+import LandingHeader from "@components/shared/LandingHeader";
 
 interface FormData {
   email: string;
@@ -83,6 +84,7 @@ const Login: React.FC = () => {
 
   return (
     <>
+      <LandingHeader />
       <main className="flex flex-col items-center justify-center flex-1 ">
         <Stack spacing={4} className="max-w-96">
           <Heading as="h1" size={isLargerThan750 ? "2xl" : "3xl"} mb={4}>
@@ -97,7 +99,6 @@ const Login: React.FC = () => {
               type="text"
               autoCapitalize="off"
               leftIcon={<Mail size={20} strokeWidth="1.7" />}
-              pr="4.5rem"
               placeholder="E-mail"
             />
             <TextInput

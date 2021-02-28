@@ -14,6 +14,7 @@ import ButtonPrimary from "@components/shared/ButtonPrimary";
 import Checkbox from "@components/shared/Checkbox";
 import createUser from "@functions/auth/createUser";
 import Link from "next/link";
+import LandingHeader from "@components/shared/LandingHeader";
 
 interface FormData {
   email: string;
@@ -93,6 +94,7 @@ const CreateAccount = () => {
 
   return (
     <>
+      <LandingHeader />
       <main className="flex flex-col items-center justify-center flex-1 ">
         <Stack spacing={4} className="max-w-96">
           <Heading as="h1" size={isLargerThan750 ? "2xl" : "3xl"} mb={4}>

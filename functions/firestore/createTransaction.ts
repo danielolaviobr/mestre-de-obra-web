@@ -44,6 +44,7 @@ export default async function createTransaction({
       success_url: `${process.env.NEXT_PUBLIC_API_URL}/upload`, // TODO change to onboarding like
       cancel_url: `${process.env.NEXT_PUBLIC_API_URL}/subscription`,
       allow_promotion_codes: true,
+      locale: "pt-BR",
     });
 
   return transaction;

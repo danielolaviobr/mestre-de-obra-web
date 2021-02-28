@@ -221,6 +221,8 @@ function MyApp({ Component, pageProps }) {
             className={`flex flex-col flex-1 h-full min-h-screen  ${
               pathname !== "/" &&
               pathname !== "/prices" &&
+              pathname !== "/login" &&
+              pathname !== "/create-account" &&
               " mt-11 pt-safe-top mb-11 pb-safe-bottom "
             }`}>
             <Component {...pageProps} />
