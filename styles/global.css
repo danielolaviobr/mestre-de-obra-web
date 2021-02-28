@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .black-btn {
+    @apply flex items-center justify-between w-full px-4 py-3 mt-4 text-lg font-medium text-center text-white bg-black border-2 border-black rounded-md hover:bg-light-black;
+  }
+  .border-btn {
+    @apply flex items-center justify-between w-full px-4 py-3 mt-4 text-lg font-medium text-center border-2 border-black rounded-md hover:bg-gray-100;
+  }
+}
+
+button:active {
+  outline: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* @font-face {
+  font-family: "Proxima Soft";
+  src: url("/fonts/ProximaSoft-Regular.ttf") format("truetype");
+  font-style: regular;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: "Proxima Soft";
+  src: url("/fonts/ProximaSoft-Medium.ttf") format("truetype");
+  font-style: medium;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: "Proxima Soft";
+  src: url("/fonts/ProximaSoft-SemiBold.ttf") format("truetype");
+  font-style: semibold;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: "Proxima Soft";
+  src: url("/fonts/ProximaSoft-Bold.ttf") format("truetype");
+  font-style: bold;
+  font-display: optional;
+} */

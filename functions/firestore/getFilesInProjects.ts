@@ -1,6 +1,7 @@
 import { firestore, storage } from "@firebase";
 
 interface File {
+  id: string;
   name: string;
   url: string;
   project: string;
@@ -30,7 +31,7 @@ export default async function getFilesInProject(projectsNames: string[]) {
     filesCollection.forEach(async (file) => {
       const fileData = file.data() as File;
       if (filesInStorage.includes(fileData.name)) {
-        files.push(fileData);
+        files.push({ ...fileData, id: file.id });
       }
     });
   });

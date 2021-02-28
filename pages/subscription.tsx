@@ -1,31 +1,15 @@
-import {
-  Box,
-  Button,
-  Center,
-  Heading,
-  Input,
-  Select,
-  Spinner,
-  useToast,
-} from "@chakra-ui/react";
-import Menu from "@components/shared/Menu";
-import { auth, firestore, functions } from "@firebase";
+import { Box, Button, useToast } from "@chakra-ui/react";
+import LoadingSpinner from "@components/shared/LoadingSpinner";
+import { functions } from "@firebase";
+import createTransaction from "@functions/firestore/createTransaction";
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
-import React, {
-  FormEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import api from "services/api";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 
 const Payment: React.FC = () => {
   const { user } = useAuth();
   const { push } = useRouter();
-  const [projects, setProjects] = useState([]);
   const toast = useToast();
   const [fileLoading, setFileLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(false);
@@ -36,41 +20,47 @@ const Payment: React.FC = () => {
       setFileLoading(true);
 
       try {
-        const docRef = await firestore
-          .collection("users")
-          .doc(user.uid)
-          .collection("checkout_sessions")
-          .add({
-            price: "price_1HZhqOBmGrCAWM3tGagLpxQJ",
-            success_url: "http://localhost:3000/upload",
-            cancel_url: "http://localhost:3000/dashboard",
-          });
+        const transaction = await createTransaction({
+          uid: user.uid,
+          productName: "Assinatura Mestre de Obra",
+        });
 
-        docRef.onSnapshot(async (snap) => {
+        transaction.onSnapshot(async (snap) => {
           const { error, sessionId } = snap.data();
           if (error) {
-            // Show an error to your customer and inspect
-            // your Cloud Function logs in the Firebase console.
-            alert(`An error occurred: ${error.message}`);
+            toast({
+              position: "top",
+              title: "Erro inesperado",
+              description: `Erro: ${error.message}`,
+              status: "error",
+              duration: 5000,
+              isClosable: true,
+            });
           }
-
           if (sessionId) {
-            // We have a session, let's redirect to Checkout
-            // Init Stripe
             const stripe = await loadStripe(
-              "pk_test_51HN9fvBmGrCAWM3tpFieM9kk5GcSwPnHiXRwgfjnH4xT2UxNSU27haffb8z93l1qkXF3zeyNuOi5L1JedKVA5kMS00Qm3gm17L"
+              process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
             );
-            console.log("redirecting");
-            await stripe.redirectToCheckout({ sessionId });
+            await stripe.redirectToCheckout({
+              sessionId,
+            });
           }
         });
       } catch (err) {
-        console.log(err);
+        toast({
+          position: "top",
+          title: "Erro na conexão",
+          description:
+            "Ocorreu um erro na conexão com nossos servidores, favor tentar novamente.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       } finally {
         setFileLoading(false);
       }
     },
-    [user]
+    [user, toast]
   );
 
   const pushSubscribersToPortal = useCallback(async () => {
@@ -83,7 +73,7 @@ const Payment: React.FC = () => {
 
   useEffect(() => {
     if (user === undefined) {
-      push("/");
+      push("/login");
       return;
     }
 
@@ -91,27 +81,20 @@ const Payment: React.FC = () => {
       setIsPageLoading(true);
       pushSubscribersToPortal();
     }
-
-    setProjects(user.projects);
   }, [user, push, pushSubscribersToPortal]);
 
   if (isPageLoading) {
     return (
-      <Center className="w-screen">
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
+      <div className="flex items-center justify-center w-screen h-screen">
+        <LoadingSpinner
+          style={{ filter: "invert(100%)", height: "30px", width: "30px" }}
         />
-      </Center>
+      </div>
     );
   }
 
   return (
     <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-      <Menu />
       <main className="flex items-center justify-center">
         <Box
           className="flex flex-col px-4 py-6 rounded"

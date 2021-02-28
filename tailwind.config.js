@@ -1,15 +1,31 @@
 module.exports = {
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: false,
   theme: {
     extend: {
+      colors: {
+        "light-black": "#323232",
+        "light-gray": "#727272",
+        "lighter-gray": "#999999",
+      },
       minWidth: {
         "250px": "250px",
+      },
+      screens: {
+        standalone: { raw: "(display-mode: standalone)" },
+      },
+      spacing: {
+        "safe-top": "env(safe-area-inset-top)",
+        "safe-bottom": "env(safe-area-inset-bottom)",
+        "safe-left": "env(safe-area-inset-left)",
+        "safe-right": "env(safe-area-inset-right)",
       },
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      borderWidth: ["hover", "focus"],
+    },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/aspect-ratio")],
 };

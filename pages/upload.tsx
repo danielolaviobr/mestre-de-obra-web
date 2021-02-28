@@ -1,13 +1,12 @@
 import {
   Box,
-  Button,
   Heading,
   ListItem,
-  Select,
   UnorderedList,
   useToast,
 } from "@chakra-ui/react";
-import Menu from "@components/shared/Menu";
+import ButtonPrimary from "@components/shared/ButtonPrimary";
+import SelectInput from "@components/shared/SelectInput";
 import { storage } from "@firebase";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
@@ -43,8 +42,24 @@ const Upload: React.FC = () => {
             isClosable: true,
             duration: 3000,
           });
+
           return;
         }
+
+        if (selectedFiles[key].type !== "application/pdf") {
+          toast({
+            position: "top",
+            title: `O arquivo ${selectedFiles[key].name} não é PDF`,
+            description:
+              "Apenas arquivos do tipo PDF podem ser enviados para o Mestre de Obras.",
+            status: "warning",
+            isClosable: true,
+            duration: 3000,
+          });
+
+          return;
+        }
+
         filesArray.push(selectedFiles[key]);
       });
       setFiles(filesArray);
@@ -104,7 +119,7 @@ const Upload: React.FC = () => {
 
   useEffect(() => {
     if (user === undefined) {
-      push("/");
+      push("/login");
       return;
     }
 
@@ -124,52 +139,43 @@ const Upload: React.FC = () => {
   }, [user, push, toast]);
 
   return (
-    <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-      <Menu />
-      <main className="flex items-center justify-center m">
-        <Box
-          className="flex flex-col px-4 py-6 mx-2 rounded"
-          bg="white"
-          boxShadow="base">
-          <form onSubmit={submitFileForm}>
-            <Heading mb={4}>Adicionar arquivos</Heading>
-            <Select
-              mb={4}
-              placeholder="Selecion o projeto"
-              variant="filled"
-              onChange={handleProjectChange}>
-              {projects.map((project) => (
-                <option key={project} value={project}>
-                  {project}
-                </option>
-              ))}
-            </Select>
-            <Button
-              colorScheme="yellow"
-              as="label"
-              className="mr-4 cursor-pointer">
-              Selecionar arquivos
-              <input
-                id="file-selection"
-                className="hidden"
-                type="file"
-                onChange={handleFileSelection}
-                multiple
-                ref={fileInputRef}
-              />
-            </Button>
-            <Button isLoading={fileLoading} colorScheme="blue" type="submit">
-              Upload File
-            </Button>
-          </form>
-          <UnorderedList mt={4}>
-            {files.map((file) => (
-              <ListItem key={file.name}>{file.name}</ListItem>
+    <div className="flex items-center justify-center flex-1">
+      <Box className="flex flex-col flex-1 max-w-2xl mx-4" bg="white">
+        <form onSubmit={submitFileForm}>
+          <Heading mb={4} size="xl">
+            Adicionar arquivos
+          </Heading>
+          <SelectInput
+            placeholder="Selecione o projeto"
+            onChange={handleProjectChange}>
+            {projects.map((project) => (
+              <option key={project.name} value={project.name}>
+                {project.name}
+              </option>
             ))}
-          </UnorderedList>
-        </Box>
-      </main>
-    </main>
+          </SelectInput>
+          <label className="justify-center border-btn">
+            Selecionar arquivos
+            <input
+              id="file-selection"
+              className="hidden"
+              type="file"
+              onChange={handleFileSelection}
+              multiple
+              ref={fileInputRef}
+            />
+          </label>
+          <ButtonPrimary isLoading={fileLoading} className="justify-center">
+            Enviar arquivos
+          </ButtonPrimary>
+        </form>
+        <UnorderedList mt={4}>
+          {files.map((file) => (
+            <ListItem key={file.name}>{file.name}</ListItem>
+          ))}
+        </UnorderedList>
+      </Box>
+    </div>
   );
 };
 

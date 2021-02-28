@@ -10,7 +10,15 @@ class MyDocument extends Document {
     return (
       <Html lang="pt-br">
         <Head />
-        <body>
+        <body
+          style={{
+            backgroundColor: "#ffffff",
+            WebkitTapHighlightColor: "transparent",
+            WebkitTouchCallout: "none",
+            WebkitUserSelect: "none",
+            MozUserSelect: "none",
+            userSelect: "none",
+          }}>
           <Main />
           <NextScript />
         </body>

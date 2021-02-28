@@ -1,4 +1,5 @@
 import { firestore } from "@firebase";
+import AppError from "utils/AppError";
 
 interface AddViewerToProjectProps {
   phone: string;
@@ -15,10 +16,14 @@ export default async function addViewerToProject({
     .get();
 
   if (projectsData.empty) {
-    throw new Error();
+    throw new AppError("project/project-not-found");
   }
 
   const project = projectsData.docs.map((p) => p)[0];
+
+  if (project.data().numberOfViewers > 5) {
+    throw new AppError("project/max-number-viewers");
+  }
 
   const { id } = project;
 
@@ -33,4 +38,21 @@ export default async function addViewerToProject({
     viewers,
     numberOfViewers,
   });
+
+  const user = await firestore
+    .collection("users")
+    .where("phone", "==", phone)
+    .get();
+
+  if (!user.empty) {
+    user.forEach((doc) => {
+      const userData = doc.data();
+      doc.ref.update({
+        projects: [
+          ...userData.projects,
+          { project: projectName, isCreator: false },
+        ],
+      });
+    });
+  }
 }
