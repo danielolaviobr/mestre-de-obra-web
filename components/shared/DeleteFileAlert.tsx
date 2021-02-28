@@ -7,12 +7,11 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef } from "react";
 import ButtonPrimary from "../shared/ButtonPrimary";
 import ButtonSecondary from "../shared/ButtonSecondary";
 
 interface DeleteFileAlertProps {
-  ref: React.RefObject<undefined>;
   onClose(): void;
   isOpen: boolean;
   fileName: string;
@@ -20,7 +19,6 @@ interface DeleteFileAlertProps {
 }
 
 const DeleteFileAlert = ({
-  ref,
   onClose,
   isOpen,
   fileName,
@@ -30,11 +28,12 @@ const DeleteFileAlert = ({
     onClose();
     action();
   };
+  const cancelRef = useRef();
 
   return (
     <AlertDialog
       motionPreset="slideInBottom"
-      leastDestructiveRef={ref}
+      leastDestructiveRef={cancelRef}
       onClose={onClose}
       isOpen={isOpen}
       isCentered>
@@ -48,11 +47,7 @@ const DeleteFileAlert = ({
           não pode ser desfeita.
         </AlertDialogBody>
         <AlertDialogFooter>
-          <ButtonPrimary
-            type="button"
-            ref={ref}
-            onClick={onClose}
-            className="mx-2">
+          <ButtonPrimary type="button" onClick={onClose} className="mx-2">
             Não
           </ButtonPrimary>
           <ButtonSecondary

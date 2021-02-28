@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback } from "react";
 import { ArrowDown, X } from "react-feather";
 import {
   Box,
@@ -31,7 +31,6 @@ const FileCard: React.FC<FileCardProps> = ({
   isCreator,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const alertRef = useRef();
   const [isLargerThan750, isLargerThan1024] = useMediaQuery([
     "(min-width: 750px)",
     "(min-width: 1024px)",
@@ -83,7 +82,6 @@ const FileCard: React.FC<FileCardProps> = ({
         onClose={onClose}
         action={handleDeleteFile}
         fileName={children as string}
-        ref={alertRef}
       />
     </>
   );

@@ -39,7 +39,6 @@ const PDF = () => {
   const router = useRouter();
   const toast = useToast();
   const { user } = useAuth();
-  const alertRef = useRef();
 
   const getPdfUrl = useCallback(
     async (id: string) => {
@@ -182,7 +181,6 @@ const PDF = () => {
         onClose={onClose}
         action={handleDeleteFile}
         fileName={file.name}
-        ref={alertRef}
       />
     </>
   );

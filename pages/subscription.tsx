@@ -37,7 +37,7 @@ const Payment: React.FC = () => {
               isClosable: true,
             });
           }
-
+          console.log(sessionId);
           if (sessionId) {
             const stripe = await loadStripe(
               process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
