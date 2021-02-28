@@ -1,10 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  Heading,
-  useDisclosure,
-} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { Heading, useDisclosure } from "@chakra-ui/react";
 import { Power } from "react-feather";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
@@ -17,7 +12,6 @@ const DesktopHeader = () => {
   const [activePage, setActivePage] = useState("dashboard");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const alertRef = useRef();
   const router = useRouter();
 
   useEffect(() => {
@@ -32,13 +26,27 @@ const DesktopHeader = () => {
   }, [user]);
 
   return (
-    <div className="fixed top-0 z-10 flex items-center justify-start w-screen pl-8 bg-black h-14 pt-safe-top">
+    <div
+      className={`fixed top-0 z-10 flex items-center justify-center w-screen pl-8 bg-black h-14 pt-safe-top ${
+        (activePage === "" ||
+          activePage === "prices" ||
+          activePage === "login" ||
+          activePage === "create-account") &&
+        " hidden"
+      }`}>
       {isAnonymous || !user ? (
-        <Heading
-          color="white"
-          className="my-8 tracking-tighter justify-self-center">
-          Mestre de Obra
-        </Heading>
+        <Link
+          href={
+            activePage === "login" || activePage === "create-account"
+              ? "/"
+              : "/dashboard"
+          }>
+          <Heading
+            color="white"
+            className="my-8 tracking-tighter cursor-pointer">
+            Mestre de Obra
+          </Heading>
+        </Link>
       ) : (
         <AnimateSharedLayout>
           <div className="flex justify-self-start">
@@ -98,7 +106,7 @@ const DesktopHeader = () => {
             <div className="mr-3 text-lg font-medium text-white">
               <Link href="/subscription">
                 <span className="cursor-pointer">
-                  Pagamento
+                  Assinatura
                   {activePage === "subscription" && (
                     <motion.div
                       className="w-full h-1 bg-white rounded-lg"
@@ -118,9 +126,7 @@ const DesktopHeader = () => {
             onClick={onOpen}>
             <Power size={20} color="white" />
           </button>
-          {isOpen && (
-            <SignOutAlert ref={alertRef} isOpen={isOpen} onClose={onClose} />
-          )}
+          {isOpen && <SignOutAlert isOpen={isOpen} onClose={onClose} />}
         </>
       )}
     </div>

@@ -4,7 +4,7 @@ interface User {
   email: string;
   name: string;
   uid: string;
-  projects: string[];
+  projects: Array<{ name: string; isCreator: boolean }>;
   stripeId: string;
   stripeLink: string;
   isSubscribed: boolean;

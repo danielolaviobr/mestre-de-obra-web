@@ -6,13 +6,16 @@ import { Form } from "@unform/web";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
 import React, {
-  FormEvent,
   useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
 import { Folder } from "react-feather";
+
+interface FormData {
+  project: string;
+}
 
 const CreateProject: React.FC = () => {
   const { user } = useAuth();
@@ -21,14 +24,13 @@ const CreateProject: React.FC = () => {
   const [fileLoading, setFileLoading] = useState(false);
   const projectNameInputRef = useRef<HTMLInputElement>();
 
-  const submitFileForm = useCallback(
-    async (e: FormEvent) => {
-      e.preventDefault();
+  const submitProjectForm = useCallback(
+    async (formData: FormData) => {
       setFileLoading(true);
-      const projectName = projectNameInputRef.current.value;
+      const { project } = formData;
       try {
         await createProject({
-          projectName,
+          projectName: project,
           uid: user.uid,
         });
 
@@ -75,7 +77,7 @@ const CreateProject: React.FC = () => {
 
   useEffect(() => {
     if (user === undefined) {
-      push("/");
+      push("/login");
     }
 
     if (!user.isSubscribed) {
@@ -92,9 +94,9 @@ const CreateProject: React.FC = () => {
   }, [user, push, toast]);
 
   return (
-    <div className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-      <Box className="flex flex-col flex-1 mx-4">
-        <Form onSubmit={submitFileForm}>
+    <div className="flex items-center justify-center flex-1 min-h-screen">
+      <Box className="flex flex-col flex-1 max-w-2xl mx-4">
+        <Form onSubmit={submitProjectForm}>
           <Heading as="h1" size="xl" mb={4}>
             Criar um novo projeto
           </Heading>

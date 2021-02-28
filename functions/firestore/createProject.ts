@@ -42,7 +42,7 @@ export default async function createProject({
     .collection("users")
     .doc(uid)
     .update({
-      projects: [...userProjects, projectName],
+      projects: [...userProjects, { name: projectName, isCreator: true }],
       createdProjectsAmount: userCreatedProjectsAmount + 1,
     });
 }

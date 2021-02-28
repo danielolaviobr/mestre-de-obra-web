@@ -1,8 +1,7 @@
-import React, { useCallback, useRef } from "react";
-import { ArrowDown, Download, X } from "react-feather";
+import React, { useCallback } from "react";
+import { ArrowDown, X } from "react-feather";
 import {
   Box,
-  IconButton,
   Text,
   Tooltip,
   useDisclosure,
@@ -17,8 +16,9 @@ interface FileCardProps {
   id?: string;
   url?: string;
   project: string;
+  isCreator: boolean;
   variants?: Variants;
-  update(boolean): void;
+  update(value: boolean): void;
 }
 
 const FileCard: React.FC<FileCardProps> = ({
@@ -28,9 +28,9 @@ const FileCard: React.FC<FileCardProps> = ({
   variants = {},
   id = "file-not-found",
   update,
+  isCreator,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const alertRef = useRef();
   const [isLargerThan750, isLargerThan1024] = useMediaQuery([
     "(min-width: 750px)",
     "(min-width: 1024px)",
@@ -64,7 +64,7 @@ const FileCard: React.FC<FileCardProps> = ({
             </Text>
           </Box>
         </a>
-        {isLargerThan750 && (
+        {isLargerThan750 && isCreator && (
           <div className="absolute right-6 top-1/4">
             <Tooltip
               hasArrow
@@ -82,7 +82,6 @@ const FileCard: React.FC<FileCardProps> = ({
         onClose={onClose}
         action={handleDeleteFile}
         fileName={children as string}
-        ref={alertRef}
       />
     </>
   );

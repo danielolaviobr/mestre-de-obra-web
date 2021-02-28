@@ -1,4 +1,4 @@
-import { Heading, useToast, Button } from "@chakra-ui/react";
+import { Heading, useToast } from "@chakra-ui/react";
 import FileCard from "@components/Dashboard/FileCard";
 import { v4 as uuid } from "uuid";
 import { useAuth } from "hooks/auth";
@@ -10,12 +10,18 @@ import getFilesInProject from "@functions/firestore/getFilesInProjects";
 import { AnimatePresence, motion } from "framer-motion";
 import ButtonSecondary from "@components/shared/ButtonSecondary";
 import { ArrowUp } from "react-feather";
+import CreatoProjectCTA from "@components/Dashboard/CreatoProjectCTA";
 
 interface File {
   id: string;
   name: string;
   project: string;
   url: string;
+}
+
+interface Project {
+  name: string;
+  isCreator: boolean;
 }
 
 const container = {
@@ -38,7 +44,7 @@ const Dashboard: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [shouldUpdate, setShouldUpdate] = useState(true);
-  const [projects, setProjects] = useState<string[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const { push } = useRouter();
   const toast = useToast();
 
@@ -48,7 +54,9 @@ const Dashboard: React.FC = () => {
     }
     try {
       setIsLoading(true);
-      const newFiles = await getFilesInProject(projects);
+      const newFiles = await getFilesInProject(
+        projects.map((project) => project.name)
+      );
 
       setFiles(newFiles);
     } catch (err) {
@@ -68,7 +76,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     if (!user) {
-      push("/");
+      push("/login");
       return;
     }
 
@@ -88,12 +96,15 @@ const Dashboard: React.FC = () => {
         Projetos
       </Heading>
       <div className="flex flex-col flex-grow p-4 min-w-250px">
+        {projects.length === 0 && <CreatoProjectCTA />}
         {projects.map((project) => {
-          const projectFiles = files.filter((file) => file.project === project);
+          const projectFiles = files.filter(
+            (file) => file.project === project.name
+          );
           return (
             <div key={uuid()} className="max-w-4xl min-w-250px">
               <Heading className="mb-4" as="h2" size="lg" isTruncated>
-                {project}
+                {project.name}
               </Heading>
               {isLoading && <FilesSkeleton />}
               {!isLoading && projectFiles.length === 0 && (
@@ -116,7 +127,8 @@ const Dashboard: React.FC = () => {
                           url={file.url}
                           key={file.id}
                           id={file.id}
-                          project={project}
+                          project={project.name}
+                          isCreator={project.isCreator}
                           variants={listItem}
                           update={setShouldUpdate}>
                           {file.name}

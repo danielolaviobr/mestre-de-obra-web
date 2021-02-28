@@ -6,6 +6,7 @@ import { FormHandles } from "@unform/core";
 import { Form } from "@unform/web";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Phone } from "react-feather";
+import * as Yup from "yup";
 
 import InputMask from "react-input-mask";
 import addViewerToProject from "@functions/firestore/addViewerToProject";
@@ -13,9 +14,15 @@ import ButtonPrimary from "@components/shared/ButtonPrimary";
 import ButtonSecondary from "@components/shared/ButtonSecondary";
 import SelectInput from "@components/shared/SelectInput";
 import ShareModal from "@components/shared/ShareModal";
+import getValidationErrors from "utils/getValidationErrors";
 
 interface FormData {
   phone: string;
+}
+
+interface Project {
+  name: string;
+  isCreator: boolean;
 }
 
 const AddViewerToProject: React.FC = () => {
@@ -24,7 +31,7 @@ const AddViewerToProject: React.FC = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState("");
   const toast = useToast();
 
@@ -39,6 +46,19 @@ const AddViewerToProject: React.FC = () => {
       // TODO Refactor to use Unform on select
       const form = { phone: formData.phone, projectName: selectedProject };
       try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          phone: Yup.string()
+            .required("O telefone é obrigatório")
+            .min(15, "O telefone deve ser um número válido")
+            .notOneOf(
+              [user?.phone || ""],
+              "Não é possível adicionar a si mesmo"
+            ),
+        });
+
+        await schema.validate(formData, { abortEarly: false });
+
         await addViewerToProject(form);
 
         formRef.current.setData({ phone: "" });
@@ -51,12 +71,18 @@ const AddViewerToProject: React.FC = () => {
           duration: 5000,
         });
       } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const validationErrors = getValidationErrors(err);
+          formRef.current?.setErrors(validationErrors);
+          return;
+        }
+        // TODO Tratar errors
         toast({
           position: "top",
           title: "Erro ao adicionar usuário",
           description:
             "Ocorreu um erro ao adicionar o usuário, favor atualizar a página e tentar novamente.",
-          status: "success",
+          status: "error",
           isClosable: true,
           duration: 5000,
         });
@@ -64,12 +90,12 @@ const AddViewerToProject: React.FC = () => {
         setIsLoading(false);
       }
     },
-    [selectedProject, toast]
+    [selectedProject, toast, user]
   );
 
   useEffect(() => {
     if (user === undefined) {
-      push("/");
+      push("/login");
       return;
     }
 
@@ -89,8 +115,8 @@ const AddViewerToProject: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-        <Box className="flex flex-col flex-1 mx-4" bg="white">
+      <div className="flex items-center justify-center flex-1 flex-grow min-h-screen">
+        <Box className="flex flex-col flex-1 max-w-2xl mx-4" bg="white">
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Heading as="h1" size="xl" mb={4}>
               Adicionar um membro
@@ -99,8 +125,8 @@ const AddViewerToProject: React.FC = () => {
               placeholder="Selecione o projeto"
               onChange={handleProjectChange}>
               {projects.map((project) => (
-                <option key={project} value={project}>
-                  {project}
+                <option key={project.name} value={project.name}>
+                  {project.name}
                 </option>
               ))}
             </SelectInput>

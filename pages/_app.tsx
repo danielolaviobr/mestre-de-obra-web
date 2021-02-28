@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import { ChakraProvider, useMediaQuery } from "@chakra-ui/react";
+import { ChakraProvider, useMediaQuery, extendTheme } from "@chakra-ui/react";
 
 import "styles/global.css";
 
@@ -8,9 +8,19 @@ import HookspProvider from "hooks";
 import Header from "@components/shared/Header";
 import NavBar from "@components/shared/NavBar";
 import DesktopHeader from "@components/shared/DesktopHeader";
+import { useRouter } from "next/router";
+
+const theme = extendTheme({
+  colors: {
+    black: {
+      500: "#000000",
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }) {
   const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
+  const { pathname } = useRouter();
 
   return (
     <>
@@ -23,6 +33,31 @@ function MyApp({ Component, pageProps }) {
         <meta name="mobile-web-app-capable" content="yes" />
         <link href="icon-192x192.png" rel="icon" sizes="192x192" />
         <link href="icon-128x128.png" rel="icon" sizes="128x128" />
+
+        {/* <link
+          rel="preload"
+          href="/fonts/ProximaSoft-Regular.ttf"
+          as="font"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          href="/fonts/ProximaSoft-Medium.ttf"
+          as="font"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          href="/fonts/ProximaSoft-SemiBold.ttf"
+          as="font"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          href="/fonts/ProximaSoft-Bold.ttf"
+          as="font"
+          crossOrigin=""
+        /> */}
         <meta
           name="description"
           content="O melhor gerenciador de projetos de obra"
@@ -179,10 +214,17 @@ function MyApp({ Component, pageProps }) {
           media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
         />
       </Head>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <HookspProvider>
           {isLargerThan750 ? <DesktopHeader /> : <Header />}
-          <main className="flex flex-col flex-1 h-full min-h-screen mt-11 pt-safe-top mb-11 pb-safe-bottom">
+          <main
+            className={`flex flex-col flex-1 h-full min-h-screen  ${
+              pathname !== "/" &&
+              pathname !== "/prices" &&
+              pathname !== "/login" &&
+              pathname !== "/create-account" &&
+              " mt-11 pt-safe-top mb-11 pb-safe-bottom "
+            }`}>
             <Component {...pageProps} />
           </main>
           {!isLargerThan750 && <NavBar />}

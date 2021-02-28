@@ -39,8 +39,12 @@ const NavBar = () => {
       className={`fixed bottom-0 z-10 flex items-center justify-between w-screen h-20 px-8 bg-black shadow-sm ${
         isIos && "standalone:pt-6 standalone:h-24"
       }  pb-safe-top ${
-        (router.pathname === "/" ||
-          router.pathname === "/anonymous" ||
+        ((router.pathname !== "/dashboard" &&
+          router.pathname !== "/add-viewer" &&
+          router.pathname !== "/upload" &&
+          router.pathname !== "/subscription" &&
+          !router.pathname.search("pdf") &&
+          router.pathname !== "/create-project") ||
           isAnonymous) &&
         "hidden"
       }`}>

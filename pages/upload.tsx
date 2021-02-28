@@ -119,7 +119,7 @@ const Upload: React.FC = () => {
 
   useEffect(() => {
     if (user === undefined) {
-      push("/");
+      push("/login");
       return;
     }
 
@@ -139,8 +139,8 @@ const Upload: React.FC = () => {
   }, [user, push, toast]);
 
   return (
-    <div className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
-      <Box className="flex flex-col flex-1 mx-4" bg="white">
+    <div className="flex items-center justify-center flex-1">
+      <Box className="flex flex-col flex-1 max-w-2xl mx-4" bg="white">
         <form onSubmit={submitFileForm}>
           <Heading mb={4} size="xl">
             Adicionar arquivos
@@ -149,8 +149,8 @@ const Upload: React.FC = () => {
             placeholder="Selecione o projeto"
             onChange={handleProjectChange}>
             {projects.map((project) => (
-              <option key={project} value={project}>
-                {project}
+              <option key={project.name} value={project.name}>
+                {project.name}
               </option>
             ))}
           </SelectInput>
@@ -166,7 +166,7 @@ const Upload: React.FC = () => {
             />
           </label>
           <ButtonPrimary isLoading={fileLoading} className="justify-center">
-            Upload File
+            Enviar arquivos
           </ButtonPrimary>
         </form>
         <UnorderedList mt={4}>
