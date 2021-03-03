@@ -102,8 +102,8 @@ const Dashboard: React.FC = () => {
             (file) => file.project === project.name
           );
           return (
-            <div key={uuid()} className="max-w-4xl min-w-250px">
-              <Heading className="mb-4" as="h2" size="lg" isTruncated>
+            <div key={uuid()} className="max-w-4xl mb-6 min-w-250px">
+              <Heading mb={2} as="h2" size="lg" isTruncated>
                 {project.name}
               </Heading>
               {isLoading && <FilesSkeleton />}
