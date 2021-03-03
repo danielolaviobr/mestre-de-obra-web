@@ -17,7 +17,6 @@ const CreateProject: React.FC = () => {
   const { push } = useRouter();
   const toast = useToast();
   const [fileLoading, setFileLoading] = useState(false);
-  const projectNameInputRef = useRef<HTMLInputElement>();
 
   const submitProjectForm = useCallback(
     async (formData: FormData) => {
@@ -107,7 +106,6 @@ const CreateProject: React.FC = () => {
           <TextInput
             leftIcon={<Folder size={20} strokeWidth="1.7" />}
             name="project"
-            ref={projectNameInputRef}
             placeholder="Nome do projeto"
           />
           <ButtonPrimary className="justify-center" isLoading={fileLoading}>
