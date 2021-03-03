@@ -9,6 +9,7 @@ const NavBar = () => {
   const [isIos, setIsIos] = useState(true);
   const [activePage, setActivePage] = useState("dashboard");
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [shouldDisplay, setShouldDisplay] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,10 +30,17 @@ const NavBar = () => {
   }, [checkIos]);
 
   useEffect(() => {
-    if (user) {
-      setIsAnonymous(user.isAnonymous);
+    if (!user) {
+      setShouldDisplay(false);
+      return;
     }
+    setShouldDisplay(true);
+    setIsAnonymous(user.isAnonymous);
   }, [user]);
+
+  if (!shouldDisplay) {
+    return null;
+  }
 
   return (
     <footer
