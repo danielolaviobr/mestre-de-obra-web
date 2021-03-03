@@ -101,9 +101,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <main className="relative flex-grow pt-8 min-w-250px standalone:pt-4">
-      <Heading as="h1" size="xl" className="ml-4">
-        Projetos
-      </Heading>
+      <h1 className="ml-4 text-2xl font-bold">Projetos</h1>
       <div className="flex flex-col flex-grow p-4 min-w-250px">
         {projects.length === 0 && <CreatoProjectCTA />}
         {projects.map((project) => {
