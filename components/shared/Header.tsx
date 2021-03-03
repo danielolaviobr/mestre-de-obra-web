@@ -44,7 +44,7 @@ const Header = () => {
         </button>
       )}
       <Heading color="white" className="my-8 tracking-tighter">
-        <Link href="/">Mestre de Obra</Link>
+        <Link href="/dashboard">Mestre de Obra</Link>
       </Heading>
       {user && (
         <>
