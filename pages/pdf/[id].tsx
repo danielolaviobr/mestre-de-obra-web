@@ -27,6 +27,7 @@ const PDF = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [url, setUrl] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [isCreator, setIsCreator] = useState(false);
   const [file, setFile] = useState<File>({
     name: "",
     url: "",
@@ -115,10 +116,13 @@ const PDF = () => {
   useEffect(() => {
     if (!user) {
       router.push("/login");
-    } else {
-      setIsAnonymous(user.isAnonymous);
     }
-  }, [user, router]);
+    setIsAnonymous(user.isAnonymous);
+    const currentProject = user.projects.filter(
+      (project) => project.name === file.project
+    );
+    setIsCreator(currentProject[0]?.isCreator);
+  }, [user, router, file]);
 
   return (
     <>
@@ -171,9 +175,11 @@ const PDF = () => {
             onClick={() => setCrop({ x: 0, y: 0, scale: 1 })}>
             Centralizar
           </ButtonSecondary>
-          <ButtonSecondary type="button" icon={<X />} onClick={onOpen}>
-            Deletar arquivo
-          </ButtonSecondary>
+          {isCreator && (
+            <ButtonSecondary type="button" icon={<X />} onClick={onOpen}>
+              Deletar arquivo
+            </ButtonSecondary>
+          )}
         </div>
       </div>
       <DeleteFileAlert

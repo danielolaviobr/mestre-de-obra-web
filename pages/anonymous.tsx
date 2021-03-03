@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Box, Button, Heading } from "@chakra-ui/react";
+import { Box, Button, Heading, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Form } from "@unform/web";
 import { FormHandles } from "@unform/core";
@@ -9,6 +9,7 @@ import InputMask from "react-input-mask";
 import { useAuth } from "hooks/auth";
 import TextInput from "@components/shared/TextInput";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
+import parseAuthErrors from "utils/parseAuthErrors";
 
 interface FormData {
   phone: string;
@@ -16,6 +17,7 @@ interface FormData {
 
 const Anonymous: React.FC = () => {
   const { anonymousSignIn, user } = useAuth();
+  const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const { push } = useRouter();
   const formRef = useRef<FormHandles>();
@@ -27,12 +29,21 @@ const Anonymous: React.FC = () => {
       try {
         await anonymousSignIn(phone);
       } catch (err) {
-        console.log(err);
+        const { title, description } = parseAuthErrors(err.code);
+
+        toast({
+          position: "top",
+          title,
+          description,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       } finally {
         setIsLoading(false);
       }
     },
-    [anonymousSignIn]
+    [anonymousSignIn, toast]
   );
 
   useEffect(() => {

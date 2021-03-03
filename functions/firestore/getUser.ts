@@ -13,14 +13,11 @@ interface User {
 }
 
 export default async function getUser(uid: string) {
-  const userData = await firestore
-    .collection("users")
-    .doc(uid as string)
-    .get();
+  const userData = await firestore.collection("users").doc(uid).get();
 
   const userSubscription = await firestore
     .collection("users")
-    .doc(uid as string)
+    .doc(uid)
     .collection("subscriptions")
     .where("status", "==", "active")
     .get();
@@ -39,11 +36,27 @@ export default async function getUser(uid: string) {
     stripeLink,
   } = userData.data();
 
+  let allUserProjects = projects;
+
+  const viewerProjects = await firestore
+    .collection("projects")
+    .where("viewers", "array-contains", phone)
+    .get();
+
+  if (!viewerProjects.empty) {
+    const viewerProjectsData = viewerProjects.docs.map((proj) => ({
+      name: proj.data().name,
+      isCreator: false,
+    }));
+
+    allUserProjects = [...projects, ...viewerProjectsData];
+  }
+
   const user: User = {
     email,
     name,
     uid: userId,
-    projects,
+    projects: allUserProjects,
     phone,
     stripeId,
     stripeLink,

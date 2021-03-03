@@ -12,6 +12,7 @@ export default function parseAuthErrors(error: string): ToastMessage {
         description: "Este e-mail já está cadastrado, favor inserir outro.",
       };
       break;
+
     case "auth/phone-already-exists":
       toastMessage = {
         title: "Telefone já cadastrado",
@@ -34,6 +35,7 @@ export default function parseAuthErrors(error: string): ToastMessage {
           "A senha informada é invalida, favor verificar e tentar novamente.",
       };
       break;
+
     case "auth/email-already-in-use":
       toastMessage = {
         title: "E-mail já cadastrado",
@@ -41,11 +43,20 @@ export default function parseAuthErrors(error: string): ToastMessage {
           "O e-mail informado já está cadastrado no Mestre de Obras.",
       };
       break;
+
     case "auth/too-many-requests":
       toastMessage = {
         title: "Vai mais devagar",
         description:
           "Você tentou fazer isso muitas vezes, aguarde um pouco e tente novamente.",
+      };
+      break;
+
+    case "auth/authenticated-user":
+      toastMessage = {
+        title: "Telefone já cadastrado",
+        description:
+          "Este telefone já está cadastrado, favor acessar sua conta usando e-mail e senha.",
       };
       break;
 
