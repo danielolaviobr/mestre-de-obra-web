@@ -157,11 +157,13 @@ const Upload: React.FC = () => {
           <SelectInput
             placeholder="Selecione o projeto"
             onChange={handleProjectChange}>
-            {projects.map((project) => (
-              <option key={project.name} value={project.name}>
-                {project.name}
-              </option>
-            ))}
+            {projects
+              .filter((project) => project.isCreator === true)
+              .map((project) => (
+                <option key={project.name} value={project.name}>
+                  {project.name}
+                </option>
+              ))}
           </SelectInput>
           <label className="justify-center border-btn">
             Selecionar arquivos
