@@ -1,3 +1,5 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false,
@@ -7,6 +9,7 @@ module.exports = {
         "light-black": "#323232",
         "light-gray": "#727272",
         "lighter-gray": "#999999",
+        ...colors,
       },
       minWidth: {
         "250px": "250px",
