@@ -116,13 +116,22 @@ const PDF = () => {
   useEffect(() => {
     if (!user) {
       router.push("/login");
+      toast({
+        position: "top",
+        title: "Usuário não autenticado",
+        description:
+          "Você não têm permissão de acessar essa pagina, faça o seu login para poder visualizar.",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+      });
     }
     setIsAnonymous(user.isAnonymous);
     const currentProject = user.projects.filter(
       (project) => project.name === file.project
     );
     setIsCreator(currentProject[0]?.isCreator);
-  }, [user, router, file]);
+  }, [user, router, file, toast]);
 
   return (
     <>

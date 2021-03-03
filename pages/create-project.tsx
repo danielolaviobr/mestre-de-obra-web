@@ -5,12 +5,7 @@ import createProject from "@functions/firestore/createProject";
 import { Form } from "@unform/web";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Folder } from "react-feather";
 
 interface FormData {
@@ -76,8 +71,17 @@ const CreateProject: React.FC = () => {
   );
 
   useEffect(() => {
-    if (user === undefined) {
+    if (!user) {
       push("/login");
+      toast({
+        position: "top",
+        title: "Usuário não autenticado",
+        description:
+          "Você não têm permissão de acessar essa pagina, faça o seu login para poder visualizar.",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+      });
     }
 
     if (!user.isSubscribed) {

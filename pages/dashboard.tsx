@@ -77,11 +77,20 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     if (!user) {
       push("/login");
+      toast({
+        position: "top",
+        title: "Usuário não autenticado",
+        description:
+          "Você não têm permissão de acessar essa pagina, faça o seu login para poder visualizar.",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+      });
       return;
     }
 
     setProjects(user.projects);
-  }, [user, push]);
+  }, [user, push, toast]);
 
   useEffect(() => {
     fetchFiles();

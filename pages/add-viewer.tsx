@@ -94,8 +94,17 @@ const AddViewerToProject: React.FC = () => {
   );
 
   useEffect(() => {
-    if (user === undefined) {
+    if (!user) {
       push("/login");
+      toast({
+        position: "top",
+        title: "Usuário não autenticado",
+        description:
+          "Você não têm permissão de acessar essa pagina, faça o seu login para poder visualizar.",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+      });
       return;
     }
 
