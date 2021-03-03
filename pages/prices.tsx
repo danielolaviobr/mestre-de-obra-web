@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import LandingHeader from "@components/shared/LandingHeader";
-import { Heading, useToast } from "@chakra-ui/react";
+import { Heading, useMediaQuery, useToast } from "@chakra-ui/react";
 import { Check } from "react-feather";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
 import { useRouter } from "next/router";
@@ -12,6 +12,7 @@ interface CodeData {
 }
 
 const Prices = () => {
+  const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
   const router = useRouter();
   const toast = useToast();
   const [codeData, setCodeData] = useState<CodeData>({ name: "", discount: 0 });
@@ -39,7 +40,7 @@ const Prices = () => {
   }, [router, toast]);
   return (
     <div className="relative flex flex-col overflow-hidden">
-      <LandingHeader />
+      {isLargerThan750 && <LandingHeader />}
       <div className="flex flex-col items-center justify-center h-screen mx-4 overflow-hidden">
         <div className="flex flex-col items-center justify-center">
           {codeData.name && (

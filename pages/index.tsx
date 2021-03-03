@@ -1,5 +1,5 @@
 import React from "react";
-import { Heading } from "@chakra-ui/react";
+import { Heading, useMediaQuery } from "@chakra-ui/react";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -7,11 +7,12 @@ import Image from "next/image";
 import LandingHeader from "@components/shared/LandingHeader";
 
 const LadingPage = () => {
+  const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
   const router = useRouter();
 
   return (
     <div className="relative flex flex-col overflow-hidden">
-      <LandingHeader />
+      {isLargerThan750 && <LandingHeader />}
       <div className="flex items-center justify-center h-screen mx-4 overflow-hidden">
         <div className="flex flex-col items-start ml-56 mr-auto -mt-48">
           <motion.div
