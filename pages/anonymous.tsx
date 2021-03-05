@@ -55,29 +55,24 @@ const Anonymous: React.FC = () => {
   return (
     <main className="flex items-center justify-center flex-1 min-h-screen min-w-screen">
       <main className="flex items-center justify-center">
-        <Box
-          className="flex flex-col px-4 py-6 rounded"
-          bg="white"
-          boxShadow="base">
-          <Form ref={formRef} onSubmit={handleSubmit}>
-            <Heading as="h1" size="lg" mb={4}>
-              Acessar Mestre de Obra
-            </Heading>
-            <TextInput
-              name="phone"
-              leftIcon={<Phone />}
-              variant="outline"
-              pr="4.5rem"
-              type="text"
-              placeholder="Telefone"
-              as={InputMask}
-              mask="(99) 99999-9999"
-            />
-            <ButtonPrimary isLoading={isLoading} icon={<ChevronRight />}>
-              Entrar
-            </ButtonPrimary>
-          </Form>
-        </Box>
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <Heading as="h1" size="lg" mb={4}>
+            Acessar Mestre de Obra
+          </Heading>
+          <TextInput
+            name="phone"
+            leftIcon={<Phone />}
+            variant="outline"
+            pr="4.5rem"
+            type="text"
+            placeholder="Telefone"
+            as={InputMask}
+            mask="(99) 99999-9999"
+          />
+          <ButtonPrimary isLoading={isLoading} icon={<ChevronRight />}>
+            Entrar
+          </ButtonPrimary>
+        </Form>
       </main>
     </main>
   );
