@@ -42,7 +42,9 @@ const Header = () => {
       <Heading color="white" className="my-8 tracking-tighter">
         <Link
           href={
-            currentPath === "login" || currentPath === "create-account"
+            currentPath === "login" ||
+            currentPath === "create-account" ||
+            currentPath === "anonymous"
               ? "/"
               : "/dashboard"
           }>
