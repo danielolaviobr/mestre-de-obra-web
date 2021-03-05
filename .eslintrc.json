@@ -111,7 +111,8 @@
     "react/button-has-type": "off",
     "react/jsx-one-expression-per-line": "off",
     "react/require-default-props": "off",
-    "jsx-a11y/anchor-is-valid": "off"
+    "jsx-a11y/anchor-is-valid": "off",
+    "max-len": "off"
   },
   "env": {
     "browser": true,

@@ -38,18 +38,20 @@ export default async function getUser(uid: string) {
 
   let allUserProjects = projects;
 
-  const viewerProjects = await firestore
-    .collection("projects")
-    .where("viewers", "array-contains", phone)
-    .get();
+  if (phone) {
+    const viewerProjects = await firestore
+      .collection("projects")
+      .where("viewers", "array-contains", phone)
+      .get();
 
-  if (!viewerProjects.empty) {
-    const viewerProjectsData = viewerProjects.docs.map((proj) => ({
-      name: proj.data().name,
-      isCreator: false,
-    }));
+    if (!viewerProjects.empty) {
+      const viewerProjectsData = viewerProjects.docs.map((proj) => ({
+        name: proj.data().name,
+        isCreator: false,
+      }));
 
-    allUserProjects = [...projects, ...viewerProjectsData];
+      allUserProjects = [...projects, ...viewerProjectsData];
+    }
   }
 
   const user: User = {

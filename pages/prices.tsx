@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import LandingHeader from "@components/shared/LandingHeader";
-import { Heading, useMediaQuery, useToast } from "@chakra-ui/react";
+import { Heading, useToast } from "@chakra-ui/react";
 import { Check } from "react-feather";
 import ButtonPrimary from "@components/shared/ButtonPrimary";
 import { useRouter } from "next/router";
@@ -12,7 +11,6 @@ interface CodeData {
 }
 
 const Prices = () => {
-  const [isLargerThan750] = useMediaQuery("(min-width: 750px)");
   const router = useRouter();
   const toast = useToast();
   const [codeData, setCodeData] = useState<CodeData>({ name: "", discount: 0 });
@@ -40,7 +38,6 @@ const Prices = () => {
   }, [router, toast]);
   return (
     <div className="relative flex flex-col overflow-hidden">
-      {isLargerThan750 && <LandingHeader />}
       <div className="flex flex-col items-center justify-center h-screen mx-4 overflow-hidden">
         <div className="flex flex-col items-center justify-center">
           {codeData.name && (
@@ -59,11 +56,6 @@ const Prices = () => {
         <div className="flex flex-col items-center justify-center px-8 py-4 mt-8 border border-black rounded-md">
           <Heading as="h2">Plano mensal</Heading>
           <div className="mt-4">
-            {/* <span className="mr-2 text-lg font-medium">De</span>
-            <span className="text-5xl font-extrabold line-through text-lighter-gray">
-              $29
-            </span>
-            <span className="mx-2 text-lg font-medium">por apenas</span> */}
             <span className="text-6xl font-extrabold">
               ${29 - codeData.discount}
             </span>

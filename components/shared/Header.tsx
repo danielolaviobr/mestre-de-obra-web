@@ -9,6 +9,7 @@ import SignOutAlert from "./SignOutAlert";
 const Header = () => {
   const { user } = useAuth();
   const [isIos, setIsIos] = useState(true);
+  const [activePage, setActivePage] = useState("dashboard");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [currentPath, setCurrentPath] = useState("dashboard");
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,6 +32,11 @@ const Header = () => {
     }
   }, [checkIos, user, router]);
 
+  useEffect(() => {
+    const currentPage = router.pathname.split("/")[1];
+    setActivePage(currentPage);
+  }, [router]);
+
   return (
     <div
       className={`fixed top-0 z-10 flex items-center justify-center w-screen bg-black shadow-sm ${
@@ -44,7 +50,14 @@ const Header = () => {
         </button>
       )}
       <Heading color="white" className="my-8 tracking-tighter">
-        <Link href="/dashboard">Mestre de Obra</Link>
+        <Link
+          href={
+            activePage === "login" || activePage === "create-account"
+              ? "/"
+              : "/dashboard"
+          }>
+          Mestre de Obra
+        </Link>
       </Heading>
       {user && (
         <>

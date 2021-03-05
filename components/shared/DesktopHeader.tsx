@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { AnimateSharedLayout, motion } from "framer-motion";
 import SignOutAlert from "./SignOutAlert";
+import LandingHeader from "./LandingHeader";
 
 const DesktopHeader = () => {
   const { user } = useAuth();
@@ -25,15 +26,17 @@ const DesktopHeader = () => {
     }
   }, [user]);
 
+  if (
+    activePage === "" ||
+    activePage === "prices" ||
+    activePage === "login" ||
+    activePage === "create-account"
+  ) {
+    return <LandingHeader />;
+  }
+
   return (
-    <div
-      className={`fixed top-0 z-10 flex items-center justify-center w-screen pl-8 bg-black h-14 pt-safe-top ${
-        (activePage === "" ||
-          activePage === "prices" ||
-          activePage === "login" ||
-          activePage === "create-account") &&
-        " hidden"
-      }`}>
+    <div className="fixed top-0 z-10 flex items-center justify-center w-screen pl-8 bg-black h-14 pt-safe-top">
       {isAnonymous || !user ? (
         <Link
           href={
