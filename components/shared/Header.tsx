@@ -9,8 +9,6 @@ import SignOutAlert from "./SignOutAlert";
 const Header = () => {
   const { user } = useAuth();
   const [isIos, setIsIos] = useState(true);
-  const [activePage, setActivePage] = useState("dashboard");
-  const [isAnonymous, setIsAnonymous] = useState(false);
   const [currentPath, setCurrentPath] = useState("dashboard");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
@@ -26,23 +24,15 @@ const Header = () => {
 
   useEffect(() => {
     setIsIos(checkIos());
-    setCurrentPath(router.pathname.split("/")[1]);
-    if (user) {
-      setIsAnonymous(user.isAnonymous);
-    }
-  }, [checkIos, user, router]);
-
-  useEffect(() => {
-    const currentPage = router.pathname.split("/")[1];
-    setActivePage(currentPage);
-  }, [router]);
+    setCurrentPath(router?.pathname.split("/")[1]);
+  }, [checkIos, router]);
 
   return (
     <div
       className={`fixed top-0 z-10 flex items-center justify-center w-screen bg-black shadow-sm ${
         isIos && " standalone:pb-4 standalone:h-20 "
       } h-14 pt-safe-top`}>
-      {isAnonymous && !isLargerThan750 && currentPath === "pdf" && (
+      {!isLargerThan750 && currentPath === "pdf" && (
         <button
           className="absolute left-0 ml-8 focus:outline-none"
           onClick={() => router.push("/dashboard")}>
@@ -52,7 +42,7 @@ const Header = () => {
       <Heading color="white" className="my-8 tracking-tighter">
         <Link
           href={
-            activePage === "login" || activePage === "create-account"
+            currentPath === "login" || currentPath === "create-account"
               ? "/"
               : "/dashboard"
           }>

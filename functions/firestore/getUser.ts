@@ -36,29 +36,11 @@ export default async function getUser(uid: string) {
     stripeLink,
   } = userData.data();
 
-  let allUserProjects = projects;
-
-  if (phone) {
-    const viewerProjects = await firestore
-      .collection("projects")
-      .where("viewers", "array-contains", phone)
-      .get();
-
-    if (!viewerProjects.empty) {
-      const viewerProjectsData = viewerProjects.docs.map((proj) => ({
-        name: proj.data().name,
-        isCreator: false,
-      }));
-
-      allUserProjects = [...projects, ...viewerProjectsData];
-    }
-  }
-
   const user: User = {
     email,
     name,
     uid: userId,
-    projects: allUserProjects,
+    projects,
     phone,
     stripeId,
     stripeLink,

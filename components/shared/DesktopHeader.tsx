@@ -16,7 +16,7 @@ const DesktopHeader = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const currentPage = router.pathname.split("/")[1];
+    const currentPage = router?.pathname.split("/")[1];
     setActivePage(currentPage);
   }, [router]);
 
