@@ -44,6 +44,8 @@ const AddViewerToProject: React.FC = () => {
   const handleSubmit = useCallback(
     async (formData: FormData) => {
       // TODO Refactor to use Unform on select
+      setIsLoading(true);
+
       const form = { phone: formData.phone, projectName: selectedProject };
       try {
         formRef.current?.setErrors({});
