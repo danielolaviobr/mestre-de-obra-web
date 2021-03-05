@@ -85,7 +85,7 @@ const PDF = () => {
       drag: {
         initial: () => [crop.x, crop.y],
       },
-      pinch: { distanceBounds: { min: -150, max: 300 } },
+      pinch: { distanceBounds: { min: -150, max: 800 } },
       domTarget: pdfRef,
       eventOptions: { passive: false },
     }
