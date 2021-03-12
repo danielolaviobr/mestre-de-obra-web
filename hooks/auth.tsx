@@ -59,12 +59,20 @@ export const AuthProvider: React.FC = ({
 
   const signIn = useCallback(async (credentials: SignInCredentials) => {
     try {
-      const authenticadedUser = await auth.signInWithEmailAndPassword(
-        credentials.email,
-        credentials.password
-      );
+      let uid: string;
 
-      const userData = await getUser(authenticadedUser.user.uid);
+      if (!auth.currentUser) {
+        const authenticadedUser = await auth.signInWithEmailAndPassword(
+          credentials.email,
+          credentials.password
+        );
+
+        uid = authenticadedUser.user.uid;
+      } else {
+        uid = auth.currentUser.uid;
+      }
+
+      const userData = await getUser(uid);
 
       if (!userData) {
         throw new Error("No user found on DB");
@@ -72,7 +80,6 @@ export const AuthProvider: React.FC = ({
 
       if (typeof window !== "undefined") {
         const storedUser = localStorage.getItem("@MestreDeObra:user");
-
         if (JSON.parse(storedUser) !== userData) {
           localStorage.setItem("@MestreDeObra:user", JSON.stringify(userData));
           setUser(userData);

@@ -11,7 +11,7 @@ export default async function createUser({
   password,
   email,
   phone,
-}: CreateUserProps) {
+}: CreateUserProps): Promise<boolean> {
   const user = await firestore
     .collection("users")
     .where("phone", "==", phone)
@@ -22,8 +22,19 @@ export default async function createUser({
   }
 
   const userData = await auth.createUserWithEmailAndPassword(email, password);
+  firestore
+    .collection("users")
+    .doc(userData.user.uid)
+    .onSnapshot({
+      next: async (snapshot) => {
+        if (snapshot.exists) {
+          return snapshot.ref.update({ phone });
+        }
+      },
+      error: (err) => {
+        throw new AppError(err.code);
+      },
+    });
 
-  await firestore.collection("users").doc(userData.user.uid).update({
-    phone,
-  });
+  return true;
 }

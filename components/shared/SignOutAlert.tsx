@@ -7,6 +7,7 @@ import {
   AlertDialogFooter,
 } from "@chakra-ui/react";
 import { useAuth } from "hooks/auth";
+import { useRouter } from "next/router";
 import React, { useRef } from "react";
 import ButtonPrimary from "./ButtonPrimary";
 import ButtonSecondary from "./ButtonSecondary";
@@ -17,12 +18,14 @@ interface SignOutAlertProps {
 }
 
 const SignOutAlert = ({ onClose, isOpen }: SignOutAlertProps) => {
+  const router = useRouter();
   const { signOut } = useAuth();
-  const handleSignOut = () => {
-    onClose();
-    signOut();
-  };
   const cancelRef = useRef();
+  const handleSignOut = async () => {
+    router.push("/");
+    onClose();
+    await signOut();
+  };
   return (
     <AlertDialog
       motionPreset="slideInBottom"

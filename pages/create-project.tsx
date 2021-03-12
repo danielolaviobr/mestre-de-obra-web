@@ -5,12 +5,7 @@ import createProject from "@functions/firestore/createProject";
 import { Form } from "@unform/web";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Folder } from "react-feather";
 
 interface FormData {
@@ -22,7 +17,6 @@ const CreateProject: React.FC = () => {
   const { push } = useRouter();
   const toast = useToast();
   const [fileLoading, setFileLoading] = useState(false);
-  const projectNameInputRef = useRef<HTMLInputElement>();
 
   const submitProjectForm = useCallback(
     async (formData: FormData) => {
@@ -76,8 +70,17 @@ const CreateProject: React.FC = () => {
   );
 
   useEffect(() => {
-    if (user === undefined) {
+    if (!user) {
       push("/login");
+      toast({
+        position: "top",
+        title: "Usuário não autenticado",
+        description:
+          "Você não têm permissão de acessar essa pagina, faça o seu login para poder visualizar.",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+      });
     }
 
     if (!user.isSubscribed) {
@@ -103,7 +106,6 @@ const CreateProject: React.FC = () => {
           <TextInput
             leftIcon={<Folder size={20} strokeWidth="1.7" />}
             name="project"
-            ref={projectNameInputRef}
             placeholder="Nome do projeto"
           />
           <ButtonPrimary className="justify-center" isLoading={fileLoading}>
