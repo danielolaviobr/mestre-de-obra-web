@@ -13,14 +13,11 @@ interface User {
 }
 
 export default async function getUser(uid: string) {
-  const userData = await firestore
-    .collection("users")
-    .doc(uid as string)
-    .get();
+  const userData = await firestore.collection("users").doc(uid).get();
 
   const userSubscription = await firestore
     .collection("users")
-    .doc(uid as string)
+    .doc(uid)
     .collection("subscriptions")
     .where("status", "==", "active")
     .get();

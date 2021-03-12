@@ -77,11 +77,20 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     if (!user) {
       push("/login");
+      toast({
+        position: "top",
+        title: "Usuário não autenticado",
+        description:
+          "Você não têm permissão de acessar essa pagina, faça o seu login para poder visualizar.",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+      });
       return;
     }
 
     setProjects(user.projects);
-  }, [user, push]);
+  }, [user, push, toast]);
 
   useEffect(() => {
     fetchFiles();
@@ -92,9 +101,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <main className="relative flex-grow pt-8 min-w-250px standalone:pt-4">
-      <Heading as="h1" size="xl" className="ml-4">
-        Projetos
-      </Heading>
+      <h1 className="ml-4 text-2xl font-bold">Projetos</h1>
       <div className="flex flex-col flex-grow p-4 min-w-250px">
         {projects.length === 0 && <CreatoProjectCTA />}
         {projects.map((project) => {
@@ -102,8 +109,8 @@ const Dashboard: React.FC = () => {
             (file) => file.project === project.name
           );
           return (
-            <div key={uuid()} className="max-w-4xl min-w-250px">
-              <Heading className="mb-4" as="h2" size="lg" isTruncated>
+            <div key={uuid()} className="max-w-4xl mb-6 min-w-250px">
+              <Heading mb={2} as="h2" size="lg" isTruncated>
                 {project.name}
               </Heading>
               {isLoading && <FilesSkeleton />}

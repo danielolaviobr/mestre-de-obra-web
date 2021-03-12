@@ -44,6 +44,8 @@ const AddViewerToProject: React.FC = () => {
   const handleSubmit = useCallback(
     async (formData: FormData) => {
       // TODO Refactor to use Unform on select
+      setIsLoading(true);
+
       const form = { phone: formData.phone, projectName: selectedProject };
       try {
         formRef.current?.setErrors({});
@@ -94,8 +96,17 @@ const AddViewerToProject: React.FC = () => {
   );
 
   useEffect(() => {
-    if (user === undefined) {
+    if (!user) {
       push("/login");
+      toast({
+        position: "top",
+        title: "Usuário não autenticado",
+        description:
+          "Você não têm permissão de acessar essa pagina, faça o seu login para poder visualizar.",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+      });
       return;
     }
 
@@ -124,11 +135,13 @@ const AddViewerToProject: React.FC = () => {
             <SelectInput
               placeholder="Selecione o projeto"
               onChange={handleProjectChange}>
-              {projects.map((project) => (
-                <option key={project.name} value={project.name}>
-                  {project.name}
-                </option>
-              ))}
+              {projects
+                .filter((project) => project.isCreator === true)
+                .map((project) => (
+                  <option key={project.name} value={project.name}>
+                    {project.name}
+                  </option>
+                ))}
             </SelectInput>
             <TextInput
               name="phone"

@@ -32,7 +32,7 @@ export default async function addViewerToProject({
   projectViewers.push(phone);
 
   const viewers = [...new Set(projectViewers)];
-  const numberOfViewers = project.data().numberOfViewers + 1;
+  const numberOfViewers = viewers.length;
 
   await firestore.collection("projects").doc(id).update({
     viewers,
@@ -50,7 +50,7 @@ export default async function addViewerToProject({
       doc.ref.update({
         projects: [
           ...userData.projects,
-          { project: projectName, isCreator: false },
+          { name: projectName, isCreator: false },
         ],
       });
     });

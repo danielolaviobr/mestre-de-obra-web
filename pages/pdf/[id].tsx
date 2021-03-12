@@ -27,6 +27,7 @@ const PDF = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [url, setUrl] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [isCreator, setIsCreator] = useState(false);
   const [file, setFile] = useState<File>({
     name: "",
     url: "",
@@ -84,7 +85,7 @@ const PDF = () => {
       drag: {
         initial: () => [crop.x, crop.y],
       },
-      pinch: { distanceBounds: { min: -150, max: 300 } },
+      pinch: { distanceBounds: { min: -150, max: 800 } },
       domTarget: pdfRef,
       eventOptions: { passive: false },
     }
@@ -115,10 +116,22 @@ const PDF = () => {
   useEffect(() => {
     if (!user) {
       router.push("/login");
-    } else {
-      setIsAnonymous(user.isAnonymous);
+      toast({
+        position: "top",
+        title: "Usuário não autenticado",
+        description:
+          "Você não têm permissão de acessar essa pagina, faça o seu login para poder visualizar.",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+      });
     }
-  }, [user, router]);
+    setIsAnonymous(user.isAnonymous);
+    const currentProject = user.projects.filter(
+      (project) => project.name === file.project
+    );
+    setIsCreator(currentProject[0]?.isCreator);
+  }, [user, router, file, toast]);
 
   return (
     <>
@@ -171,9 +184,11 @@ const PDF = () => {
             onClick={() => setCrop({ x: 0, y: 0, scale: 1 })}>
             Centralizar
           </ButtonSecondary>
-          <ButtonSecondary type="button" icon={<X />} onClick={onOpen}>
-            Deletar arquivo
-          </ButtonSecondary>
+          {isCreator && (
+            <ButtonSecondary type="button" icon={<X />} onClick={onOpen}>
+              Deletar arquivo
+            </ButtonSecondary>
+          )}
         </div>
       </div>
       <DeleteFileAlert

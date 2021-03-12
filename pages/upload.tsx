@@ -118,8 +118,17 @@ const Upload: React.FC = () => {
   );
 
   useEffect(() => {
-    if (user === undefined) {
+    if (!user) {
       push("/login");
+      toast({
+        position: "top",
+        title: "Usuário não autenticado",
+        description:
+          "Você não têm permissão de acessar essa pagina, faça o seu login para poder visualizar.",
+        status: "warning",
+        isClosable: true,
+        duration: 5000,
+      });
       return;
     }
 
@@ -148,11 +157,13 @@ const Upload: React.FC = () => {
           <SelectInput
             placeholder="Selecione o projeto"
             onChange={handleProjectChange}>
-            {projects.map((project) => (
-              <option key={project.name} value={project.name}>
-                {project.name}
-              </option>
-            ))}
+            {projects
+              .filter((project) => project.isCreator === true)
+              .map((project) => (
+                <option key={project.name} value={project.name}>
+                  {project.name}
+                </option>
+              ))}
           </SelectInput>
           <label className="justify-center border-btn">
             Selecionar arquivos

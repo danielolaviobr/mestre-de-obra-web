@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const LandingHeader = () => (
-  <div className="fixed flex items-center justify-between w-screen px-8 my-8">
+  <div className="fixed z-10 flex items-center justify-between w-screen px-8 my-8">
     <Link href="/">
       <a>
         <Image
