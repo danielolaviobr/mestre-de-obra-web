@@ -5,7 +5,7 @@ import createProject from "@functions/firestore/createProject";
 import { Form } from "@unform/web";
 import { useAuth } from "hooks/auth";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Folder } from "react-feather";
 
 interface FormData {
@@ -13,7 +13,7 @@ interface FormData {
 }
 
 const CreateProject: React.FC = () => {
-  const { user } = useAuth();
+  const { user, revalidateStoredUser } = useAuth();
   const { push } = useRouter();
   const toast = useToast();
   const [fileLoading, setFileLoading] = useState(false);
@@ -27,6 +27,8 @@ const CreateProject: React.FC = () => {
           projectName: project,
           uid: user.uid,
         });
+
+        await revalidateStoredUser();
 
         toast({
           position: "top",

@@ -32,6 +32,7 @@ interface AuthContextData {
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): Promise<void>;
   anonymousSignIn(phone: string): Promise<void>;
+  revalidateStoredUser(): Promise<void>;
 }
 
 const initialAuthData: AuthContextData = undefined;
@@ -114,6 +115,19 @@ export const AuthProvider: React.FC = ({
     }
   }, []);
 
+  const revalidateStoredUser = useCallback(async () => {
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("@MestreDeObra:user");
+
+      const userData = await getUser(auth.currentUser.uid);
+
+      if (!isEqual(JSON.parse(storedUser), userData)) {
+        localStorage.setItem("@MestreDeObra:user", JSON.stringify(userData));
+        setUser(userData);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     auth.onIdTokenChanged(async (firebaseUser) => {
       if (firebaseUser) {
@@ -161,7 +175,8 @@ export const AuthProvider: React.FC = ({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signOut, anonymousSignIn }}>
+    <AuthContext.Provider
+      value={{ user, signIn, signOut, anonymousSignIn, revalidateStoredUser }}>
       {children}
     </AuthContext.Provider>
   );
