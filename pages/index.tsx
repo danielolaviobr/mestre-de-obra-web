@@ -13,7 +13,7 @@ const LadingPage = () => {
       <div className="flex items-center justify-center h-screen mx-4 overflow-hidden">
         <div className="flex flex-col items-start ml-56 mr-auto -mt-48">
           <motion.div
-            style={{ width: 500 }}
+            style={{ width: 500, marginTop: 200 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}>
             <Heading as="h1" size="4xl" mb={6}>
