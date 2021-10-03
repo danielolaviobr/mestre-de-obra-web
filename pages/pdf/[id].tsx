@@ -173,7 +173,7 @@ const PDF = () => {
           </motion.div>
         </div>
         <div className="mx-4">
-          <a href={url as string} target="_blank" rel="noreferrer">
+          <a href={url} target="_blank" rel="noreferrer">
             <ButtonPrimary type="button" icon={<ArrowDown />}>
               Download
             </ButtonPrimary>

@@ -25,7 +25,7 @@ const CreatoProjectCTA = () => {
   }, [user]);
 
   return (
-    <div className="flex flex-col max-w-md min-w-250px">
+    <div className="flex flex-col max-w-md min-w-72">
       <Heading as="h2" size="md">
         Nenhum projeto encontrado
       </Heading>

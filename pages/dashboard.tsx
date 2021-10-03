@@ -100,16 +100,20 @@ const Dashboard: React.FC = () => {
   }, [user, fetchFiles, shouldUpdate]);
 
   return (
-    <main className="relative flex-grow pt-8 min-w-250px standalone:pt-4">
-      <h1 className="ml-4 text-2xl font-bold">Projetos</h1>
-      <div className="flex flex-col flex-grow p-4 min-w-250px">
+    <main className="relative flex-grow pt-8 md:bg-gray-100 min-w-72 standalone:pt-4">
+      <div className="flex flex-col flex-grow p-4 md:items-center min-w-72">
+        <div className="max-w-4xl mb-4 md:mb-2 min-w-72 md:w-full md:max-w-6xl">
+          <h1 className="text-3xl font-bold md:text-2xl">Projetos</h1>
+        </div>
         {projects.length === 0 && <CreatoProjectCTA />}
         {projects.map((project) => {
           const projectFiles = files.filter(
             (file) => file.project === project.name
           );
           return (
-            <div key={uuid()} className="max-w-4xl mb-6 min-w-250px">
+            <div
+              key={uuid()}
+              className="max-w-4xl mb-6 md:bg-white min-w-72 md:w-full md:max-w-6xl md:rounded md:p-4 md:shadow">
               <Heading mb={2} as="h2" size="lg" isTruncated>
                 {project.name}
               </Heading>
@@ -129,7 +133,7 @@ const Dashboard: React.FC = () => {
                     animate="show">
                     {projectFiles
                       .sort((a, b) => a.name.localeCompare(b.name))
-                      .map((file) => (
+                      .map((file, index) => (
                         <FileCard
                           url={file.url}
                           key={file.id}
@@ -137,7 +141,8 @@ const Dashboard: React.FC = () => {
                           project={project.name}
                           isCreator={project.isCreator}
                           variants={listItem}
-                          update={setShouldUpdate}>
+                          update={setShouldUpdate}
+                          index={index}>
                           {file.name}
                         </FileCard>
                       ))}

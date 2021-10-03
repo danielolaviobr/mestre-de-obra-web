@@ -12,7 +12,11 @@ module.exports = {
         ...colors,
       },
       minWidth: {
-        "250px": "250px",
+        72: "18rem",
+        96: "24rem",
+      },
+      maxWidth: {
+        "2xs": "16rem",
       },
       screens: {
         standalone: { raw: "(display-mode: standalone)" },

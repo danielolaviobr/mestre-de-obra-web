@@ -8,11 +8,11 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="pt-br">
+      <Html lang="pt-br" style={{ backgroundColor: "#F4F4F5" }}>
         <Head />
         <body
           style={{
-            backgroundColor: "#ffffff",
+            backgroundColor: "#FFFFFF",
             WebkitTapHighlightColor: "transparent",
             WebkitTouchCallout: "none",
             WebkitUserSelect: "none",
