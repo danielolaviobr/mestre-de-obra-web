@@ -11,15 +11,16 @@ generator client {
 }
 
 model User {
-  id                    String    @id @default(uuid())
+  id                    String         @id @default(uuid())
   name                  String
-  createdAt             DateTime  @default(now()) @map("created_at")
-  updatedAt             DateTime  @default(now()) @map("updated_at")
+  createdAt             DateTime       @default(now()) @map("created_at")
+  updatedAt             DateTime       @default(now()) @map("updated_at")
   email                 String
   phone                 String
   password              String
-  ownedProjects         Project[] @relation("creator")
-  participatingProjects Project[] @relation("members")
+  ownedProjects         Project[]      @relation("creator")
+  participatingProjects Project[]      @relation("members")
+  userTransactions      Transactions[]
 
   @@map("users")
 }
@@ -42,4 +43,10 @@ model File {
   url       String
 
   @@map("files")
+}
+
+model Transactions {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
 }
