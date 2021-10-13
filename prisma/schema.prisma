@@ -11,6 +11,27 @@ generator client {
 }
 
 model User {
-  id   String @id @default(uuid())
-  name String
+  id                    String    @id @default(uuid())
+  name                  String
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @default(now()) @map("updated_at")
+  email                 String
+  phone                 String
+  password              String
+  ownedProjects         Project[] @relation("creator")
+  participatingProjects Project[] @relation("members")
+
+  @@map("users")
+  Project Project[]
+}
+
+model Project {
+  id        String @id @default(uuid())
+  creatorId String @map("creator_id")
+  creator   User   @relation(fields: [creatorId], references: [id], "creator")
+  members   User[] @relation("members")
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+  @@map("projects")
 }
