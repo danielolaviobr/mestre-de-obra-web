@@ -22,7 +22,6 @@ model User {
   participatingProjects Project[] @relation("members")
 
   @@map("users")
-  Project Project[]
 }
 
 model Project {
@@ -30,8 +29,17 @@ model Project {
   creatorId String @map("creator_id")
   creator   User   @relation(fields: [creatorId], references: [id], "creator")
   members   User[] @relation("members")
+  files     File[] @relation("project")
 
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
   @@map("projects")
+}
+
+model File {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  projectId String   @map("project_id")
+  project   Project  @relation(fields: [projectId], references: [id], "project")
+  url       String
+
+  @@map("files")
 }
